@@ -34,6 +34,7 @@ class Store(Base):
 
 
 class Item(Base):
+    """ Class representing item """
     __tablename__ = 'items'
 
     # Primary key
