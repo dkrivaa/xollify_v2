@@ -3,6 +3,7 @@ from sqlalchemy import inspect
 import os
 from dotenv import load_dotenv
 import asyncio
+
 from common.db.connection import get_engine, get_session
 from database.core.models import Base
 
