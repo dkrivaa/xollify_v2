@@ -4,8 +4,8 @@ import re
 from datetime import datetime
 import json
 
-from backend.app.utilities.url_request import url_request
-from backend.app.core.super_class import SupermarketChain
+from common.utilities.url_request import url_request
+from common.core.super_class import SupermarketChain
 
 
 class CarrefourParent(SupermarketChain):

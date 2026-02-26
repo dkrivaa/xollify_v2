@@ -2,8 +2,8 @@ import httpx
 import asyncio
 from bs4 import BeautifulSoup
 
-from backend.app.core.super_class import SupermarketChain
-from backend.app.utilities.url_request import url_request
+from common.core.super_class import SupermarketChain
+from common.utilities.url_request import url_request
 
 
 class Shufersal(SupermarketChain):

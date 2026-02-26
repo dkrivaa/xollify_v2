@@ -4,7 +4,7 @@ from playwright.async_api import Page, BrowserContext
 from datetime import datetime
 import re
 import asyncio
-from backend.app.core.super_class import SupermarketChain
+from common.core.super_class import SupermarketChain
 
 
 class PublishedPrices(SupermarketChain):
