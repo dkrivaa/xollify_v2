@@ -46,29 +46,20 @@ async def get_all_stores_fresh_price_data(stores: list[dict]):
     return results
 
 
-async def most_items_store():
+async def most_items_store(chain: SupermarketChain):
+    """ Function that returns list of dicts of items in store with most items for given chain """
+    # Get stores for given chain
+    stores = await get_stores(chain)
 
-    chains = SupermarketChain.registry
-    # List to hold results
-    central_results = []
-
-    for chain in chains[:2]:
-        stores = await get_stores(chain)
-
-        try:
-            results = await get_all_stores_fresh_price_data(stores)
-            most_items = max(results, key=lambda x: len(x['data']) if x['data'] else None)
-            central_results.append({'name': chain.alias,
-                                    'chain_code': most_items['chain_code'],
-                                    'store_code': most_items['store_code'],
-                                    'len': len(most_items['data']) if most_items else None})
-        except Exception as e:
-            central_results.append({'name': chain.alias,
-                                    'len': None, 'error': str(e)})
-
-    for result in central_results:
-        print(result)
+    try:
+        results = await get_all_stores_fresh_price_data(stores)
+        most_items = max(results, key=lambda x: len(x['data']) if x['data'] else None)
+        return {'name': chain.alias,
+                'chain_code': most_items['chain_code'],
+                'store_code': most_items['store_code'],
+                'data': most_items['data'] if most_items else None}
+    except Exception as e:
+        return {'name': chain.alias,
+                'data': None, 'error': str(e)}
 
 
-
-print(SupermarketChain.registry)
