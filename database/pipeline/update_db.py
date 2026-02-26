@@ -11,16 +11,22 @@ async def update_items_database():
     initialize_backend()
     # Get all registered chains
     chains = SupermarketChain.registry
+    outputs = []
 
-    for idx, chain in enumerate(chains[:2]):
-        # Get data for store in chain with most items
-        data = await most_items_store(chain)
-        # Normalize data and insert chain and store code into dict
-        normalized_data = normalize_items(data)
-        # Insert items into db
-        await insert_new_items(normalized_data)
 
-        print(f'Inserted items for {chain.alias}, {idx + 1 } out of {len(chains)} chains.')
+    for idx, chain in enumerate(chains):
+        try:
+            # Get data for store in chain with most items
+            data = await most_items_store(chain)
+            # Normalize data and insert chain and store code into dict
+            normalized_data = normalize_items(data)
+            # Insert items into db
+            await insert_new_items(normalized_data)
+
+            outputs.append(f'Inserted items for {chain.alias}, {idx + 1 } out of {len(chains)} chains.')
+
+        except Exception as e:
+            outputs.append(f'{chain.alias} failed with error {str(e)}')
 
 
 
