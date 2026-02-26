@@ -65,7 +65,7 @@ class Item(Base):
     chain_alias = Column(String, nullable=False)
 
     __table_args__ = (
-        Index('ix_item_code', 'item_code'),
+        Index('ix_item_code', 'item_code', unique=True),
     )
 
 
