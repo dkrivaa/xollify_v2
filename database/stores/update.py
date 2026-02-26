@@ -1,12 +1,10 @@
 import asyncio
-from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
 
 from common.utilities.url_to_dict import data_dict
 from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
 from common.db.models import Store
-from common.db.crud.stores import get_stores_for_chain
 from database.core.supabase import get_database_url
 
 
@@ -79,11 +77,7 @@ async def update_stores_db():
     return results
 
 
-async def get_stores(chain: SupermarketChain):
-    """ Function to get stores data for a specific chain """
-    DATABASE_URL = get_database_url()
-    stores = get_stores_for_chain(DATABASE_URL=DATABASE_URL, chain=chain)
-    return stores
+
 
 
 
