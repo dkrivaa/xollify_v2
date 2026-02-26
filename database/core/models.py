@@ -63,3 +63,9 @@ class Item(Base):
     item_status = Column(String, nullable=False)
     item_id = Column(String, nullable=True)
     chain_alias = Column(String, nullable=False)
+
+    __table_args__ = (
+        Index('ix_item_code', 'item_code'),
+    )
+
+
