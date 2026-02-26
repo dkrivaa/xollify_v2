@@ -12,8 +12,17 @@ async def get_stores(chain: SupermarketChain) -> list[dict]:
     return await get_stores_for_chain(DATABASE_URL, chain)
 
 
-async def find_store_with_most_items(stores: list[dict]):
-    """ Find store with most items """
+async def get_all_stores_fresh_price_data(stores: list[dict]):
+    """
+    Get all the fresh_price_data for all stores in given list of stores
+    Params: stores
+    [{
+                'store_code': store.store_code,
+                'store_name': store.store_name,
+                'chain_code': store.chain_code,
+                'chain_name': store.chain_name,
+            }, .........]
+    """
     semaphore = asyncio.Semaphore(5)
 
     async def limited_fresh_price_data(chain_code, store_code):
@@ -39,7 +48,7 @@ async def find_store_with_most_items(stores: list[dict]):
 
 async def most_items_store():
 
-    chains = await get_chains_registry()
+    chains = SupermarketChain.registry
     # List to hold results
     central_results = []
 
@@ -47,18 +56,19 @@ async def most_items_store():
         stores = await get_stores(chain)
 
         try:
-            results = await find_store_with_most_items(stores)
-            longest = max(results, key=lambda x: len(x['data']) if x['data'] else None)
+            results = await get_all_stores_fresh_price_data(stores)
+            most_items = max(results, key=lambda x: len(x['data']) if x['data'] else None)
             central_results.append({'name': chain.alias,
-                                    'chain_code': longest['chain_code'],
-                                    'store_code': longest['store_code'],
-                                    'len': len(longest['data']) if longest else None})
+                                    'chain_code': most_items['chain_code'],
+                                    'store_code': most_items['store_code'],
+                                    'len': len(most_items['data']) if most_items else None})
         except Exception as e:
             central_results.append({'name': chain.alias,
                                     'len': None, 'error': str(e)})
 
-
-        # print(longest)
-
     for result in central_results:
         print(result)
+
+
+
+print(SupermarketChain.registry)
