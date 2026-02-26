@@ -102,5 +102,9 @@ async def get_stores_for_chain(chain: SupermarketChain):
         ]
 
 
-
+from common.bootstrap import initialize_backend
+initialize_backend()
+chain = SupermarketChain.registry[0]
+stores = get_stores_for_chain(chain)
+print(stores)
 
