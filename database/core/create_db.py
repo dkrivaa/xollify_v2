@@ -3,7 +3,7 @@ from sqlalchemy import inspect
 import asyncio
 
 from common.db.connection import get_engine, get_session
-from database.core.models import Base
+from common.db.models import Base
 from database.core.supabase import get_database_url
 
 

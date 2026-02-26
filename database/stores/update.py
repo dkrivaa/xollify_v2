@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import insert
 from common.utilities.url_to_dict import data_dict
 from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
-from database.core.models import Store
+from common.db.models import Store
 from database.core.supabase import get_database_url
 
 
