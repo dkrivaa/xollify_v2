@@ -15,7 +15,7 @@ async def update_database():
     chain = chains[0]
     data = await most_items_store(chain)
 
-    for key in list(data.keys())[:3]:
+    for key in list(data.keys()):
         print(data[key])
 
 
