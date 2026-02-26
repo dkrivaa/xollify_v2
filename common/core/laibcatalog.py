@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import asyncio
 from urllib.parse import urljoin
 
-from backend.app.utilities.url_request import url_request
-from backend.app.core.super_class import SupermarketChain
+from common.utilities.url_request import url_request
+from common.core.super_class import SupermarketChain
 
 
 class LaibCatalog(SupermarketChain):

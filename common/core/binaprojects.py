@@ -2,8 +2,8 @@ import httpx
 from datetime import datetime, timedelta
 import json
 
-from backend.app.utilities.url_request import url_request
-from backend.app.core.super_class import SupermarketChain
+from common.utilities.url_request import url_request
+from common.core.super_class import SupermarketChain
 
 
 class BinaProjects(SupermarketChain):
