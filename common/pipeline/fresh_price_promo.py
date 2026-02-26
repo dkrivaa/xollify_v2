@@ -72,7 +72,7 @@ async def get_stores_price_data(list_of_stores: list[dict]):
     return results
 
 
-async def load_stores_promo_data(list_of_stores: list[dict]):
+async def get_stores_promo_data(list_of_stores: list[dict]):
     """
     Get promo data for all stores in list_of_stores -
     [{'chain_code': chain_code, 'store_code': store_code}.......]
