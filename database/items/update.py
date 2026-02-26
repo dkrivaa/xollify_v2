@@ -1,5 +1,8 @@
 import asyncio
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import cast, DateTime
 
+from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
 from database.core.supabase import get_database_url
 from common.db.crud.stores import get_stores_for_chain
@@ -23,7 +26,7 @@ KEY_MAP = {
     'UnitOfMeasure': 'unit_of_measure',
     'QtyInPackage': 'qty_in_package',
     'ItemPrice': 'item_price',
-    'UnitOfMeasurePrice': 'unit_of_measure_rice',
+    'UnitOfMeasurePrice': 'unit_of_measure_price',
     'AllowDiscount': 'allow_discount',
     'ItemStatus': 'item_status',
     'ItemId': 'item_id',
@@ -112,4 +115,27 @@ def normalize_items(most_items_store: dict) -> list[dict]:
     items = most_items_store['data']
     return [normalize_item(item, chain_code, store_code) for item in items]
 
+
+async def insert_new_items(items_data_list: list[dict]):
+    """
+    Insert new items into the database, updating all fields if the new price_update_date is more recent.
+    Params:
+        items_data_list - list of dicts of items data
+    """
+    DATABASE_URL = get_database_url()
+    async with await get_session(DATABASE_URL) as session:
+        # Insert in batches of 1000
+        batch_size = 1000
+        for i in range(0, len(items_data_list), batch_size):
+            batch = items_data_list[i:i + batch_size]
+            stmt = insert(Item).values(batch)
+            stmt = stmt.on_conflict_do_update(
+                index_elements=["item_code"],
+                set_={c.name: stmt.excluded[c.name]
+                      for c in Item.__table__.columns
+                      if c.name != 'id'},
+                where=cast(stmt.excluded.price_update_date, DateTime) > cast(Item.price_update_date, DateTime)
+            )
+            await session.execute(stmt)
+        await session.commit()
 
