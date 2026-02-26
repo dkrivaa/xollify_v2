@@ -58,7 +58,7 @@ class Item(Base):
     unit_of_measure = Column(String, nullable=False)
     qty_in_package = Column(String, nullable=False)
     item_price = Column(String, nullable=False)
-    unit_of_measure_rice = Column(String, nullable=False)
+    unit_of_measure_price = Column(String, nullable=True)
     allow_discount = Column(String, nullable=False)
     item_status = Column(String, nullable=False)
     item_id = Column(String, nullable=True)
