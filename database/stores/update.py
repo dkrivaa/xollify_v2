@@ -6,6 +6,7 @@ from common.utilities.url_to_dict import data_dict
 from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
 from common.db.models import Store
+from common.db.crud.stores import get_stores_for_chain
 from database.core.supabase import get_database_url
 
 
@@ -78,29 +79,11 @@ async def update_stores_db():
     return results
 
 
-async def get_stores_for_chain(chain: SupermarketChain):
+async def get_stores(chain: SupermarketChain):
     """ Function to get stores data for a specific chain """
     DATABASE_URL = get_database_url()
-    Session = await get_session(DATABASE_URL)
-
-    async with Session as session:
-        result = await session.execute(
-            select(Store).where(Store.chain_code == chain.chain_code)
-        )
-        stores = result.scalars().all()
-
-        # Convert to serializable dicts before returning
-        return [
-            {
-                'store_code': store.store_code,
-                'store_name': store.store_name,
-                'chain_code': store.chain_code,
-                'chain_name': store.chain_name,
-                # Add other fields you need
-            }
-            for store in stores
-        ]
-
+    stores = get_stores_for_chain(DATABASE_URL=DATABASE_URL, chain=chain)
+    return stores
 
 
 
