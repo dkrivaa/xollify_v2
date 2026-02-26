@@ -22,7 +22,6 @@ async def get_stores_for_chain(DATABASE_URL: str, chain: SupermarketChain):
                 'store_name': store.store_name,
                 'chain_code': store.chain_code,
                 'chain_name': store.chain_name,
-                # Add other fields you need
             }
             for store in stores
         ]
