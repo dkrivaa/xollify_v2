@@ -14,13 +14,19 @@ async def get_item_from_db(DATABASE_URL: str, item_code: str):
             select(Item).where(Item.item_code == item_code)
         )
         item = result.scalars().first()
-
+        if item is None:
+            return None
         # Convert to serializable dicts before returning
-        return [
-            {
-                'item_code': item.item_code,
-                'item_name': item.item_name,
+        return {
+            'ItemCode': item.item_code,
+            'ItemName': item.item_name,
+            'ManufacturerName': item.manufacturer_name,
+            'ItemPrice': item.item_price,
+            'Quantity': item.quantity,
+            'UnitOfMeasure': item.unit_of_measure,
+            'bIsWeighted': item.bIs_weighted,
+            'ChainAlias': item.chain_alias,
+            'ItemId': item.item_id,
+            'ManufacturerItemDescription': item.manufacturer_item_description,
+        }
 
-            }
-
-        ]
