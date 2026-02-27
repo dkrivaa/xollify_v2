@@ -13,6 +13,7 @@ from common.db.models import Item
 # Map from raw dict keys to schema column names
 KEY_MAP = {
     'PriceUpdateDate': 'price_update_date',
+    'PriceUpdateTime': 'price_update_date',
     'ItemCode': 'item_code',
     'ItemType': 'item_type',
     'ItemName': 'item_name',

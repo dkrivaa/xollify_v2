@@ -14,7 +14,7 @@ async def update_items_database():
     # List to hold results
     outputs = []
 
-    for idx, chain in enumerate(chains[16:17]):
+    for idx, chain in enumerate(chains[1:2]):
         try:
             # Get data for store in chain with most items
             data = await most_items_store(chain)
@@ -24,8 +24,9 @@ async def update_items_database():
                 normalized_data = normalize_items(data)
                 # Insert items into db
                 await insert_new_items(normalized_data)
-
-            outputs.append(f'Inserted items for {chain.alias}, {idx + 1 } out of {len(chains)} chains.')
+                outputs.append(f'Inserted {len(data['data'])} items for {chain.alias}, {idx + 1 } out of {len(chains)} chains.')
+            else:
+                outputs.append(f'No data for {chain.alias}')
 
         except Exception as e:
             outputs.append(f'{chain.alias} failed with error {str(e)}')
@@ -33,4 +34,4 @@ async def update_items_database():
         return outputs
 
 
-asyncio.run(update_items_database())
+print(asyncio.run(update_items_database()))
