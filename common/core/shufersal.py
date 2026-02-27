@@ -79,8 +79,20 @@ class Shufersal(SupermarketChain):
                 'promofull': tg.create_task(cls._fetch(store_code, 4)),
             }
         # Return dict with file types and latest url for that type - price, pricefull, promo, promofull
-        return {name: cls.latest(cls.parse_response(task.result().get('response')).get('response')).get('latest')
-                for name, task in tasks.items()}
+        results = {}
+        for name, task in tasks.items():
+            result = task.result()
+            if result is None:
+                results[name] = None
+                continue
+            parsed = cls.parse_response(result.get('response'))
+            if parsed is None:
+                results[name] = None
+                continue
+            latest = cls.latest(parsed.get('response'))
+            results[name] = latest.get('latest') if latest else None
+        return results
+
 
     @classmethod
     async def _fetch(cls, store_code: int | str, file_type: int):
@@ -89,7 +101,10 @@ class Shufersal(SupermarketChain):
                 verify=False,
                 timeout=httpx.Timeout(15.0),
         ) as client:
-            return await cls.get_file(store_code, file_type, client=client)
+            try:
+                return await cls.get_file(store_code, file_type, client=client)
+            except Exception:
+                return None
 
     @classmethod
     async def extract_stores_data_for_db(cls, stores_data_dict: dict) -> dict[str, list[dict]]:
