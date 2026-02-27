@@ -42,21 +42,24 @@ async def fresh_promo_data(chain_code: str | int, store_code: str | int, ) -> di
         raise RuntimeError(f"No promo URLs found for chain {chain_code} and store {store_code}.")
 
 
-async def get_stores_price_data(list_of_stores: list[dict]):
+async def get_stores_price_data(stores: list[dict]):
     """
-    Get price data for all stores in list_of_stores -
-    [{'chain_code': chain_code, 'store_code': store_code}.......]
-     """
-    # Define size of semaphore - number of concurrent tasks
+    Get all the fresh_price_data for all stores in given list of stores
+    Params: stores
+    [{
+                'store_code': store.store_code,
+                'store_name': store.store_name,
+                'chain_code': store.chain_code,
+                'chain_name': store.chain_name,
+            }, .........]
+    """
     semaphore = asyncio.Semaphore(5)
 
-    # Define function that runs with semaphore limitation
     async def limited_fresh_price_data(chain_code, store_code):
         async with semaphore:
             result = await fresh_price_data(chain_code=chain_code, store_code=store_code)
             return {'chain_code': chain_code, 'store_code': store_code, 'data': result}
 
-    # Get price data for all stores in list of stores
     async with asyncio.TaskGroup() as tg:
         tasks = [
             tg.create_task(
@@ -65,10 +68,9 @@ async def get_stores_price_data(list_of_stores: list[dict]):
                     store_code=store['store_code']
                 )
             )
-            for store in list_of_stores
+            for store in stores
         ]
-    # Get results of all the tasks
-    results = [task.result() for task in tasks]
+    results = [task.result() for task in tasks if task.result()['data'] is not None]
     return results
 
 
