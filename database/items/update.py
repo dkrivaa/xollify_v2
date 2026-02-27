@@ -48,7 +48,6 @@ async def get_stores(chain: SupermarketChain) -> list[dict]:
     return await get_stores_for_chain(DATABASE_URL, chain)
 
 
-
 async def most_items_store(chain: SupermarketChain):
     """ Function that returns list of dicts of items in store with most items for given chain """
     # Get stores for given chain
@@ -129,4 +128,12 @@ async def insert_new_items(items_data_list: list[dict]):
             except Exception as e:
                 print(f"Full error: {type(e).__name__}: {e}")
                 raise
+
+
+async def test_item(item_code: str):
+    from common.db.crud.items import get_item_from_db
+    DATABASE_URL = get_database_url()
+
+    return await get_item_from_db(DATABASE_URL, item_code)
+
 
