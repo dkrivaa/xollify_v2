@@ -14,10 +14,10 @@ async def update_items_database():
     # List to hold results
     outputs = []
 
-    for idx, chain in enumerate(chains[1:2]):
+    for idx, chain in enumerate(chains):
         try:
             # Get data for store in chain with most items
-            data = await most_items_store(chain)
+            data = await most_items_store(chain[0:2])
 
             if data['data']:
                 # Normalize data and insert chain and store code into dict

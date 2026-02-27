@@ -1,6 +1,7 @@
 import asyncio
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import cast, DateTime
+from sqlalchemy import cast, DateTime, func
+from datetime import datetime
 
 from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
@@ -35,6 +36,9 @@ KEY_MAP = {
 }
 
 VALID_COLUMNS = {c.name for c in Item.__table__.columns} - {'id'}
+
+# Dummy for min date
+EPOCH = datetime(1970, 1, 1)
 
 
 # GET ITEM DATA FUNCTIONS #####################
@@ -72,7 +76,7 @@ async def get_all_stores_fresh_price_data(stores: list[dict]):
             )
             for store in stores
         ]
-    results = [task.result() for task in tasks]
+    results = [task.result() for task in tasks if task.result()['data'] is not None]
     return results
 
 
@@ -83,7 +87,11 @@ async def most_items_store(chain: SupermarketChain):
 
     try:
         results = await get_all_stores_fresh_price_data(stores)
-        most_items = max(results, key=lambda x: len(x['data']) if x['data'] else None)
+        most_items = max(
+            (r for r in results if r is not None and r.get('data') is not None),
+            key=lambda x: len(x['data']),
+            default=None
+        )
         return {'name': chain.alias,
                 'chain_code': most_items['chain_code'],
                 'store_code': most_items['store_code'],
@@ -124,8 +132,16 @@ async def insert_new_items(items_data_list: list[dict]):
         items_data_list - list of dicts of items data
     """
     DATABASE_URL = get_database_url()
+
+    # Deduplicate by item_code, keeping most recent price_update_date
+    seen = {}
+    for item in items_data_list:
+        code = item['item_code']
+        if code not in seen or item['price_update_date'] > seen[code]['price_update_date']:
+            seen[code] = item
+    items_data_list = list(seen.values())
+
     async with await get_session(DATABASE_URL) as session:
-        # Insert in batches of 1000
         batch_size = 1000
         for i in range(0, len(items_data_list), batch_size):
             batch = items_data_list[i:i + batch_size]
@@ -135,8 +151,13 @@ async def insert_new_items(items_data_list: list[dict]):
                 set_={c.name: stmt.excluded[c.name]
                       for c in Item.__table__.columns
                       if c.name != 'id'},
-                where=cast(stmt.excluded.price_update_date, DateTime) > cast(Item.price_update_date, DateTime)
+                where=cast(stmt.excluded.price_update_date, DateTime) >
+                      func.coalesce(cast(Item.price_update_date, DateTime), EPOCH)
             )
-            await session.execute(stmt)
-        await session.commit()
+            try:
+                await session.execute(stmt)
+                await session.commit()
+            except Exception as e:
+                print(f"Full error: {type(e).__name__}: {e}")
+                raise
 
