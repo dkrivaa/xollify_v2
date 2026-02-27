@@ -6,7 +6,7 @@ from database.items.update import most_items_store, normalize_items, insert_new_
 
 
 async def update_items_database():
-    """ Function to update db """
+    """ Function to update items db """
     # Initialize and register all chains
     initialize_backend()
     # Get all registered chains
@@ -17,7 +17,7 @@ async def update_items_database():
     for idx, chain in enumerate(chains):
         try:
             # Get data for store in chain with most items
-            data = await most_items_store(chain[0:2])
+            data = await most_items_store(chain)
 
             if data['data']:
                 # Normalize data and insert chain and store code into dict
@@ -31,7 +31,7 @@ async def update_items_database():
         except Exception as e:
             outputs.append(f'{chain.alias} failed with error {str(e)}')
 
-        return outputs
+    return outputs
 
 
 print(asyncio.run(update_items_database()))

@@ -5,10 +5,10 @@ from datetime import datetime
 
 from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
-from database.core.supabase import get_database_url
 from common.db.crud.stores import get_stores_for_chain
-from common.pipeline.fresh_price_promo import fresh_price_data
+from common.pipeline.fresh_price_promo import fresh_price_data, get_stores_price_data
 from common.db.models import Item
+from database.core.supabase import get_database_url
 
 
 # Map from raw dict keys to schema column names
@@ -48,37 +48,6 @@ async def get_stores(chain: SupermarketChain) -> list[dict]:
     return await get_stores_for_chain(DATABASE_URL, chain)
 
 
-async def get_all_stores_fresh_price_data(stores: list[dict]):
-    """
-    Get all the fresh_price_data for all stores in given list of stores
-    Params: stores
-    [{
-                'store_code': store.store_code,
-                'store_name': store.store_name,
-                'chain_code': store.chain_code,
-                'chain_name': store.chain_name,
-            }, .........]
-    """
-    semaphore = asyncio.Semaphore(5)
-
-    async def limited_fresh_price_data(chain_code, store_code):
-        async with semaphore:
-            result = await fresh_price_data(chain_code=chain_code, store_code=store_code)
-            return {'chain_code': chain_code, 'store_code': store_code, 'data': result}
-
-    async with asyncio.TaskGroup() as tg:
-        tasks = [
-            tg.create_task(
-                limited_fresh_price_data(
-                    chain_code=store['chain_code'],
-                    store_code=store['store_code']
-                )
-            )
-            for store in stores
-        ]
-    results = [task.result() for task in tasks if task.result()['data'] is not None]
-    return results
-
 
 async def most_items_store(chain: SupermarketChain):
     """ Function that returns list of dicts of items in store with most items for given chain """
@@ -86,7 +55,7 @@ async def most_items_store(chain: SupermarketChain):
     stores = await get_stores(chain)
 
     try:
-        results = await get_all_stores_fresh_price_data(stores)
+        results = await get_stores_price_data(stores)
         most_items = max(
             (r for r in results if r is not None and r.get('data') is not None),
             key=lambda x: len(x['data']),
