@@ -6,7 +6,7 @@ from datetime import datetime
 from common.db.connection import get_session
 from common.core.super_class import SupermarketChain
 from common.db.crud.stores import get_stores_for_chain
-from common.pipeline.fresh_price_promo import fresh_price_data, get_stores_price_data
+from common.pipeline.fresh_price_promo import get_stores_price_data
 from common.db.models import Item
 from database.core.supabase import get_database_url
 
