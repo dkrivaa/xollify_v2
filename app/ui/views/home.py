@@ -10,6 +10,8 @@ def render():
     """ Function to render home page """
     logo()
 
+    st.divider()
+
 
 if __name__ == "__main__":
     render()
