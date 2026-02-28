@@ -3,10 +3,13 @@ import streamlit as st
 from common.utilities.supermarkets import get_chain_from_code
 from backend.services.async_runner import run_async
 from backend.db.crud.items import item_details
+from ui.elements.static import logo
 
 
-# data = run_async(test_item, item_code='7290000072753')
-# st.write(data)
+def render():
+    """ Function to render home page """
+    logo()
 
-chain = get_chain_from_code('7290027600007')
-st.write(chain.alias)
+
+if __name__ == "__main__":
+    render()
