@@ -18,6 +18,6 @@ from backend.db.crud.items import test_item
 
 
 st.write('hello')
-data = run_async(test_item, item_code='7290000072753')
-st.write(data)
+# data = run_async(test_item, item_code='7290000072753')
+# st.write(data)
 
