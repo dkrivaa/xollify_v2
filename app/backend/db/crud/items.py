@@ -1,6 +1,6 @@
 
 
-from app.backend.db.supabase import (get_database_url)
+from backend.db.supabase import (get_database_url)
 
 
 async def test_item(item_code: str):
