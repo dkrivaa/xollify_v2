@@ -1,0 +1,5 @@
+# THIS FILE CONTAINS CONFIG SETTINGS FOR THE APP
+
+# Set the base theme to dark mode
+[theme]
+base="dark"
