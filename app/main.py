@@ -18,10 +18,9 @@ import streamlit as st
 from common.bootstrap import initialize_backend
 
 
-# Startup code to run the app
+# STARTUP CODE TO RUN APP ###########
 # Initialize all chains
 initialize_backend()
-st.write('hello')
 
 # st.set_page_config - Set the configuration of the Streamlit page
 st.set_page_config(
@@ -39,6 +38,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# PAGE DEFINITIONS ###########
 home_page = st.Page(
     title='Home',
     page='ui/views/home.py',
@@ -48,6 +48,7 @@ home_page = st.Page(
 
 pages = [home_page]
 
+# RUN APP ###########
 pg = st.navigation(pages=pages, position='top')
 pg.run()
 
