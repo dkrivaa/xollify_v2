@@ -1,5 +1,7 @@
 
 
+from app.backend.db.supabase import (get_database_url)
+
 
 async def test_item(item_code: str):
     from common.db.crud.items import get_item_from_db
