@@ -1,6 +1,6 @@
 import streamlit as st
 
-from backend.services.supermarkets import get_chain_from_code
+from common.utilities.supermarkets import get_chain_from_code
 from backend.services.async_runner import run_async
 from backend.db.crud.items import item_details
 
