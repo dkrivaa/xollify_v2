@@ -9,19 +9,47 @@ import asyncio
 # Fix for Windows + Playwright
 if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+# Organizing the paths so streamlit can find secrets.toml on local
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import streamlit as st
 
 from common.bootstrap import initialize_backend
-from common.services.supermarkets import get_chain_from_code
-from backend.services.async_runner import run_async
-from backend.db.crud.items import item_details
 
 
+# Startup code to run the app
+# Initialize all chains
 initialize_backend()
 st.write('hello')
-# data = run_async(test_item, item_code='7290000072753')
-# st.write(data)
 
-st.write(get_chain_from_code('7290027600007'))
+# st.set_page_config - Set the configuration of the Streamlit page
+st.set_page_config(
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+# 2. CSS across app
+st.markdown("""
+<style>
+    @media (max-width: 768px) {
+        .block-container {padding: 1rem;}
+        .stButton > button {width: 100%;}
+    }
+</style>
+""", unsafe_allow_html=True)
+
+home_page = st.Page(
+    title='Home',
+    page='ui/views/home.py',
+    icon=':material/home:',
+    default=True,
+)
+
+pages = [home_page]
+
+pg = st.navigation(pages=pages, position='top')
+pg.run()
+
+
 
