@@ -13,8 +13,16 @@ def render():
     st.divider()
 
     with st.container():
+        pills_map = {
+            1: ':material/add_business: Select Stores',
+            2: ':material/add_shopping_cart: Compare item/list'
+        }
+
         st.pills(label='Set up system',
-                 options=['Define Stores', 'Make Shopping List'])
+                 options=[k for k, v in pills_map.items()],
+                 format_func=lambda x: pills_map[x],
+                 width='stretch',
+                 )
         # Show chain selector
         chain_code = chain_selector()
         if chain_code:
