@@ -1,11 +1,16 @@
 import streamlit as st
 import uuid
 
-from common.upstash.redis_service import save_to_redis, get_from_redis, delete_from_redis
+from common.upstash.redis_service import get_redis_client
+from common.upstash.redis_service import (get_redis_client, save_to_redis, get_from_redis,
+                                          delete_from_redis)
 
 
 def init_session():
-    """Assign UUID to user session if not already assigned."""
+    """
+    Assign UUID to user session if not already assigned.
+    The user session is used to identify user data in upstash.
+    """
     if "sid" not in st.query_params:
         st.query_params["sid"] = str(uuid.uuid4())
         st.rerun()
@@ -17,6 +22,13 @@ def redis_client_params():
     upstash_url = st.secrets['UPSTASH_REDIS_REST_URL']
     upstash_token = st.secrets['UPSTASH_REDIS_REST_TOKEN']
     return upstash_url, upstash_token
+
+
+def redis_client():
+    """ Function to return redis client using streamlit secrets """
+    # Get params for redis client
+    upstash_url, upstash_token = redis_client_params()
+    return get_redis_client(upstash_url, upstash_token)
 
 
 def upstash_save_value(redis_client, key, value):
