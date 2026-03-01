@@ -1,7 +1,7 @@
 import streamlit as st
 import uuid
 
-from common.upstash.redis_service import get_redis_client, save_to_redis, get_from_redis
+from common.upstash.redis_service import save_to_redis, get_from_redis
 
 
 def init_session():
@@ -19,16 +19,16 @@ def redis_client_params():
     return upstash_url, upstash_token
 
 
-def save_value(redis, key, value):
+def upstash_save_value(redis_client, key, value):
     """Save to both session_state and Redis."""
     sid = st.query_params["sid"]
     st.session_state[key] = value
-    save_to_redis(redis, sid, key, value)
+    save_to_redis(redis_client, sid, key, value)
 
 
-def get_value(redis, key, default=None):
+def upstash_get_value(redis_client, key, default=None):
     """Get from session_state, falling back to Redis if not present."""
     if key not in st.session_state:
         sid = st.query_params["sid"]
-        st.session_state[key] = get_from_redis(redis, sid, key, default)
+        st.session_state[key] = get_from_redis(redis_client, sid, key, default)
     return st.session_state[key]
