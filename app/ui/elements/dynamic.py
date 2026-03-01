@@ -1,6 +1,9 @@
 import streamlit as st
 
 from common.core.super_class import SupermarketChain
+from common.utilities.supermarkets import get_chain_from_code
+from backend.services.async_runner import run_async
+from backend.db.crud.stores import stores_for_chain
 
 
 def chain_selector():
@@ -23,4 +26,31 @@ def chain_selector():
 
     # Return chain_code of selected chain
     return chain
+
+
+def store_selector(chain_code: str):
+    """ Gets stores for chain defined by chain_code """
+    # Get chain object matching given chain code
+    chain = get_chain_from_code(chain_code)
+
+    @st.cache_data(show_spinner='Getting stores for selected chain...', )
+    def chain_stores(chain):
+        # Wrapper function to get stores for chain with caching
+        return run_async(stores_for_chain, chain=chain)
+
+    # Get stores for chain
+    stores = chain_stores(chain)
+
+    # Make selectBox to select store
+    store = st.selectbox(
+        label=f':material/search: Store',
+        placeholder='Select Store',
+        options=sorted([s['store_code'] for s in stores], key=lambda x: int(x)),
+        format_func=lambda x: f'{x} - {next(s['store_name'] for s in stores if s['store_code'] == x)}',
+        index=None,
+        key='store_selector'
+    )
+
+    # Return store_code for selected store
+    return store
 
