@@ -11,11 +11,15 @@ def render():
     logo()
 
     st.divider()
-    # Show chain selector
-    chain_code = chain_selector()
-    if chain_code:
-        # Show store selector for selected chain
-        store = store_selector(chain_code)
+
+    with st.container():
+        st.pills(label='Set up system',
+                 options=['Define Stores', 'Make Shopping List'])
+        # Show chain selector
+        chain_code = chain_selector()
+        if chain_code:
+            # Show store selector for selected chain
+            store = store_selector(chain_code)
 
 
 
