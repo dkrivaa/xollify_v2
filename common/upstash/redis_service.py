@@ -19,3 +19,8 @@ def get_from_redis(redis: Redis, sid: str, key: str, default=None):
     """ Function to get value from Upstash redis used in operational relevant branches (streamlit) """
     val = redis.get(f"{sid}:{key}")
     return json.loads(val) if val is not None else default
+
+
+def delete_from_redis(redis: Redis, sid: str, key: str):
+    """Delete a key from Upstash Redis."""
+    redis.delete(f"{sid}:{key}")
