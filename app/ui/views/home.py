@@ -12,7 +12,6 @@ def render():
 
     st.divider()
 
-
     chain = chain_selector()
     if chain:
         store = store_selector(chain)

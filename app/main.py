@@ -27,7 +27,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Initialize upstash
+# Initialize upstash and assign user unique sid
 from backend.services.redis import init_session
 init_session()
 
