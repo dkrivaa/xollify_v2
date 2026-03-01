@@ -13,6 +13,8 @@ def render():
 
     st.divider()
 
+    sid = st.query_params["sid"]
+    st.write('Sid:', sid)
     chain = chain_selector()
     if chain:
         store = store_selector(chain)

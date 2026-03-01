@@ -15,11 +15,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 
-from common.bootstrap import initialize_backend
-
 
 # STARTUP CODE TO RUN APP ###########
 # Initialize all chains
+from common.bootstrap import initialize_backend
 initialize_backend()
 
 # st.set_page_config - Set the configuration of the Streamlit page
@@ -27,6 +26,10 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed"
 )
+
+# Initialize upstash
+from backend.services.redis import init_session
+init_session()
 
 # 2. CSS across app
 st.markdown("""
