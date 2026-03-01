@@ -7,8 +7,11 @@ def get_redis_client(url: str, token: str) -> Redis:
     return Redis(url=url, token=token)
 
 
-def save_to_redis(redis: Redis, sid: str, key: str, value, ex: int = 86400):
-    """ Function to save to Upstash redis used in operational relevant branches (streamlit) """
+def save_to_redis(redis: Redis, sid: str, key: str, value, ex: int = 7200):
+    """
+    Function to save to Upstash redis used in operational relevant branches (streamlit)
+    Default expiration - 2 hours (7200 seconds)
+    """
     redis.set(f"{sid}:{key}", json.dumps(value), ex=ex)
 
 
