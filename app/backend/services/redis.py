@@ -24,7 +24,7 @@ def redis_client_params():
     return upstash_url, upstash_token
 
 
-def redis_client():
+def upstash_client():
     """ Function to return redis client using streamlit secrets """
     # Get params for redis client
     upstash_url, upstash_token = redis_client_params()
