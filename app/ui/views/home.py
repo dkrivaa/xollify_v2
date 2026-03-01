@@ -28,7 +28,7 @@ def render():
     upstash_delete_key(redis_client, 'test2')
 
     val2 = upstash_get_value(redis_client, 'test2')
-    st.write(val)
+    st.write(val2)
 
 
 
