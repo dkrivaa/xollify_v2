@@ -1,7 +1,7 @@
 import streamlit as st
 import uuid
 
-from common.upstash.redis_service import save_to_redis, get_from_redis
+from common.upstash.redis_service import save_to_redis, get_from_redis, delete_from_redis
 
 
 def init_session():
@@ -32,3 +32,11 @@ def upstash_get_value(redis_client, key, default=None):
         sid = st.query_params["sid"]
         st.session_state[key] = get_from_redis(redis_client, sid, key, default)
     return st.session_state[key]
+
+
+def upstash_delete_key(redis_client, key):
+    """ Delete key from upstash and st.session_state """
+    sid = st.query_params["sid"]
+    if key in st.session_state:
+        del st.session_state[key]
+    delete_from_redis(redis_client, sid, key)
