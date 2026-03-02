@@ -51,12 +51,13 @@ def upstash_append_item(redis_client, key, item):
     current = upstash_get_value(redis_client, key, default=[])
     if current is None:
         current = []
-    # Append to current list
-    current.append(item)
-    # Set the session_state key value to updated list, incl appended item
-    st.session_state[key] = current
-    # Set the upstash key value to updated list, incl appended item
-    save_to_redis(redis_client, sid, key, current)
+    if item not in current:
+        # Append to current list
+        current.append(item)
+        # Set the session_state key value to updated list, incl appended item
+        st.session_state[key] = current
+        # Set the upstash key value to updated list, incl appended item
+        save_to_redis(redis_client, sid, key, current)
 
 
 def upstash_get_value(redis_client, key, default=None):

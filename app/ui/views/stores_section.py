@@ -13,6 +13,15 @@ def make_data_for_editor(data: list[dict]):
     return [{**d, 'delete': False, } for d in data]
 
 
+def reorganize_data(edited_data: list[dict]):
+    """ Reorganize data after edit by user """
+    data = [d for d in edited_data if d['delete'] is not True]
+    redis_client = upstash_client()
+    upstash_save_value(redis_client, 'stores', data)
+    st.rerun()
+
+
+
 def stores_section_element():
     """ Section to select stores of interest """
     with st.container(border=True):
@@ -46,17 +55,22 @@ def stores_section_element():
             redis_client = upstash_client()
             # Get stores from session_state or upstash
             data = upstash_get_value(redis_client, 'stores')
-            st.write(data)
             if data:
                 organized_data = make_data_for_editor(data)
-                edited_data = st.data_editor(data=organized_data, width='stretch',
-                                             column_order=['chain_alias', 'store_name', 'delete'],
-                                             column_config={
-                                   'chain_alias': st.column_config.TextColumn(label='Chain'),
-                                   'store_name': st.column_config.TextColumn(label='Store Name'),
+                edited_data = st.data_editor(
+                    data=organized_data, width='stretch',
+                    column_order=['chain_alias', 'store_name', 'delete'],
+                    column_config={'chain_alias': st.column_config.TextColumn(label='Chain', disabled=True),
+                                   'store_name': st.column_config.TextColumn(label='Store Name', disabled=True),
                                    'chain_code': st.column_config.TextColumn(label='Chain Code'),
                                    'store_code': st.column_config.TextColumn(label='Store'),
-                                   'delete': st.column_config.CheckboxColumn(label='Delete',
-                                                                             width='small',)}
-                                             )
+                                   'delete': st.column_config.CheckboxColumn(label='Delete', width='small',)
+                                   }
+                )
+
+                if st.button(label='Update Data',
+                             icon=':material/refresh:',
+                             icon_position='left',
+                             width='stretch'):
+                    reorganize_data(edited_data)
 
