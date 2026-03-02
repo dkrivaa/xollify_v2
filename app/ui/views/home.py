@@ -1,5 +1,6 @@
 import streamlit as st
 
+from common.utilities.supermarkets import get_chain_from_code
 from backend.db.crud.items import item_details
 from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
                                     upstash_get_value, upstash_delete_key)
@@ -75,10 +76,19 @@ def stores_section():
         # Manage stores selected
         with tab2:
             redis_client = upstash_client()
+            # Get stores from session_state or upstash
             data = upstash_get_value(redis_client, 'stores')
-            st.data_editor(data=data,
-                           width='stretch',
-                           )
+            data = [{**d, 'delete': False, 'chain': get_chain_from_code(d['chain_code']).alias}
+                    for d in data]
+            edited_data = st.data_editor(data=data, width='stretch',
+                                         column_order=['chain', 'delete'],
+                                         column_config={
+                               'chain': st.column_config.TextColumn(label='Chain'),
+                               'chain_code': st.column_config.TextColumn(label='Chain Code'),
+                               'store_code': st.column_config.TextColumn(label='Store'),
+                               'delete': st.column_config.CheckboxColumn(label='Delete',
+                                                                         width='small',)}
+                                         )
 
 
 
