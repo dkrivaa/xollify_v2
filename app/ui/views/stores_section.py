@@ -15,9 +15,17 @@ def make_data_for_editor(data: list[dict]):
 
 def reorganize_data(edited_data: list[dict]):
     """ Reorganize data after edit by user """
-    data = [d for d in edited_data if d['delete'] is not True]
+    keys_to_remove = ["delete", ]
+    # Remove keys and remove rows with delete=True
+    data = [
+        {k: v for k, v in d.items() if k not in keys_to_remove}
+        for d in edited_data
+        if not d.get("delete", False)
+    ]
+    # Save updated stores data to session_state and upstash
     redis_client = upstash_client()
     upstash_save_value(redis_client, 'stores', data)
+    # Rerun app
     st.rerun()
 
 
