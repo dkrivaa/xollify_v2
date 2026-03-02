@@ -43,7 +43,7 @@ st.markdown("""
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
-    title='Home',
+    title='Xollify',
     page='ui/views/home.py',
     icon=':material/home:',
     default=True,

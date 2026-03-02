@@ -9,7 +9,7 @@ from ui.elements.dynamic import chain_selector, store_selector
 
 def render():
     """ Function to render home page """
-    # Reset selectors
+    # Reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
         st.session_state['chain_selector'] = None
         st.session_state['store_selector'] = None
@@ -17,7 +17,6 @@ def render():
 
     logo()
 
-    st.write(st.session_state)
     # Top navigation menu
     navigation_selection = navigation_section()
     st.space()
@@ -49,12 +48,11 @@ def navigation_section():
 
 def stores_section():
     """ Section to select stores of interest """
-
-
     with st.container(border=True):
         # Define tabs
-        tab1, tab2 = st.tabs(['Select Store', 'Manage Selected Stores'])
+        tab1, tab2 = st.tabs(['Select Store', 'Selected Stores'])
 
+        # Select stores
         with tab1:
             # Show chain selector
             chain_code = chain_selector()
@@ -73,6 +71,15 @@ def stores_section():
                                                                      'store_code': store_code})
                         st.session_state['reset_selectors_flag'] = True
                         st.rerun()
+
+        # Manage stores selected
+        with tab2:
+            redis_client = upstash_client()
+            data = upstash_get_value(redis_client, 'stores')
+            st.data_editor(data=data,
+                           width='stretch',
+                           )
+
 
 
 
