@@ -18,7 +18,14 @@ def save_to_redis(redis: Redis, sid: str, key: str, value, ex: int = 7200):
 def get_from_redis(redis: Redis, sid: str, key: str, default=None):
     """ Function to get value from Upstash redis used in operational relevant branches (streamlit) """
     val = redis.get(f"{sid}:{key}")
-    return json.loads(val) if val is not None else default
+    if val is None:
+        return default
+    try:
+        decoded = json.loads(val)
+        # If Redis stored "null", decoded becomes None → use default
+        return decoded if decoded is not None else default
+    except json.JSONDecodeError:
+        return default
 
 
 def delete_from_redis(redis: Redis, sid: str, key: str):
