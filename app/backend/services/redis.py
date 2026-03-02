@@ -2,7 +2,7 @@ import streamlit as st
 import uuid
 
 from common.upstash.redis_service import get_redis_client
-from common.upstash.redis_service import (get_redis_client, save_to_redis, append_to_redis,
+from common.upstash.redis_service import (get_redis_client, save_to_redis,
                                           get_from_redis, delete_from_redis)
 
 
@@ -78,3 +78,4 @@ def upstash_delete_key(redis_client, key):
         del st.session_state[key]
     # Delete key from upstash
     delete_from_redis(redis_client, sid, key)
+

@@ -1,7 +1,8 @@
 import streamlit as st
 
 from backend.db.crud.items import item_details
-from backend.services.redis import upstash_client, upstash_save_value, upstash_get_value, upstash_delete_key
+from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
+                                    upstash_get_value, upstash_delete_key)
 from ui.elements.static import logo
 from ui.elements.dynamic import chain_selector, store_selector
 
@@ -9,10 +10,11 @@ from ui.elements.dynamic import chain_selector, store_selector
 def render():
     """ Function to render home page """
     logo()
-    st.divider()
 
+    st.write(st.session_state)
     # Top navigation menu
     navigation_selection = navigation_section()
+    st.space()
 
     if navigation_selection == 1:
         stores_section()
@@ -41,12 +43,19 @@ def navigation_section():
 
 def stores_section():
     """ Section to select stores of interest """
-    with st.container():
-        # Show chain selector
-        chain_code = chain_selector()
-        if chain_code:
-            # Show store selector for selected chain
-            store_code = store_selector(chain_code)
+    with st.container(border=True):
+
+        tab1, tab2 = st.tabs(['Select Store', 'Manage Selected Stores'])
+
+        with tab1:
+            # Show chain selector
+            chain_code = chain_selector()
+            if chain_code:
+                # Show store selector for selected chain
+                store_code = store_selector(chain_code)
+                if store_code:
+                    add_store = st.button(label=':material/add_business: Add Store',
+                                          width='stretch')
 
 
 
