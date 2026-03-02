@@ -25,3 +25,22 @@ async def get_stores_for_chain(DATABASE_URL: str, chain: SupermarketChain):
             }
             for store in stores
         ]
+
+
+async def get_store_name(DATABASE_URL: str, chain_code: str | int, store_code: str | int):
+    """ Get a store name according to chain and store code """
+    Session = await get_session(DATABASE_URL)
+
+    def normalize_code(code):
+        """ Helper to normalize store code"""
+        return str(code).lstrip("0")
+
+    async with Session as session:
+        result = await session.execute(
+            select(Store).where(Store.chain_code == str(chain_code)
+                                and normalize_code(Store.store_code) == normalize_code(store_code))
+        )
+        store = result.scalars().first()
+
+        # Convert to serializable dict before returning
+        return {'store_name': store.store_name}
