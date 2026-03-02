@@ -25,7 +25,8 @@ def render():
 
     if navigation_selection == 1:
         stores_section_element()
-
+    if navigation_selection == 2:
+        st.write('Test')
 
 
 def navigation_section():
