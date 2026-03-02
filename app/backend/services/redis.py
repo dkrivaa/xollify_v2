@@ -63,9 +63,15 @@ def upstash_get_value(redis_client, key, default=None):
     if key not in st.session_state:
         # Get sid (user) param
         sid = st.query_params["sid"]
-        # Set the session_state key value from upstash
-        st.session_state[key] = get_from_redis(redis_client, sid, key, default)
-    # Return the value for key from session_state
+        value = get_from_redis(redis_client, sid, key, default)
+
+        # If get_from_redis returned None but default was a list,
+        # ensure the default is used.
+        if value is None:
+            value = default
+        # Set session_state
+        st.session_state[key] = value
+
     return st.session_state[key]
 
 
