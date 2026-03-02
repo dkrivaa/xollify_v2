@@ -14,13 +14,13 @@ def render():
     # Top navigation menu
     navigation_selection = navigation_section()
 
+    if navigation_selection == 1:
+        stores_section()
+
 
 
 def navigation_section():
     """ Navigation section at top of page """
-    if 'section_selection' in st.session_state:
-        st.session_state['section_selection'] = None
-
     with st.container():
         pills_map = {
             1: ':material/add_business: Select Stores',
@@ -33,18 +33,22 @@ def navigation_section():
                                      options=[k for k, v in pills_map.items()],
                                      format_func=lambda x: pills_map[x],
                                      default=None,
-                                     width='stretch', )
+                                     width='stretch',
+                                     key='nav_key')
 
         return section_selection
 
 
 def stores_section():
     """ Section to select stores of interest """
-    # Show chain selector
-    chain_code = chain_selector()
-    if chain_code:
-        # Show store selector for selected chain
-        store = store_selector(chain_code)
+    with st.container():
+        # Show chain selector
+        chain_code = chain_selector()
+        if chain_code:
+            # Show store selector for selected chain
+            store_code = store_selector(chain_code)
+
+
 
 
 if __name__ == "__main__":
