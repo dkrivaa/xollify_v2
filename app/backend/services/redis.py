@@ -63,8 +63,8 @@ def upstash_get_value(redis_client, key, default=None):
     if key not in st.session_state:
         # Get sid (user) param
         sid = st.query_params["sid"]
+        # Get from redis
         value = get_from_redis(redis_client, sid, key, default)
-
         # If get_from_redis returned None but default was a list,
         # ensure the default is used.
         if value is None:
