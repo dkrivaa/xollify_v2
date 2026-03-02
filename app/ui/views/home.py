@@ -7,6 +7,7 @@ from backend.services.redis import (upstash_client, upstash_save_value, upstash_
 from ui.elements.static import logo
 from ui.elements.dynamic import chain_selector, store_selector
 from ui.views.stores_section import stores_section_element
+from ui.views.items_section import items_section_element
 
 
 def render():
@@ -26,7 +27,7 @@ def render():
     if navigation_selection == 1:
         stores_section_element()
     if navigation_selection == 2:
-        st.write('Test')
+        items_section_element()
 
 
 def navigation_section():

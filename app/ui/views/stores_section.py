@@ -1,8 +1,5 @@
 import streamlit as st
 
-from common.utilities.supermarkets import get_chain_from_code
-from common.db.crud.stores import get_store_name
-from backend.services.async_runner import run_async
 from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
                                     upstash_get_value, upstash_delete_key)
 from ui.elements.dynamic import chain_selector, store_selector
@@ -27,7 +24,6 @@ def reorganize_data(edited_data: list[dict]):
     upstash_save_value(redis_client, 'stores', data)
     # Rerun app
     st.rerun()
-
 
 
 def stores_section_element():

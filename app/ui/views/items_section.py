@@ -1,4 +1,37 @@
 import streamlit as st
 
-def store_data_for_selected_stores():
-    pass
+from common.pipeline.fresh_price_promo import get_stores_price_data, get_stores_promo_data
+from backend.services.async_runner import run_async
+from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
+                                    upstash_get_value, upstash_delete_key)
+
+
+def store_data_for_selected_stores(stores: list[dict]):
+    """ Get price and promo data for selected stores """
+    # Get data for stores
+    with st.spinner('Getting Data'):
+        price_data = run_async(get_stores_price_data, stores=stores)
+        promo_data = run_async(get_stores_promo_data, stores=stores)
+
+    # if data, enter into session_state and upstash
+    redis_client = upstash_client()
+    if price_data:
+        upstash_save_value(redis_client, 'price_data', price_data)
+    if promo_data:
+        upstash_save_value(redis_client, 'promo_data', promo_data)
+
+
+def items_section_element():
+    """ Section to show item details """
+    # Get stores
+    redis_client = upstash_client()
+    stores = upstash_get_value(redis_client, 'stores')
+
+    # If no stores:
+    if stores is None:
+        st.write('No Stores')
+    else:
+        store_data_for_selected_stores(stores=stores)
+        st.write('Data Saved')
+
+
