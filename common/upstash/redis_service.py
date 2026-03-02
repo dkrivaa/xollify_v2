@@ -9,10 +9,21 @@ def get_redis_client(url: str, token: str) -> Redis:
 
 def save_to_redis(redis: Redis, sid: str, key: str, value, ex: int = 7200):
     """
-    Function to save to Upstash redis used in operational relevant branches (streamlit)
+    Function to save to Upstash redis used in relevant GitHub branches (streamlit)
     Default expiration - 2 hours (7200 seconds)
     """
     redis.set(f"{sid}:{key}", json.dumps(value), ex=ex)
+
+
+def append_to_redis(redis: Redis, sid: str, key: str, item, ex: int = 7200):
+    """
+    Function to append to Upstash redis used in relevant GitHub branches (streamlit)
+    Default expiration - 2 hours (7200 seconds)
+    """
+    current = get_from_redis(redis, sid, key, default=[])
+    current.append(item)
+    save_to_redis(redis, sid, key, current, ex=ex)
+
 
 
 def get_from_redis(redis: Redis, sid: str, key: str, default=None):
