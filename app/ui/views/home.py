@@ -41,6 +41,11 @@ def navigation_section():
         return section_selection
 
 
+def clear_selectors():
+    del st.session_state['chain_selector']
+    del st.session_state['store_selector']
+
+
 def stores_section():
     """ Section to select stores of interest """
     with st.container(border=True):
@@ -55,14 +60,20 @@ def stores_section():
                 store_code = store_selector(chain_code)
                 if store_code:
                     # Add store to session_state and upstash
-                    add_store = st.button(label='Add Store',
-                                          icon=':material/add_business:',
-                                          icon_position='left',
-                                          width='stretch')
-                    if add_store:
-                        redis_client = upstash_client
+                    if st.button(label='Add Store',
+                                 icon=':material/add_business:',
+                                 icon_position='left',
+                                 width='stretch', ):
+                        redis_client = upstash_client()
                         upstash_append_item(redis_client, 'stores', {'chain_code': chain_code,
                                                                      'store_code': store_code})
+                        # Reset selectors
+                        for key in ["chain_selector_key", "store_selector_key"]:
+                            st.session_state.pop(key, None)
+
+                        st.rerun()
+
+
 
 
 
