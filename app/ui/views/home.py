@@ -6,6 +6,7 @@ from backend.services.redis import (upstash_client, upstash_save_value, upstash_
                                     upstash_get_value, upstash_delete_key)
 from ui.elements.static import logo
 from ui.elements.dynamic import chain_selector, store_selector
+from ui.views.stores_section import stores_section_element
 
 
 def render():
@@ -23,7 +24,7 @@ def render():
     st.space()
 
     if navigation_selection == 1:
-        stores_section()
+        stores_section_element()
 
 
 
