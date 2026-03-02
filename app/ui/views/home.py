@@ -9,6 +9,12 @@ from ui.elements.dynamic import chain_selector, store_selector
 
 def render():
     """ Function to render home page """
+    # Reset selectors
+    if st.session_state.get('reset_selectors_flag', False):
+        st.session_state['chain_selector'] = None
+        st.session_state['store_selector'] = None
+        st.session_state['reset_selectors_flag'] = False
+
     logo()
 
     st.write(st.session_state)
@@ -43,13 +49,7 @@ def navigation_section():
 
 def stores_section():
     """ Section to select stores of interest """
-    # Reset selectors
-    reset_flag = st.session_state.get('reset_selectors_flag', False)
-    if reset_flag:
-        st.session_state.pop("chain_selector", None)
-        st.session_state.pop("store_selector", None)
-        st.session_state.pop("reset_selectors_flag", None)
-        st.rerun()
+
 
     with st.container(border=True):
         # Define tabs
