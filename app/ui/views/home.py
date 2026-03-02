@@ -11,23 +11,35 @@ def render():
     logo()
     st.divider()
 
+    # Top navigation menu
+    navigation_selection = navigation_section()
+
+
+    # Show chain selector
+    chain_code = chain_selector()
+    if chain_code:
+        # Show store selector for selected chain
+        store = store_selector(chain_code)
+
+
+
+def navigation_section():
+    """ Navigation section at top of page """
     with st.container():
         pills_map = {
             1: ':material/add_business: Select Stores',
-            2: ':material/add_shopping_cart: Compare item/list'
+            2: ':material/add_shopping_cart: Compare Items',
+            3: ':material/list: Shopping List'
         }
 
-        st.pills(label='Set up system',
-                 label_visibility='hidden',
-                 options=[k for k, v in pills_map.items()],
-                 format_func=lambda x: pills_map[x],
-                 width='stretch',
-                 )
-        # Show chain selector
-        chain_code = chain_selector()
-        if chain_code:
-            # Show store selector for selected chain
-            store = store_selector(chain_code)
+        section_selection = st.pills(label='Set up system',
+                                     label_visibility='hidden',
+                                     options=[k for k, v in pills_map.items()],
+                                     format_func=lambda x: pills_map[x],
+                                     default=None,
+                                     width='stretch', )
+
+        return section_selection
 
 
 if __name__ == "__main__":
