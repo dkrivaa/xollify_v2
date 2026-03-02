@@ -48,57 +48,5 @@ def navigation_section():
         return section_selection
 
 
-def stores_section():
-    """ Section to select stores of interest """
-    with st.container(border=True):
-        # Define tabs
-        tab1, tab2 = st.tabs(['Select Store', 'Selected Stores'])
-
-        # Select stores
-        with tab1:
-            # Show chain selector
-            chain_code = chain_selector()
-            if chain_code:
-                # Show store selector for selected chain
-                store_code = store_selector(chain_code)
-                if store_code:
-                    # Add store to session_state and upstash
-                    if st.button(label='Add Store',
-                                 icon=':material/add_business:',
-                                 icon_position='left',
-                                 width='stretch',
-                                 key='add_store_button'):
-                        redis_client = upstash_client()
-                        upstash_append_item(redis_client, 'stores', {'chain_code': chain_code,
-                                                                     'store_code': store_code})
-                        st.session_state['reset_selectors_flag'] = True
-                        st.rerun()
-
-        # Manage stores selected
-        with tab2:
-            redis_client = upstash_client()
-            # Get stores from session_state or upstash
-            data = upstash_get_value(redis_client, 'stores')
-            data = [{**d, 'delete': False, 'chain': get_chain_from_code(d['chain_code']).alias}
-                    for d in data]
-            edited_data = st.data_editor(data=data, width='stretch',
-                                         column_order=['chain', 'delete'],
-                                         column_config={
-                               'chain': st.column_config.TextColumn(label='Chain'),
-                               'chain_code': st.column_config.TextColumn(label='Chain Code'),
-                               'store_code': st.column_config.TextColumn(label='Store'),
-                               'delete': st.column_config.CheckboxColumn(label='Delete',
-                                                                         width='small',)}
-                                         )
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     render()
