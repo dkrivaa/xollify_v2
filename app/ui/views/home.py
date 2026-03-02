@@ -56,7 +56,6 @@ def stores_section():
         tab1, tab2 = st.tabs(['Select Store', 'Manage Selected Stores'])
 
         with tab1:
-
             # Show chain selector
             chain_code = chain_selector()
             if chain_code:
