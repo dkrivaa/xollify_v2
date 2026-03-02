@@ -54,8 +54,16 @@ def stores_section():
                 # Show store selector for selected chain
                 store_code = store_selector(chain_code)
                 if store_code:
-                    add_store = st.button(label=':material/add_business: Add Store',
+                    # Add store to session_state and upstash
+                    add_store = st.button(label='Add Store',
+                                          icon=':material/add_business:',
+                                          icon_position='left',
                                           width='stretch')
+                    if add_store:
+                        redis_client = upstash_client
+                        upstash_append_item(redis_client, 'stores', {'chain_code': chain_code,
+                                                                     'store_code': store_code})
+
 
 
 
