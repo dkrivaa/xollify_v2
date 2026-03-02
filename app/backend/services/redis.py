@@ -2,8 +2,8 @@ import streamlit as st
 import uuid
 
 from common.upstash.redis_service import get_redis_client
-from common.upstash.redis_service import (get_redis_client, save_to_redis, get_from_redis,
-                                          delete_from_redis)
+from common.upstash.redis_service import (get_redis_client, save_to_redis, append_to_redis,
+                                          get_from_redis, delete_from_redis)
 
 
 def init_session():
@@ -36,6 +36,15 @@ def upstash_save_value(redis_client, key, value):
     sid = st.query_params["sid"]
     st.session_state[key] = value
     save_to_redis(redis_client, sid, key, value)
+
+
+def upstach_append_item(redis_client, key, item):
+    """ Append item to session_state and upstash """
+    sid = st.query_params['sid']
+    current = upstash_get_value(redis_client, key, default=[])
+    current.append(item)
+    st.session_state[key] = current
+    save_to_redis(redis_client, sid, key, current)
 
 
 def upstash_get_value(redis_client, key, default=None):
