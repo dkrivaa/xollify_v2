@@ -18,6 +18,7 @@ def render():
         }
 
         st.pills(label='Set up system',
+                 label_visibility='hidden',
                  options=[k for k, v in pills_map.items()],
                  format_func=lambda x: pills_map[x],
                  width='stretch',
