@@ -49,6 +49,8 @@ def upstash_append_item(redis_client, key, item):
     sid = st.query_params['sid']
     # Get the current list for key from session_state or from upstash
     current = upstash_get_value(redis_client, key, default=[])
+    if current is None:
+        current = []
     # Append to current list
     current.append(item)
     # Set the session_state key value to updated list, incl appended item

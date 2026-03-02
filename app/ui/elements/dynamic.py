@@ -24,8 +24,9 @@ def chain_selector():
         key='chain_selector'
     )
 
+    chain_alias = next(c.alias for c in chains if c.chain_code == chain) if chain else None
     # Return chain_code of selected chain
-    return chain
+    return chain, chain_alias
 
 
 def store_selector(chain_code: str):
@@ -51,6 +52,8 @@ def store_selector(chain_code: str):
         key='store_selector'
     )
 
+    store_name = next(s['store_name'] for s in stores if s['store_code'] == store) if store else None
+
     # Return store_code for selected store
-    return store
+    return store, store_name
 

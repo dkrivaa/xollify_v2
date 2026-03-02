@@ -9,12 +9,8 @@ from ui.elements.dynamic import chain_selector, store_selector
 
 
 def make_data_for_editor(data: list[dict]):
-    """ Make the data ready for insert into data_editor by adding relevant columns """
-    DATABASE_URL = st.secrets['DATABASE_URL']
-
-    return [{**d, 'delete': False, 'chain': get_chain_from_code(d['chain_code']).alias,
-             'store_name': run_async(get_store_name, DATABASE_URL=DATABASE_URL,
-                                     chain_code=d['chain_code'], store_code=d['store_code'])} for d in data]
+    """ Make the data ready for insert into data_editor by adding delete column """
+    return [{**d, 'delete': False, } for d in data]
 
 
 def stores_section_element():
@@ -26,10 +22,10 @@ def stores_section_element():
         # Select stores
         with tab1:
             # Show chain selector
-            chain_code = chain_selector()
+            chain_code, chain_alias = chain_selector()
             if chain_code:
                 # Show store selector for selected chain
-                store_code = store_selector(chain_code)
+                store_code, store_name = store_selector(chain_code)
                 if store_code:
                     # Add store to session_state and upstash
                     if st.button(label='Add Store',
@@ -39,7 +35,9 @@ def stores_section_element():
                                  key='add_store_button'):
                         redis_client = upstash_client()
                         upstash_append_item(redis_client, 'stores', {'chain_code': chain_code,
-                                                                     'store_code': store_code})
+                                                                     'chain_alias': chain_alias,
+                                                                     'store_code': store_code,
+                                                                     'store_name': store_name})
                         st.session_state['reset_selectors_flag'] = True
                         st.rerun()
 
@@ -48,12 +46,14 @@ def stores_section_element():
             redis_client = upstash_client()
             # Get stores from session_state or upstash
             data = upstash_get_value(redis_client, 'stores')
+            st.write(data)
             if data:
                 organized_data = make_data_for_editor(data)
                 edited_data = st.data_editor(data=organized_data, width='stretch',
-                                             column_order=['chain', 'delete'],
+                                             column_order=['chain_alias', 'store_name', 'delete'],
                                              column_config={
-                                   'chain': st.column_config.TextColumn(label='Chain'),
+                                   'chain_alias': st.column_config.TextColumn(label='Chain'),
+                                   'store_name': st.column_config.TextColumn(label='Store Name'),
                                    'chain_code': st.column_config.TextColumn(label='Chain Code'),
                                    'store_code': st.column_config.TextColumn(label='Store'),
                                    'delete': st.column_config.CheckboxColumn(label='Delete',
