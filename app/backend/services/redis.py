@@ -21,6 +21,7 @@ def redis_client_params():
     """ Get the st.secrets (UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN) to get redis client """
     upstash_url = st.secrets['UPSTASH_REDIS_REST_URL']
     upstash_token = st.secrets['UPSTASH_REDIS_REST_TOKEN']
+    # Return redis client params
     return upstash_url, upstash_token
 
 
@@ -28,36 +29,52 @@ def upstash_client():
     """ Function to return redis client using streamlit secrets """
     # Get params for redis client
     upstash_url, upstash_token = redis_client_params()
+    # Return redis client
     return get_redis_client(upstash_url, upstash_token)
 
 
 def upstash_save_value(redis_client, key, value):
     """Save to both session_state and Redis."""
+    # Get sid (user) param
     sid = st.query_params["sid"]
+    # Set the session_state key value
     st.session_state[key] = value
+    # Set the upstash redis value
     save_to_redis(redis_client, sid, key, value)
 
 
-def upstach_append_item(redis_client, key, item):
+def upstash_append_item(redis_client, key, item):
     """ Append item to session_state and upstash """
+    # Get sid (user) param
     sid = st.query_params['sid']
+    # Get the current list for key from session_state or from upstash
     current = upstash_get_value(redis_client, key, default=[])
+    # Append to current list
     current.append(item)
+    # Set the session_state key value to updated list, incl appended item
     st.session_state[key] = current
+    # Set the upstash key value to updated list, incl appended item
     save_to_redis(redis_client, sid, key, current)
 
 
 def upstash_get_value(redis_client, key, default=None):
     """Get from session_state, falling back to Redis if not present."""
+    # If key not in session_state
     if key not in st.session_state:
+        # Get sid (user) param
         sid = st.query_params["sid"]
+        # Set the session_state key value from upstash
         st.session_state[key] = get_from_redis(redis_client, sid, key, default)
+    # Return the value for key from session_state
     return st.session_state[key]
 
 
 def upstash_delete_key(redis_client, key):
     """ Delete key from upstash and st.session_state """
+    # Get sid (user) param
     sid = st.query_params["sid"]
+    # If key in session_state - delete key
     if key in st.session_state:
         del st.session_state[key]
+    # Delete key from upstash
     delete_from_redis(redis_client, sid, key)
