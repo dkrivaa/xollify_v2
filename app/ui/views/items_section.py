@@ -21,12 +21,17 @@ def items_section_element():
         st.stop()
     # END OF LOGICAL TESTS ################
 
+    # Rerun 1: dialog just closed, skip data loading this rerun
+    if st.session_state.get('_just_closed_dialog'):
+        del st.session_state['_just_closed_dialog']
+        st.rerun()
     # Get price and promo data for selected stores and enter into session_state and indexedDB
     # Automatically checks if store data already entered and removes stale store data
     if not st.session_state.get('_data_loaded'):   # Flag turns False only when stores change
         stores = st.session_state.db.get(item_id='stores').get('value')
-        store_data_for_selected_stores(stores=stores)
-        st.session_state._data_loaded = True
+        if stores:
+            store_data_for_selected_stores(stores=stores)
+            st.session_state._data_loaded = True
 
     st.write('Data Saved')
 
