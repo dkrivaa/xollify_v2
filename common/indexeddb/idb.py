@@ -1,6 +1,10 @@
 import json
 import time
 from streamlit_js_eval import streamlit_js_eval
+import time
+import itertools
+
+_key_counter = itertools.count()
 
 
 class IndexedDB:
@@ -25,7 +29,7 @@ class IndexedDB:
     def _next_key(self, label: str) -> str:
         """Return a unique streamlit_js_eval key using nanosecond timestamp.
         Survives session resets, page refreshes, and mobile lock/unlock cycles."""
-        return f"_idb_{label}_{time.time_ns()}"
+        return f"_idb_{label}_{time.time_ns()}_{next(_key_counter)}"
 
     def _eval(self, js: str, label: str):
         """Run JS and return the result, using a unique key every call."""
