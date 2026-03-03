@@ -25,7 +25,9 @@ def store_data_for_selected_stores(stores: list[dict]):
             # upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_price_data', data)
     if promo_data:
         for data in promo_data:
-            upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_promo_data', data)
+            item_id = f'{data['chain_code']}_{data['store_code']}_price_data'
+            SessionIndexedDB.put(item_id=item_id, value=data)
+            # upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_promo_data', data)
 
 
 def items_section_element():
