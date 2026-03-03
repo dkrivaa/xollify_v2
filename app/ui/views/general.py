@@ -23,7 +23,7 @@ def check_stores_selected():
 
 def home_store():
     """ Check if home store exist and if not display dialog """
-    if st.session_state.get('home_store') or st.session_state.db.get(item_id='home_store'):
+    if st.session_state.db.get(item_id='home_store'):
         return True
     else:
         return False

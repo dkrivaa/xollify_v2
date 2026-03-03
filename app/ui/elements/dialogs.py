@@ -7,10 +7,6 @@ def get_home_store():
     st.markdown(body='The "Home Store" is used to select items for your shopping and should represent where you normally shops',
                 text_alignment='center')
 
-    # If already submitted this run, close immediately
-    if st.session_state.get('home_store'):
-        st.rerun()
-
     try:
         current = st.session_state.db.get(item_id='stores')['value']
         if current is None:
@@ -32,7 +28,6 @@ def get_home_store():
     if home_store:
         if st.button(label='Submit', width='stretch'):
             # if submit - enter selection into session_state and indexedDB
-            st.session_state['home_store'] = home_store
             st.session_state.db.put(item_id='home_store', value=home_store)
             st.rerun()
 
