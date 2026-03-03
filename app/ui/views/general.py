@@ -40,22 +40,60 @@ def get_stores_missing_data(stores: list[dict]) -> list[dict]:
     return missing
 
 
+def remove_stale_store_data(stores: list[dict]) -> None:
+    """
+    Removes price and promo data from session_state and IndexedDB
+    for stores that are no longer in the active stores list.
+    Handles the case where session_state cache is empty (e.g. after mobile lock/resume).
+    """
+    # Build set of valid keys from the current stores list
+    valid_keys = set()
+    for store in stores:
+        chain_code = store["chain_code"]
+        store_code = store["store_code"]
+        valid_keys.add(f"{chain_code}_{store_code}_price_data")
+        valid_keys.add(f"{chain_code}_{store_code}_promo_data")
+
+    # Get all keys from both cache and IndexedDB
+    cache = st.session_state.get("_idb_cache_XollifyDB_data", {})
+    cache_keys = set(cache.keys())
+    idb_keys = set(st.session_state.db.get_all_keys())
+
+    # Union — covers stale keys in either location
+    all_known_keys = cache_keys | idb_keys
+
+    # Only consider keys that are store price/promo data — ignore everything else
+    store_data_keys = {
+        key for key in all_known_keys
+        if key.endswith("_price_data") or key.endswith("_promo_data")
+    }
+
+    stale_keys = [key for key in store_data_keys if key not in valid_keys]
+
+    for key in stale_keys:
+        st.session_state.db.delete(item_id=key)
+
+
 def store_data_for_selected_stores(stores: list[dict]):
     """ Get price and promo data for selected stores (Error: ExceptionGroup)"""
+    # Check if and remove stale store data in session_state / indexedDB (i.e user removed store)
+    remove_stale_store_data(stores)
+
     # Check if any of the stores are missing price and promo data
     stores_to_fetch = get_stores_missing_data(stores)
+
     if stores_to_fetch:
-        # Get data for stores
+        # Get data for stores (not already in session_state / indexedDB
         with st.spinner('Getting Data'):
             price_data = run_async(get_stores_price_data, stores=stores_to_fetch)
             promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch)
 
-    # if data, enter into session_state and indexedDB
-    if price_data:
-        for data in price_data:
-            item_id = f'{data['chain_code']}_{data['store_code']}_price_data'
-            st.session_state.db.put(item_id=item_id, value=data)
-    if promo_data:
-        for data in promo_data:
-            item_id = f'{data['chain_code']}_{data['store_code']}_promo_data'
-            st.session_state.db.put(item_id=item_id, value=data)
+        # if data, enter into session_state and indexedDB
+        if price_data:
+            for data in price_data:
+                item_id = f'{data['chain_code']}_{data['store_code']}_price_data'
+                st.session_state.db.put(item_id=item_id, value=data)
+        if promo_data:
+            for data in promo_data:
+                item_id = f'{data['chain_code']}_{data['store_code']}_promo_data'
+                st.session_state.db.put(item_id=item_id, value=data)

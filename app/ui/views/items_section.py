@@ -8,16 +8,16 @@ def items_section_element():
     st.write(st.session_state.db.get_all_keys())
     # Get stores
     try:
-        stores = st.session_state.db.get(item_id='stores')['value']
+        stores = st.session_state.db.get(item_id='stores').get('value')
+        if not stores:
+            stores = []
     except TypeError as e:
         stores = []
 
-    st.write('stores:', stores)
     # If no stores:
     if not stores:
-        st.write('No Stores')
+        st.subheader(':material/error: No stores selected')
     else:
-        st.write(st.session_state)
         # Get price and promo data for selected stores and store in session_state and indexedDB
         store_data_for_selected_stores(stores=stores)
         st.write('Data Saved')

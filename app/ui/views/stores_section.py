@@ -47,7 +47,7 @@ def stores_section_element():
                                  key='add_store_button'):
                         # Enter new store into session_state and indexedDB
                         try:
-                            current = st.session_state.db.get(item_id='stores')['value']
+                            current = st.session_state.db.get(item_id='stores').get('value', None)
                             if current is None:
                                 current = []
                         except TypeError as e:
@@ -69,7 +69,7 @@ def stores_section_element():
             data = st.session_state.db.get(item_id='stores')
 
             if data:
-                organized_data = make_data_for_editor(data['value'])
+                organized_data = make_data_for_editor(data.get('value'))
                 edited_data = st.data_editor(
                     data=organized_data, width='stretch',
                     column_order=['chain_alias', 'store_name', 'delete'],
