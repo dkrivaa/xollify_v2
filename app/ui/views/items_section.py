@@ -15,7 +15,13 @@ def items_section_element():
 
     # If no stores:
     if not stores:
-        st.subheader(':material/error: No stores selected')
+        with st.container(border=True):
+            st.subheader(body=':material/error: No stores selected',
+                         width='stretch',
+                         text_alignment='center')
+            st.markdown(body='Please Select Stores to continue',
+                        width='stretch',
+                        text_alignment='center')
     else:
         # Get price and promo data for selected stores and store in session_state and indexedDB
         store_data_for_selected_stores(stores=stores)
