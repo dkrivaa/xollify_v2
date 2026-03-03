@@ -16,6 +16,6 @@ def no_stores_selected():
         st.subheader(body=':material/error: No stores selected',
                      width='stretch',
                      text_alignment='center')
-        st.markdown(body='Please Select Stores to continue',
+        st.markdown(body='Please Select Store/s to continue',
                     width='stretch',
                     text_alignment='center')

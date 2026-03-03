@@ -13,12 +13,12 @@ def items_section_element():
     stores_exist = check_stores_selected()
     if not stores_exist:
         no_stores_selected()
-        st.rerun()
+        st.stop()
     # check home store selected
     home_store_selected = home_store()
     if not home_store_selected:
         get_home_store()
-        st.rerun()
+        st.stop()
     # END OF LOGICAL TESTS ################
 
     # Get price and promo data for selected stores and enter into session_state and indexedDB
