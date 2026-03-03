@@ -15,10 +15,7 @@ def items_section_element():
         no_stores_selected()
         st.stop()
     # check home store selected
-    st.write('home_store in session_state:', st.session_state.get('home_store'))
-    st.write('full session_state:', st.session_state)
     home_store_selected = home_store()
-    st.write('home_store_selected:', home_store_selected)
     if not home_store_selected:
         get_home_store()
         st.stop()
@@ -26,6 +23,8 @@ def items_section_element():
 
     # Get price and promo data for selected stores and enter into session_state and indexedDB
     # Automatically checks if store data already entered and removes stale store data
+    st.write('cache keys at this point:', list(st.session_state.get('_idb_cache_XollifyDB_data', {}).keys()))
+
     stores = st.session_state.db.get(item_id='stores').get('value')
     store_data_for_selected_stores(stores=stores)
     st.write('Data Saved')
