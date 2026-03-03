@@ -1,11 +1,12 @@
 import streamlit as st
 
-from ui.views.general import store_data_for_selected_stores
+from ui.views.general import store_data_for_selected_stores, home_store
 
 
 def items_section_element():
     """ Section to show item details """
-    # Get stores
+    # LOGICAL TESTS ############
+    # Get stores / display message if no stores
     try:
         stores = st.session_state.db.get(item_id='stores').get('value')
         if not stores:
@@ -23,11 +24,13 @@ def items_section_element():
                         width='stretch',
                         text_alignment='center')
     else:
-        # Get price and promo data for selected stores and store in session_state and indexedDB
+        # Get price and promo data for selected stores and enter into session_state and indexedDB
+        # Automatically checks if store data already entered and removes stale store data
         store_data_for_selected_stores(stores=stores)
         st.write('Data Saved')
-        from ui.views.general import home_store
+        # Check if home store selected and if not, display dialog
         home_store()
+    # END OF LOGICAL TESTS ################
 
 
 
