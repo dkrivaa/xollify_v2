@@ -29,7 +29,7 @@ def items_section_element():
         store_data_for_selected_stores(stores=stores)
         st.write('Data Saved')
         # Check if home store selected and if not, display dialog
-        home_store()
+        end_of_tests = home_store()
     # END OF LOGICAL TESTS ################
 
 
