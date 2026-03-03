@@ -23,10 +23,11 @@ def items_section_element():
 
     # Get price and promo data for selected stores and enter into session_state and indexedDB
     # Automatically checks if store data already entered and removes stale store data
-    st.write('cache keys at this point:', list(st.session_state.get('_idb_cache_XollifyDB_data', {}).keys()))
+    if not st.session_state.get('_data_loaded'):   # Flag turns False only when stores change
+        stores = st.session_state.db.get(item_id='stores').get('value')
+        store_data_for_selected_stores(stores=stores)
+        st.session_state._data_loaded = True
 
-    stores = st.session_state.db.get(item_id='stores').get('value')
-    store_data_for_selected_stores(stores=stores)
     st.write('Data Saved')
 
 

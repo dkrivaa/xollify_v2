@@ -115,10 +115,14 @@ def store_data_for_selected_stores(stores: list[dict]):
 
         # if data, enter into session_state and indexedDB
         if price_data:
-            for data in price_data:
-                item_id = f'{data['chain_code']}_{data['store_code']}_price_data'
-                st.session_state.db.put(item_id=item_id, value=data)
+            items = [
+                (f"{d['chain_code']}_{d['store_code']}_price_data", d)
+                for d in price_data if d
+            ]
+            st.session_state.db.put_many(items)
         if promo_data:
-            for data in promo_data:
-                item_id = f'{data['chain_code']}_{data['store_code']}_promo_data'
-                st.session_state.db.put(item_id=item_id, value=data)
+            items = [
+                (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
+                for d in promo_data if d
+            ]
+            st.session_state.db.put_many(items)

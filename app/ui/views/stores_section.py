@@ -21,6 +21,8 @@ def reorganize_data(edited_data: list[dict]):
     ]
     # Save updated stores data to session_state and indexedDB
     st.session_state.db.put(item_id='stores', value=data)
+    # Reset flag for getting new data for stores
+    st.session_state._data_loaded = False
     # Rerun app
     st.rerun()
 
@@ -60,8 +62,10 @@ def stores_section_element():
                                         'store_name': store_name})
                         # Enter all stores into session_state and indexedDB
                         st.session_state.db.put(item_id='stores', value=current)
-
+                        # Reset flag to clear selectboxes
                         st.session_state['reset_selectors_flag'] = True
+                        # Reset flag for getting new data for stores
+                        st.session_state._data_loaded = False
                         st.rerun()
 
         # Manage stores selected
