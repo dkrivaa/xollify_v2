@@ -5,6 +5,22 @@ from backend.services.async_runner import run_async
 from ui.elements.dialogs import get_home_store
 
 
+def check_stores_selected():
+    """ Test to make sure at least one store selected """
+    # Get stores / display message if no stores
+    try:
+        stores = st.session_state.db.get(item_id='stores').get('value')
+        if not stores:
+            stores = []
+    except TypeError as e:
+        stores = []
+    # If no stores:
+    if not stores:
+        return False
+    else:
+        return True
+
+
 def home_store():
     """ Check if home store exist and if not display dialog """
     if st.session_state.db.get(item_id='home_store'):

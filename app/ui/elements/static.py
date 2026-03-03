@@ -8,3 +8,14 @@ def logo():
              text_alignment='center')
 
     st.divider()
+
+
+def no_stores_selected():
+    """ Show message if no stores are selected """
+    with st.container(border=True):
+        st.subheader(body=':material/error: No stores selected',
+                     width='stretch',
+                     text_alignment='center')
+        st.markdown(body='Please Select Stores to continue',
+                    width='stretch',
+                    text_alignment='center')
