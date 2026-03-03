@@ -15,7 +15,10 @@ def items_section_element():
         no_stores_selected()
         st.stop()
     # check home store selected
+    st.write('home_store in session_state:', st.session_state.get('home_store'))
+    st.write('full session_state:', st.session_state)
     home_store_selected = home_store()
+    st.write('home_store_selected:', home_store_selected)
     if not home_store_selected:
         get_home_store()
         st.stop()
