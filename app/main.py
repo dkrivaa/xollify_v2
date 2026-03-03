@@ -31,6 +31,11 @@ st.set_page_config(
 from backend.services.redis import init_session
 init_session()
 
+# Initialize IndexedDB
+from backend.services.indexeddb_session import SessionIndexedDB
+if "db" not in st.session_state:
+    st.session_state.db = SessionIndexedDB("XollifyDB", "data")
+
 # 2. CSS across app
 st.markdown("""
 <style>
