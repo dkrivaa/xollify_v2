@@ -1,6 +1,5 @@
 import streamlit as st
 
-from backend.services.indexeddb_session import SessionIndexedDB
 from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
                                     upstash_get_value, upstash_delete_key)
 from ui.elements.dynamic import chain_selector, store_selector
@@ -21,7 +20,7 @@ def reorganize_data(edited_data: list[dict]):
         if not d.get("delete", False)
     ]
     # Save updated stores data to session_state and indexedDB
-    SessionIndexedDB.put(item_id='stores', value=data)
+    st.session_state.db.put(item_id='stores', value=data)
 
     # # Save updated stores data to session_state and upstash
     # redis_client = upstash_client()
@@ -50,14 +49,14 @@ def stores_section_element():
                                  icon_position='left',
                                  width='stretch',
                                  key='add_store_button'):
-                        current = SessionIndexedDB.get(item_id='stores')
+                        current = st.session_state.db.get(item_id='stores')
                         if current is None:
                             current = []
                         current.append({'chain_code': chain_code,
                                         'chain_alias': chain_alias,
                                         'store_code': store_code,
                                         'store_name': store_name})
-                        SessionIndexedDB.put(item_id='stores', value=current)
+                        st.session_state.db.put(item_id='stores', value=current)
 
                         # redis_client = upstash_client()
                         # upstash_append_item(redis_client, 'stores', {'chain_code': chain_code,
@@ -69,7 +68,8 @@ def stores_section_element():
 
         # Manage stores selected
         with tab2:
-            data = SessionIndexedDB.get(item_id='stores')
+            st.write(st.session_state)
+            data = st.session_state.db.get(item_id='stores')
 
             # redis_client = upstash_client()
             # # Get stores from session_state or upstash

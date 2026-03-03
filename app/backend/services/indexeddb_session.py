@@ -7,12 +7,14 @@ class SessionIndexedDB:
     """
     A Streamlit-specific wrapper around IndexedDB that adds a session_state
     buffer layer. Reads are served from session_state when available, falling
-    back to IndexedDB and then caching the result. Writes go to both layers.
+    back to IndexedDB and then caching the result. Writes go to both layers
+    immediately — the session_state cache is updated synchronously without
+    waiting for the async IndexedDB JS round trip to complete.
 
     Usage:
-        db = SessionIndexedDB("MyDatabase", "my_store")
+        db = SessionIndexedDB()
         db.put("user_1", {"name": "Alice"})
-        record = db.get("user_1")   # from session_state on second call
+        record = db.get("user_1")   # served from session_state instantly
         db.delete("user_1")
         db.clear()
     """
@@ -46,19 +48,18 @@ class SessionIndexedDB:
 
     def put(self, item_id: str, value: Any) -> bool:
         """
-        Insert or update a record in both session_state and IndexedDB.
-        Returns True on success.
+        Insert or update a record.
+        Writes to session_state immediately (synchronous), then fires the
+        IndexedDB JS call asynchronously. Returns True on success.
         """
-        success = self._idb.put(item_id, value)
-        if success:
-            # Mirror what IndexedDB stores so the cache stays consistent
-            self._cache_set(item_id, {"id": item_id, "value": value})
-        return success
+        self._cache_set(item_id, {"id": item_id, "value": value})
+        return self._idb.put(item_id, value)
 
-    def get(self, item_id: str) -> dict | None:
+    def get(self, item_id: str, default: Any = None) -> dict | Any:
         """
         Fetch a single record by ID.
         Tries session_state first; falls back to IndexedDB and caches the result.
+        Returns default if not found anywhere.
         """
         if item_id in self._cache:
             return self._cache[item_id]
@@ -66,7 +67,9 @@ class SessionIndexedDB:
         record = self._idb.get(item_id)
         if record is not None:
             self._cache_set(item_id, record)
-        return record
+            return record
+
+        return default
 
     def get_all(self) -> list[dict]:
         """
