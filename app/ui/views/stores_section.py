@@ -21,10 +21,6 @@ def reorganize_data(edited_data: list[dict]):
     ]
     # Save updated stores data to session_state and indexedDB
     st.session_state.db.put(item_id='stores', value=data)
-
-    # # Save updated stores data to session_state and upstash
-    # redis_client = upstash_client()
-    # upstash_save_value(redis_client, 'stores', data)
     # Rerun app
     st.rerun()
 
@@ -49,7 +45,8 @@ def stores_section_element():
                                  icon_position='left',
                                  width='stretch',
                                  key='add_store_button'):
-                        current = st.session_state.db.get(item_id='stores')
+                        # Enter new store into session_state and indexedDB
+                        current = st.session_state.db.get(item_id='stores')['value']
                         if current is None:
                             current = []
                         current.append({'chain_code': chain_code,
@@ -58,24 +55,15 @@ def stores_section_element():
                                         'store_name': store_name})
                         st.session_state.db.put(item_id='stores', value=current)
 
-                        # redis_client = upstash_client()
-                        # upstash_append_item(redis_client, 'stores', {'chain_code': chain_code,
-                        #                                              'chain_alias': chain_alias,
-                        #                                              'store_code': store_code,
-                        #                                              'store_name': store_name})
                         st.session_state['reset_selectors_flag'] = True
                         st.rerun()
 
         # Manage stores selected
         with tab2:
-            st.write(st.session_state)
             data = st.session_state.db.get(item_id='stores')
 
-            # redis_client = upstash_client()
-            # # Get stores from session_state or upstash
-            # data = upstash_get_value(redis_client, 'stores')
             if data:
-                organized_data = make_data_for_editor(data)
+                organized_data = make_data_for_editor(data['value'])
                 edited_data = st.data_editor(
                     data=organized_data, width='stretch',
                     column_order=['chain_alias', 'store_name', 'delete'],

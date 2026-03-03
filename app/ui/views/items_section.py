@@ -13,30 +13,21 @@ def store_data_for_selected_stores(stores: list[dict]):
         price_data = run_async(get_stores_price_data, stores=stores)
         promo_data = run_async(get_stores_promo_data, stores=stores)
 
-    st.write(price_data)
-    st.write(promo_data)
     # if data, enter into session_state and upstash
-    # redis_client = upstash_client()
     if price_data:
         for data in price_data:
             item_id = f'{data['chain_code']}_{data['store_code']}_price_data'
             st.session_state.db.put(item_id=item_id, value=data)
-            # upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_price_data', data)
     if promo_data:
         for data in promo_data:
-            item_id = f'{data['chain_code']}_{data['store_code']}_price_data'
+            item_id = f'{data['chain_code']}_{data['store_code']}_promo_data'
             st.session_state.db.put(item_id=item_id, value=data)
-            # upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_promo_data', data)
 
 
 def items_section_element():
     """ Section to show item details """
     # Get stores
-    stores = st.session_state.db.get(item_id='stores')
-
-
-    # redis_client = upstash_client()
-    # stores = upstash_get_value(redis_client, 'stores')
+    stores = st.session_state.db.get(item_id='stores')['value']
 
     # If no stores:
     if stores is None:
