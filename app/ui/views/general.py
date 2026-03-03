@@ -84,7 +84,7 @@ def store_data_for_selected_stores(stores: list[dict]):
 
     if stores_to_fetch:
         # Get data for stores (not already in session_state / indexedDB
-        with st.spinner('Getting Data'):
+        with st.spinner('Getting Data for Selected Stores'):
             price_data = run_async(get_stores_price_data, stores=stores_to_fetch)
             promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch)
 
