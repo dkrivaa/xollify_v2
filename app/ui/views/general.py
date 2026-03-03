@@ -9,7 +9,7 @@ def check_stores_selected():
     """ Test to make sure at least one store selected """
     # Get stores / display message if no stores
     try:
-        stores = st.session_state.db.get(item_id='stores').get('value')
+        stores = st.session_state.db.get(item_id='stores')['value']
         if not stores:
             stores = []
     except TypeError as e:
