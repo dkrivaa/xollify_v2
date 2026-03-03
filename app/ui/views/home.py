@@ -18,9 +18,10 @@ def render():
         st.session_state['store_selector'] = None
         st.session_state['reset_selectors_flag'] = False
 
+    # Add logo at top of page
     logo()
 
-    # Top navigation menu
+    # Navigation menu
     navigation_selection = navigation_section()
     st.space()
 

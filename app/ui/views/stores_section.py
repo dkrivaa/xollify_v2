@@ -47,7 +47,7 @@ def stores_section_element():
                                  key='add_store_button'):
                         # Enter new store into session_state and indexedDB
                         try:
-                            current = st.session_state.db.get(item_id='stores').get('value', None)
+                            current = st.session_state.db.get(item_id='stores')['value']
                             if current is None:
                                 current = []
                         except TypeError as e:
