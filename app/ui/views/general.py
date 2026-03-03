@@ -10,8 +10,7 @@ def home_store():
     if st.session_state.db.get(item_id='home_store'):
         return True
     else:
-        get_home_store()
-        return True
+        return False
 
 
 def get_stores_missing_data(stores: list[dict]) -> list[dict]:
