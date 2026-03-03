@@ -28,9 +28,7 @@ def get_home_store():
     if home_store:
         if st.button(label='Submit', width='stretch'):
             # if submit - enter selection into session_state and indexedDB
-            st.session_state.home_store = home_store
             st.session_state.db.put(item_id='home_store', value=home_store)
-            st.session_state['_just_closed_dialog'] = True  # signal to main
             st.rerun()
 
 
