@@ -46,13 +46,19 @@ def stores_section_element():
                                  width='stretch',
                                  key='add_store_button'):
                         # Enter new store into session_state and indexedDB
-                        current = st.session_state.db.get(item_id='stores')['value']
-                        if current is None:
+                        try:
+                            current = st.session_state.db.get(item_id='stores')['value']
+                            if current is None:
+                                current = []
+                        except TypeError as e:
+                            # TypeError -> current is None =>
                             current = []
+                        # Add new store
                         current.append({'chain_code': chain_code,
                                         'chain_alias': chain_alias,
                                         'store_code': store_code,
                                         'store_name': store_name})
+                        # Enter all stores into session_state and indexedDB
                         st.session_state.db.put(item_id='stores', value=current)
 
                         st.session_state['reset_selectors_flag'] = True
