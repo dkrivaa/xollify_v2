@@ -2,6 +2,15 @@ import streamlit as st
 
 from common.pipeline.fresh_price_promo import get_stores_price_data, get_stores_promo_data
 from backend.services.async_runner import run_async
+from ui.elements.dialogs import get_home_store
+
+
+def home_store():
+    """ Check if home store exist and if not display dialog """
+    if st.session_state.db.get(item_id='home_store'):
+        pass
+    else:
+        get_home_store()
 
 
 def get_stores_missing_data(stores: list[dict]) -> list[dict]:

@@ -26,6 +26,9 @@ def items_section_element():
         # Get price and promo data for selected stores and store in session_state and indexedDB
         store_data_for_selected_stores(stores=stores)
         st.write('Data Saved')
+        from ui.views.general import home_store
+        home_store()
+
 
 
 
