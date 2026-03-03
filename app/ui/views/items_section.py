@@ -13,12 +13,16 @@ def store_data_for_selected_stores(stores: list[dict]):
         price_data = run_async(get_stores_price_data, stores=stores)
         promo_data = run_async(get_stores_promo_data, stores=stores)
 
+    st.write(price_data)
+    st.write(promo_data)
     # if data, enter into session_state and upstash
     redis_client = upstash_client()
     if price_data:
-        upstash_save_value(redis_client, 'price_data', price_data)
+        for data in price_data:
+            upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_price_data', data)
     if promo_data:
-        upstash_save_value(redis_client, 'promo_data', promo_data)
+        for data in promo_data:
+            upstash_save_value(redis_client, f'{data['chain_code']}_{data['store_code']}_promo_data', data)
 
 
 def items_section_element():
