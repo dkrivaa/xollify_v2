@@ -1,9 +1,12 @@
 import streamlit as st
 
 
-@st.dialog(title=':material/home: Select Your "Home Store"')
+@st.dialog(title=':material/home: Select Your "Home Store"', dismissible=False)
 def get_home_store():
     """ Dialog function to get 'Home Store """
+    st.markdown(body='The "Home Store" is used to select items for your shopping and should represent where you normally shops',
+                text_alignment='center')
+
     try:
         current = st.session_state.db.get(item_id='stores')['value']
         if current is None:
