@@ -5,7 +5,6 @@ from ui.views.general import store_data_for_selected_stores
 
 def items_section_element():
     """ Section to show item details """
-    st.write(st.session_state.db.get_all_keys())
     # Get stores
     try:
         stores = st.session_state.db.get(item_id='stores').get('value')
