@@ -1,6 +1,6 @@
 import streamlit as st
 
-from ui.utilities.worlflow import enforce_workflow
+from ui.utilities.workflow import enforce_workflow
 
 
 
