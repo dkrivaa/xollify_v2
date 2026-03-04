@@ -75,6 +75,68 @@ def item_selector(price_data: list[dict], label: str = 'Item'):
     return item
 
 
+def price_element(item: str, item_details: dict, store: dict[str, str]):
+    """ Renders a single price element for the given item """
+    st.metric(
+        label=f":blue[{store['chain_alias']} - {store['store_name']}]",
+        label_visibility='visible',
+        value=(
+            f"₪ {item_details.get('ItemPrice', 'N/A')}"
+        ),
+    )
+
+    st.space()
+
+
+def promo_element(chain: SupermarketChain, promo: dict):
+    """ Renders a single promo element according to reward type"""
+    # Dispatcher
+    PROMO_RENDERERS = {
+        '1': render_quantity_discount,
+        '2': render_percentage_discount,
+        '3': render_percentage_discount,
+        '6': render_quantity_discount,
+        '10': render_quantity_discount,
+    }
+    # Get reward type and corresponding handler
+    reward_type = promo.get('RewardType')
+    handler = PROMO_RENDERERS.get(reward_type, None)
+    # Call handler if exists
+    handler(chain, promo)
+
+
+def render_quantity_discount(chain: SupermarketChain, promo: dict):
+    """ Renders a single promo element with reward type 1"""
+    st.markdown(f"**{promo.get('PromotionDescription', 'N/A')}**")
+    st.metric(
+        label="Promotion Price",
+        value=f"{promo.get('DiscountedPrice', 'N/A')} NIS",
+    )
+    st.write(f"- Minimum Quantity: {promo.get('MinQty', 'N/A')}")
+    st.write(f"- Maximum Quantity: {promo.get('MaxQty', 'N/A')}")
+    st.write(f"- Minimum Purchase: {promo.get('MinPurchaseAmnt', 'N/A')}")
+    st.write(f"- Target Customers: {chain.promo_audience(promo)}")
+    st.write(f"- Valid Until: {promo.get('PromotionEndDate', 'N/A')}")
+    st.divider()
+
+
+def render_percentage_discount(chain: SupermarketChain, promo: dict):
+    """ Renders a single promo element with reward type 2"""
+    st.markdown(f"**{promo.get('PromotionDescription', 'N/A')}**")
+    st.metric(
+        label="Promotion Discount",
+        value=f"{int(promo.get('DiscountRate')) / 100}%",
+    )
+    st.write(f"- Minimum Quantity: {promo.get('MinQty', 'N/A')}")
+    st.write(f"- Maximum Quantity: {promo.get('MaxQty', 'N/A')}")
+    st.write(f"- Target Customers: {chain.promo_audience(promo)}")
+    st.write(f"- Valid Until: {promo.get('PromotionEndDate', 'N/A')}")
+    st.divider()
+
+
+
+
+
 def home_store_selector(stores: list[dict]):
     """ Radio widget to select home store """
     idx = st.radio(label='Select',

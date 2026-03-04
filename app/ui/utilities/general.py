@@ -4,6 +4,19 @@ from common.pipeline.fresh_price_promo import get_stores_price_data, get_stores_
 from backend.services.async_runner import run_async
 
 
+def make_store_key(store: dict[str, str], key_type: str = 'price') -> str:
+    """ Make price or promo key for home store """
+    return f'{str(store['chain_code'])}_{str(store['store_code'])}_{key_type}_data'
+
+
+def sorted_stores() -> list[dict]:
+    """ Sort the list of stores with home store first """
+    home_store = st.session_state.db.get('home_store').get('value')
+    stores = st.session_state.db.get('stores', []).get('value', [])
+    return sorted(stores, key=lambda s: s['chain_code'] != home_store['chain_code']
+                                        or s['store_code'] != home_store['store_code'])
+
+
 def remove_home_store_from_db(stores: list[dict]):
     """ Remove home store from session_state / indexedDB if store not in stores """
     # Get the home store dict (None if not exist)
