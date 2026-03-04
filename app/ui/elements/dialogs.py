@@ -10,14 +10,14 @@ def get_home_store():
                 text_alignment='center')
 
     try:
-        current = st.session_state.db.get(item_id='stores')['value']
-        if current is None:
-            current = []
+        stores = st.session_state.db.get(item_id='stores')['value']
+        if stores is None:
+            stores = []
     except TypeError as e:
         # TypeError -> current is None =>
-        current = []
+        stores = []
     # Radio to display selected stores
-    home_store = home_store_selector()
+    home_store = home_store_selector(stores=stores)
     # If user selected - show button
     if home_store:
         if st.button(label='Submit', width='stretch'):

@@ -85,5 +85,6 @@ def home_store_selector(stores: list[dict]):
                    index=None
                    )
     # Return the dict at index idx
-    return stores[idx]
+    if idx:
+        return stores[idx]
 

@@ -13,15 +13,15 @@ def reorganize_data(edited_data: list[dict]):
     """ Reorganize data after edit by user """
     keys_to_remove = ["delete", ]
     # Remove keys and remove rows with delete=True
-    data = [
+    stores = [
         {k: v for k, v in d.items() if k not in keys_to_remove}
         for d in edited_data
         if not d.get("delete", False)
     ]
     # Remove home store if removed from selected stores
-    remove_home_store_from_db()
+    remove_home_store_from_db(stores=stores)
     # Save updated stores data to session_state and indexedDB
-    st.session_state.db.put(item_id='stores', value=data)
+    st.session_state.db.put(item_id='stores', value=stores)
     # Rerun app
     st.rerun()
 

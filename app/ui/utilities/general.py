@@ -2,7 +2,6 @@ import streamlit as st
 
 from common.pipeline.fresh_price_promo import get_stores_price_data, get_stores_promo_data
 from backend.services.async_runner import run_async
-from ui.elements.dialogs import get_home_store
 
 
 def remove_home_store_from_db(stores: list[dict]):
@@ -19,20 +18,15 @@ def remove_home_store_from_db(stores: list[dict]):
 def check_stores_selected():
     """ Test to make sure at least one store selected """
     # Get stores / display message if no stores
-    try:
-        stores = st.session_state.db.get(item_id='stores')['value']
-        if not stores:
-            stores = []
-    except TypeError as e:
-        stores = []
-    # If no stores:
+    stores = st.session_state.db.get(item_id='stores')
     if not stores:
         return False
     else:
-        return True
+        if stores['value']:
+            return True
 
 
-def home_store():
+def check_home_store():
     """ Check if home store exist and if not display dialog """
     if st.session_state.db.get(item_id='home_store'):
         return True
