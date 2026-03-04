@@ -5,6 +5,17 @@ from backend.services.async_runner import run_async
 from ui.elements.dialogs import get_home_store
 
 
+def remove_home_store_from_db(stores: list[dict]):
+    """ Remove home store from session_state / indexedDB if store not in stores """
+    # Get the home store dict (None if not exist)
+    home_store = st.session_state.db.get(item_id='home_store')
+    if not home_store:
+        return
+    if home_store['value'] not in stores:
+        st.session_state.db.delete(item_id='home_store')
+        return
+
+
 def check_stores_selected():
     """ Test to make sure at least one store selected """
     # Get stores / display message if no stores

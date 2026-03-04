@@ -1,5 +1,7 @@
 import streamlit as st
 
+from ui.elements.dynamic import home_store_selector
+
 
 @st.dialog(title=':material/home: Select Your "Home Store"', dismissible=False)
 def get_home_store():
@@ -15,15 +17,7 @@ def get_home_store():
         # TypeError -> current is None =>
         current = []
     # Radio to display selected stores
-    home_store = st.radio(label='Select',
-                          label_visibility='hidden',
-                          options=[f"{d['chain_code']}_{d['store_code']}" for d in current],
-                          format_func=lambda x: next(f"{d['chain_alias']} - {d['store_name']}"
-                                                     for d in current
-                                                     if d['chain_code'] == x.split('_')[0]
-                                                     if d['store_code'] == x.split('_')[1]),
-                          index=None
-                          )
+    home_store = home_store_selector()
     # If user selected - show button
     if home_store:
         if st.button(label='Submit', width='stretch'):

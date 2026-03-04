@@ -1,7 +1,6 @@
 import streamlit as st
 
-from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
-                                    upstash_get_value, upstash_delete_key)
+from ui.utilities.general import remove_home_store_from_db
 from ui.elements.dynamic import chain_selector, store_selector
 
 
@@ -19,6 +18,8 @@ def reorganize_data(edited_data: list[dict]):
         for d in edited_data
         if not d.get("delete", False)
     ]
+    # Remove home store if removed from selected stores
+    remove_home_store_from_db()
     # Save updated stores data to session_state and indexedDB
     st.session_state.db.put(item_id='stores', value=data)
     # Rerun app

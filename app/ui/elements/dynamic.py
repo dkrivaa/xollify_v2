@@ -57,3 +57,33 @@ def store_selector(chain_code: str):
     # Return store_code for selected store
     return store, store_name
 
+
+def item_selector(price_data: list[dict], label: str = 'Item'):
+    """ Widget to select item from price data """
+    options = [d['ItemCode'] for d in price_data]
+
+    item = st.selectbox(
+        label=f':material/search: {label}',
+        placeholder='Select Item',
+        options=sorted(options, key=int),
+        format_func=lambda x: f"{x} - {next(d.get('ItemName') or d.get('ItemNm') for d in price_data
+                                            if d['ItemCode'] == x)}",
+        index=None,
+        key='item_selector'
+    )
+
+    return item
+
+
+def home_store_selector(stores: list[dict]):
+    """ Radio widget to select home store """
+    idx = st.radio(label='Select',
+                   label_visibility='hidden',
+                   options=list(range(len(stores))),
+                   format_func=lambda x: f"{stores[x].get('chain_alias')} - "
+                                         f"{stores[x].get('store_name')}",
+                   index=None
+                   )
+    # Return the dict at index idx
+    return stores[idx]
+

@@ -1,6 +1,6 @@
 import streamlit as st
 
-from ui.views.general import check_stores_selected, home_store, store_data_for_selected_stores
+from ui.utilities.general import check_stores_selected, home_store, store_data_for_selected_stores
 from ui.elements.dialogs import get_home_store
 from ui.elements.static import no_stores_selected
 
@@ -28,7 +28,7 @@ def items_section_element():
         store_data_for_selected_stores(stores=stores)
         st.session_state._data_loaded = True
 
-    st.write('Data Saved')
+    st.write(st.session_state)
 
 
 
