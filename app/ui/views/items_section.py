@@ -32,14 +32,15 @@ def items_section_element():
             item_dict = next((d for d in price_data if d['ItemCode'] == item), {})
 
             if not item_dict:
-                item_dict = get_item_dict_from_db(item)
-                st.write(item_dict)
-                break
+                original_dict = get_item_dict_from_db(item)
+                alternative_item_dict = function(original_dict)
+
 
             # Display price element
             price_element(item=item, item_details=item_dict, store=store)
 
             with st.expander(label=':material/money_off: Promotions'):
+                # Get promo data for store
                 promo_data = data_for_store_from_db(store=store, data_type='promo')
                 promos_for_item = relevant_promos_for_item(promo_data, item)
 
