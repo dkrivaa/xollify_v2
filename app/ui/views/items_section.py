@@ -13,8 +13,6 @@ def items_section_element():
     # Checks of user selections (stores and home store) and data
     enforce_workflow()
 
-
-
     # Get data for item selector (from home store)
     store = st.session_state.db.get('home_store').get('value', [])
     price_data = data_for_store_from_db(store=store)
