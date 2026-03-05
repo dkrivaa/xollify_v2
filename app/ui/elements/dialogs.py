@@ -29,7 +29,7 @@ def get_home_store():
             st.rerun()
 
 
-@st.dialog(title=':material/compare_arrows: Item not found')
+@st.dialog(title=':material/compare_arrows: Item not found', dismissible=False)
 def alternative_dialog(price_data: list[dict], input_dict: dict, store: dict, alt_key: str):
     """
     Dialog to get alternative product
@@ -43,7 +43,8 @@ def alternative_dialog(price_data: list[dict], input_dict: dict, store: dict, al
     alternatives = run_async(get_alternatives, all_products=price_data, input_product=input_dict)
 
     with st.form(key='Alternative'):
-        st.write('Suggested Alternatives')
+        st.subheader(f":blue[{store['chain_alias']} - {store['store_name']}]")
+        st.write('Suggested Alternatives:')
         alt_item = st.radio(label='Select',
                             options=[d['ItemCode'] for d in alternatives],
                             format_func=lambda x: (
@@ -54,7 +55,7 @@ def alternative_dialog(price_data: list[dict], input_dict: dict, store: dict, al
 
 
 
-        submit = st.form_submit_button('Submit', disabled=not alt_item)
+        submit = st.form_submit_button('Submit', )
 
     if submit:
         # Enter selected item

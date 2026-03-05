@@ -43,7 +43,8 @@ def items_section_element():
             if not item_dict:
                 # Check if user already selected an alternative for this store
                 alt_key = f"alt_{store_key}_{item}"
-                alt_item = st.session_state.db.get(alt_key)
+                alt_item_id = st.session_state.db.get(alt_key, {})
+                alt_item = alt_item_id.get('value', None)
 
                 if alt_item:
                     # Use alternative item selected in previous rerun
