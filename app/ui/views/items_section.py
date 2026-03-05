@@ -32,8 +32,6 @@ def items_section_element():
             # Get price data for store
             price_data = data_for_store_from_db(store=store)
 
-
-
             # Get item dict from price data for selected item
             item_dict = next((d for d in price_data if d['ItemCode'] == item), {})
 
@@ -66,7 +64,7 @@ def items_section_element():
                         st.rerun()
 
             # Display price element
-            price_element(item=effective_item, item_details=item_dict, store=store)
+            price_element(item=effective_item, item_details=item_dict, store=store, delta=effective_item != item)
 
             with st.expander(label=':material/money_off: Promotions'):
                 # Get promo data for store

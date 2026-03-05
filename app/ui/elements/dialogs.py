@@ -2,7 +2,7 @@ import streamlit as st
 
 from backend.services.async_runner import run_async
 from backend.agent.alternative_product import get_alternatives
-from ui.elements.dynamic import home_store_selector
+from ui.elements.dynamic import home_store_selector, item_selector
 
 
 @st.dialog(title=':material/home: Select Your "Home Store"', dismissible=False)
@@ -39,27 +39,36 @@ def alternative_dialog(price_data: list[dict], input_dict: dict, store: dict, al
         store - the store dict for store that needs alternative item
         alt_key - key to store the alternative in session_state and indexedDB
     """
+    st.subheader('Item:')
+    st.write(f'{input_dict.get("ItemName") or input_dict.get("ItemNm")}')
+
     # Get alternative items
     alternatives = run_async(get_alternatives, all_products=price_data, input_product=input_dict)
 
     with st.form(key='Alternative'):
         st.subheader(f":blue[{store['chain_alias']} - {store['store_name']}]")
         st.write('Suggested Alternatives:')
-        alt_item = st.radio(label='Select',
-                            options=[d['ItemCode'] for d in alternatives],
-                            format_func=lambda x: (
-                               lambda d: f'₪{float(d["ItemPrice"]):.2f} - {d.get("ItemName") or d.get("ItemNm")}')
-                                        (next(d for d in alternatives if d["ItemCode"] == x)),
-                            index=None,
-                            )
+        suggested_alt_item = st.radio(label='Select',
+                                      options=[d['ItemCode'] for d in alternatives],
+                                      format_func=lambda x: (
+                                          lambda d: f'₪{float(d["ItemPrice"]):.2f} - '
+                                                    f'{d.get("ItemName") or d.get("ItemNm")}')
+                                          (next(d for d in alternatives if d["ItemCode"] == x)),
+                                      index=None,
+                                      )
 
+        st.divider()
 
+        st.write('Search For Alternative:')
+        selected_alt_item = item_selector(price_data, key='dialog_item_selector')
+
+        st.space()
 
         submit = st.form_submit_button('Submit', )
 
     if submit:
         # Enter selected item
-        st.session_state.db.put(item_id=alt_key, value=alt_item)
+        st.session_state.db.put(item_id=alt_key, value=suggested_alt_item)
 
         # Reset flag to show alternative dialog
         st.session_state.db.put(item_id='alternative_flag', value=False)

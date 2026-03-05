@@ -59,7 +59,7 @@ def store_selector(chain_code: str):
     return store, store_name
 
 
-def item_selector(price_data: list[dict], label: str = 'Item'):
+def item_selector(price_data: list[dict], label: str = 'Item', key: str = 'item_selector'):
     """ Widget to select item from price data """
     options = [d['ItemCode'] for d in price_data]
 
@@ -70,20 +70,21 @@ def item_selector(price_data: list[dict], label: str = 'Item'):
         format_func=lambda x: f"{x} - {next(d.get('ItemName') or d.get('ItemNm') for d in price_data
                                             if d['ItemCode'] == x)}",
         index=None,
-        key='item_selector'
+        key=key
     )
 
     return item
 
 
-def price_element(item: str, item_details: dict, store: dict[str, str]):
+def price_element(item: str, item_details: dict, store: dict[str, str], delta: bool = False):
     """ Renders a single price element for the given item """
     st.metric(
         label=f":blue[{store['chain_alias']} - {store['store_name']}]",
         label_visibility='visible',
-        value=(
-            f"₪ {item_details.get('ItemPrice', 'N/A')}"
-        ),
+        value=(f"₪ {item_details.get('ItemPrice', 'N/A')}"),
+        delta=f"{item} - {item_details.get('ItemName') or item_details.get('ItemNm')}" if delta else None,
+        delta_arrow='off',
+        delta_color='yellow'
     )
 
     st.space()
