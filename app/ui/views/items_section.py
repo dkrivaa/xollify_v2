@@ -33,7 +33,7 @@ def items_section_element():
 
             if not item_dict:
                 original_dict = get_item_dict_from_db(item)
-                alternative_item_dict = function(original_dict)
+                # alternative_item_dict = function(original_dict)
 
 
             # Display price element

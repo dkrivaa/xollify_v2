@@ -49,7 +49,8 @@ def store_selector(chain_code: str):
         options=sorted([s['store_code'] for s in stores], key=lambda x: int(x)),
         format_func=lambda x: f'{x} - {next(s['store_name'] for s in stores if s['store_code'] == x)}',
         index=None,
-        key='store_selector'
+        key='store_selector',
+        disabled=not chain_code
     )
 
     store_name = next(s['store_name'] for s in stores if s['store_code'] == store) if store else None
@@ -147,6 +148,6 @@ def home_store_selector(stores: list[dict]):
                    index=None
                    )
     # Return the dict at index idx
-    if idx:
+    if idx is not None:
         return stores[idx]
 

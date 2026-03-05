@@ -11,7 +11,7 @@ def get_home_store():
 
     try:
         stores = st.session_state.db.get(item_id='stores')['value']
-        if stores is None:
+        if not stores:
             stores = []
     except TypeError as e:
         # TypeError -> current is None =>

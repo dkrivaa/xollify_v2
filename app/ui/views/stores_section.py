@@ -39,29 +39,34 @@ def stores_section_element():
             if chain_code:
                 # Show store selector for selected chain
                 store_code, store_name = store_selector(chain_code)
-                if store_code:
-                    # Add store to session_state and upstash
-                    if st.button(label='Add Store',
-                                 icon=':material/add_business:',
-                                 icon_position='left',
-                                 width='stretch',
-                                 key='add_store_button'):
-                        # Enter new store into session_state and indexedDB
-                        try:
-                            current = st.session_state.db.get(item_id='stores')['value']
-                            if current is None:
-                                current = []
-                        except TypeError as e:
-                            # TypeError -> current is None =>
+                # if store_code:
+                # Add store to session_state and upstash
+                if st.button(label='Add Store',
+                             icon=':material/add_business:',
+                             icon_position='left',
+                             width='stretch',
+                             key='add_store_button',
+                             disabled=not store_code):
+                    # Enter new store into session_state and indexedDB
+                    try:
+                        current = st.session_state.db.get(item_id='stores')['value']
+                        if not current:
                             current = []
-                        # Add new store
-                        current.append({'chain_code': chain_code,
-                                        'chain_alias': chain_alias,
-                                        'store_code': store_code,
-                                        'store_name': store_name})
+                    except TypeError as e:
+                        # TypeError -> current is None =>
+                        current = []
+                    # Add new store if not in list already
+                    new_store = {'chain_code': chain_code,
+                                 'chain_alias': chain_alias,
+                                 'store_code': store_code,
+                                 'store_name': store_name}
+                    if new_store not in current:
+                        current.append(new_store)
                         # Enter all stores into session_state and indexedDB
                         st.session_state.db.put(item_id='stores', value=current)
-                        # Reset flag to clear selectboxes
+                        # Delete present home store
+                        st.session_state.db.delete(item_id='home_store')
+                        # Reset flag to clear select boxes
                         st.session_state['reset_selectors_flag'] = True
                         st.rerun()
 
