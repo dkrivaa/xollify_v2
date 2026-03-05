@@ -157,6 +157,7 @@ class SupermarketChain:
             '1': 'Club Members',
             '2': 'Creditcart Holders',
             '3': 'Other / Unspecified',
+            '5': 'Other / Unspecified'
         }
         return audiences[promo.get('Clubs').get('ClubId', 'Unspecified')]
 
