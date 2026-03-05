@@ -1,6 +1,6 @@
 # For streamlit cloud
-import subprocess
-subprocess.run(["playwright", "install", "chromium"], check=True)
+# import subprocess
+# subprocess.run(["playwright", "install", "chromium"], check=True)
 
 # For streamlit on local
 import sys
