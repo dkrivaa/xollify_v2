@@ -4,6 +4,31 @@ from common.pipeline.fresh_price_promo import get_stores_price_data, get_stores_
 from backend.services.async_runner import run_async
 
 
+def apply_responsive_layout():
+    # CSS across app on top of each page
+    st.markdown("""
+    <style>
+        /* Centered + max-width on desktop, full wide on mobile */
+        @media (min-width: 768px) {
+            .block-container {
+                max-width: 860px !important;
+                margin: 0 auto !important;
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .block-container {
+                max-width: 100% !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
 def make_store_key(store: dict[str, str], key_type: str = 'price') -> str:
     """ Make price or promo key for home store """
     return f'{str(store['chain_code'])}_{str(store['store_code'])}_{key_type}_data'

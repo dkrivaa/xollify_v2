@@ -4,6 +4,7 @@ from common.utilities.supermarkets import get_chain_from_code
 from backend.db.crud.items import item_details
 from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
                                     upstash_get_value, upstash_delete_key)
+from ui.utilities.general import apply_responsive_layout
 from ui.elements.static import logo
 from ui.elements.dynamic import chain_selector, store_selector
 from ui.views.stores_section import stores_section_element
@@ -12,6 +13,8 @@ from ui.views.items_section import items_section_element
 
 def render():
     """ Function to render home page """
+    apply_responsive_layout()
+
     # Reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
         st.session_state['chain_selector'] = None
