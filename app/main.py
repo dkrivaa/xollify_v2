@@ -41,6 +41,8 @@ init_session()
 from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB("XollifyDB", "data")
+    st.session_state.db.init()
+    st.session_state.db.recover_if_needed()
 
 
 

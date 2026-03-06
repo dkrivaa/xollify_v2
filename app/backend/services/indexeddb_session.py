@@ -96,3 +96,12 @@ class SessionIndexedDB:
             self._cache_clear()
         else:
             self._cache_delete(item_id)
+
+    def recover_if_needed(self) -> bool:
+        if not self._cache:
+            records = self._idb.get_all()
+            if records:
+                for record in records:
+                    self._cache_set(record["id"], record)
+                return True
+        return False
