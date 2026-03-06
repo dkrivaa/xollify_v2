@@ -18,7 +18,7 @@ def items_section_element():
     price_data = data_for_store_from_db(store=store)
     # Display item selector
     item = item_selector(price_data=price_data)
-    do_alternatives = st.checkbox(label='When item N/A, Select alternative item?')
+    do_alternatives = st.checkbox(label='When item N/A, select alternative item?')
     st.space()
 
     # Show results
