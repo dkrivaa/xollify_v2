@@ -46,6 +46,43 @@ if "db" not in st.session_state:
 # </style>
 # """, unsafe_allow_html=True)
 
+# 2️⃣ Global CSS (place it here)
+st.markdown("""
+<style>
+
+/* Reduce overall page padding */
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 0rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Reduce vertical spacing between elements */
+div[data-testid="stVerticalBlock"] > div {
+    gap: 0.5rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+
+    /* Hide sidebar on phones */
+    section[data-testid="stSidebar"] {
+        display: none;
+    }
+
+    /* Even tighter spacing on phones */
+    .block-container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
     title='Xollify',
