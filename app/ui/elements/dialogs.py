@@ -57,32 +57,33 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
     alternatives = run_async(get_alternatives, all_products=price_data, input_product=input_dict)
 
     with st.form(key='Alternative'):
-        st.subheader(f":blue[{store['chain_alias']} - {store['store_name']}]")
-        st.write('Suggested Alternatives:')
-        suggested_alt_item = st.radio(label='Select',
-                                      options=[d['ItemCode'] for d in alternatives],
-                                      format_func=lambda x: (
-                                          lambda d: f'₪{float(d["ItemPrice"]):.2f} - '
-                                                    f'{d.get("ItemName") or d.get("ItemNm")}')
-                                          (next(d for d in alternatives if d["ItemCode"] == x)),
-                                      index=None,
-                                      )
+        with st.container():
+            st.subheader(f":blue[{store['chain_alias']} - {store['store_name']}]")
+            st.write('Suggested Alternatives:')
+            suggested_alt_item = st.radio(label='Select',
+                                          options=[d['ItemCode'] for d in alternatives],
+                                          format_func=lambda x: (
+                                              lambda d: f'₪{float(d["ItemPrice"]):.2f} - '
+                                                        f'{d.get("ItemName") or d.get("ItemNm")}')
+                                              (next(d for d in alternatives if d["ItemCode"] == x)),
+                                          index=None,
+                                          )
 
-        st.divider()
+            st.divider()
 
-        st.write('Search For Alternative:')
-        searched_alt_item = item_selector(price_data, key='dialog_item_selector')
-        # Add quantity select if shopping
-        if shoppinglist:
-            new_quantity = st.number_input(label='Change Quantity',
-                                           min_value=0.0,
-                                           step=0.5,
-                                           value=None,
-                                           icon=':material/bucket_check:',
-                                           placeholder='Enter quantity')
-        st.space()
+            st.write('Search For Alternative:')
+            searched_alt_item = item_selector(price_data, key='dialog_item_selector')
+            # Add quantity select if shopping
+            if shoppinglist:
+                new_quantity = st.number_input(label='Change Quantity',
+                                               min_value=0.0,
+                                               step=0.5,
+                                               value=None,
+                                               icon=':material/bucket_check:',
+                                               placeholder='Enter quantity')
+            st.space()
 
-        submit = st.form_submit_button('Submit', )
+            submit = st.form_submit_button('Submit', )
 
     if submit:
         # Enter selected item
