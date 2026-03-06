@@ -86,13 +86,30 @@ div[data-testid="stVerticalBlock"] > div {
 st.markdown("""
 <style>
 
+/* Pills container */
+div[data-testid="stPills"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    gap: 0.4rem;
+    padding-bottom: 0.2rem;
+}
+
+/* Individual pills */
 div[data-testid="stPills"] button {
-    flex: 1;
+    flex: 0 0 auto;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Hide scroll bar (mobile friendly) */
+div[data-testid="stPills"]::-webkit-scrollbar {
+    display: none;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
