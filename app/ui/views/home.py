@@ -29,7 +29,8 @@ def render():
     st.space()
 
     if not navigation_selection:
-        st.write('More Test')
+        with st.container():
+            st.write('More Test')
 
     else:
 
