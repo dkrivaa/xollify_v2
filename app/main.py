@@ -37,14 +37,14 @@ if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB("XollifyDB", "data")
 
 # 2. CSS across app
-st.markdown("""
-<style>
-    @media (max-width: 768px) {
-        .block-container {padding: 1rem;}
-        .stButton > button {width: 100%;}
-    }
-</style>
-""", unsafe_allow_html=True)
+# st.markdown("""
+# <style>
+#     @media (max-width: 768px) {
+#         .block-container {padding: 1rem;}
+#         .stButton > button {width: 100%;}
+#     }
+# </style>
+# """, unsafe_allow_html=True)
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
