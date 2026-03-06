@@ -29,8 +29,19 @@ def get_home_store():
             st.rerun()
 
 
+def selected_item(alternatives: list[dict], suggested_alt_item: str, searched_alt_item: str):
+    """ Helper to get user selection of alternative item. If user didn't select, first alternative """
+    if searched_alt_item:
+        return searched_alt_item
+    elif suggested_alt_item:
+        return suggested_alt_item
+    else:
+        return alternatives[0].get('ItemCode')
+
+
 @st.dialog(title=':material/compare_arrows: Item not found', dismissible=False)
-def alternative_dialog(price_data: list[dict], input_dict: dict, store: dict, alt_key: str):
+def alternative_dialog(price_data: list[dict], input_dict: dict,
+                       store: dict, alt_key: str, shoppinglist: bool = False):
     """
     Dialog to get alternative product
     Params:
@@ -60,15 +71,23 @@ def alternative_dialog(price_data: list[dict], input_dict: dict, store: dict, al
         st.divider()
 
         st.write('Search For Alternative:')
-        selected_alt_item = item_selector(price_data, key='dialog_item_selector')
-
+        searched_alt_item = item_selector(price_data, key='dialog_item_selector')
+        # Add quantity select if shopping
+        if shoppinglist:
+            new_quantity = st.number_input(label='Change Quantity',
+                                           min_value=0.0,
+                                           step=0.5,
+                                           value=None,
+                                           icon=':material/bucket_check:',
+                                           placeholder='Enter quantity')
         st.space()
 
         submit = st.form_submit_button('Submit', )
 
     if submit:
         # Enter selected item
-        st.session_state.db.put(item_id=alt_key, value=suggested_alt_item)
+        selection = selected_item(alternatives, suggested_alt_item, searched_alt_item)
+        st.session_state.db.put(item_id=alt_key, value=selection)
 
         # Reset flag to show alternative dialog
         st.session_state.db.put(item_id='alternative_flag', value=False)
