@@ -82,6 +82,17 @@ div[data-testid="stVerticalBlock"] > div {
 </style>
 """, unsafe_allow_html=True)
 
+# Pills
+st.markdown("""
+<style>
+
+div[data-testid="stPills"] button {
+    flex: 1;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
