@@ -13,7 +13,8 @@ from ui.views.items_section import items_section_element
 
 def render():
     """ Function to render home page """
-    apply_responsive_layout()
+    # Apply layout
+    # apply_responsive_layout()
 
     # Reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
