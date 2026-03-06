@@ -25,10 +25,15 @@ def render():
     navigation_selection = navigation_section()
     st.space()
 
-    if navigation_selection == 1:
-        stores_section_element()
-    if navigation_selection == 2:
-        items_section_element()
+    if not navigation_selection:
+        st.write('Test')
+
+    else:
+
+        if navigation_selection == 1:
+            stores_section_element()
+        if navigation_selection == 2:
+            items_section_element()
 
 
 def navigation_section():
