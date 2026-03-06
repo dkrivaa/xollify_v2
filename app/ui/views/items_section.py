@@ -80,6 +80,8 @@ def items_section_element():
                 if promos_for_item:
                     for p in promos_for_item:
                         promo_element(chain, p)
+                elif not do_alternatives and effective_item != item:
+                    st.info('No promotions found for this item')
                 else:
                     st.info('No promotions found for this item')
 
