@@ -43,24 +43,23 @@ st.markdown("""
 <style>
 
 /* Pills container */
-div[data-testid="stPills"] {
+div[data-testid="stPills"] [role="radiogroup"] {
     flex-wrap: nowrap !important;
     overflow-x: auto;
+    display: flex;
     gap: 0.4rem;
-    padding-bottom: 0.2rem;
 }
 
 /* Individual pills */
 div[data-testid="stPills"] button {
     flex: 0 0 auto;
+    white-space: nowrap;
     border-radius: 20px;
     padding: 6px 14px;
-    font-weight: 500;
-    white-space: nowrap;
 }
 
-/* Hide scroll bar (mobile friendly) */
-div[data-testid="stPills"]::-webkit-scrollbar {
+/* Hide scrollbar (mobile) */
+div[data-testid="stPills"] [role="radiogroup"]::-webkit-scrollbar {
     display: none;
 }
 
