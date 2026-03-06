@@ -23,7 +23,7 @@ initialize_backend()
 
 # st.set_page_config - Set the configuration of the Streamlit page
 st.set_page_config(
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="collapsed"
 )
 
