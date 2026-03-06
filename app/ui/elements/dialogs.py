@@ -5,7 +5,7 @@ from backend.agent.alternative_product import get_alternatives
 from ui.elements.dynamic import home_store_selector, item_selector
 
 
-@st.dialog(title=':material/home: Select Your "Home Store"', dismissible=False)
+@st.dialog(title=':material/home: Select "Home Store"', dismissible=False)
 def get_home_store():
     """ Dialog function to get 'Home Store """
     st.markdown(body='The "Home Store" is used to select items for your shopping '
