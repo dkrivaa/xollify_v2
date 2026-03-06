@@ -29,7 +29,7 @@ initialize_backend()
 # # Define layout for mobile ("wide") and desktop ("centered")
 # layout: Literal["centered", "wide"] = "wide" if (screen_width and screen_width < 768) else "centered"
 st.set_page_config(
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="collapsed"
 )
 
