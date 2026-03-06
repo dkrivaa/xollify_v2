@@ -55,7 +55,7 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
 
     # Get alternative items
     alternatives = run_async(get_alternatives, all_products=price_data, input_product=input_dict)
-
+    st.write(alternatives)
     with st.form(key='Alternative'):
         st.subheader(f":blue[{store['chain_alias']} - {store['store_name']}]")
         st.write('Suggested Alternatives:')
