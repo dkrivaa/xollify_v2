@@ -14,6 +14,8 @@ if sys.platform == 'win32':
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
+from streamlit_js_eval import streamlit_js_eval
+from typing import Literal
 
 
 # STARTUP CODE TO RUN APP ###########
@@ -22,8 +24,12 @@ from common.bootstrap import initialize_backend
 initialize_backend()
 
 # st.set_page_config - Set the configuration of the Streamlit page
+# Get screen size
+screen_width = streamlit_js_eval(js_expressions="window.innerWidth", key="sw")
+# Define layout for mobile ("wide") and desktop ("centered")
+layout: Literal["centered", "wide"] = "wide" if (screen_width and screen_width < 768) else "centered"
 st.set_page_config(
-    layout="wide",
+    layout=layout,
     initial_sidebar_state="collapsed"
 )
 
@@ -37,32 +43,21 @@ if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB("XollifyDB", "data")
 
 # 2. CSS across app
-
-# Pills
 st.markdown("""
 <style>
+    .block-container { max-width: 100% !important; padding: 1rem; }
 
-/* Pills container */
-div[data-testid="stPills"] [role="radiogroup"] {
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    display: flex;
-    gap: 0.4rem;
-}
+    /* This alone handles most reflow automatically */
+    [data-testid="column"] {
+        min-width: min(100%, 300px) !important;
+        flex-wrap: wrap !important;
+    }
 
-/* Individual pills */
-div[data-testid="stPills"] button {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    border-radius: 20px;
-    padding: 6px 14px;
-}
-
-/* Hide scrollbar (mobile) */
-div[data-testid="stPills"] [role="radiogroup"]::-webkit-scrollbar {
-    display: none;
-}
-
+    @media (max-width: 768px) {
+        [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; }
+        .stButton > button { width: 100%; }
+        .stDataFrame, .stTable { overflow-x: auto; }
+    }
 </style>
 """, unsafe_allow_html=True)
 
