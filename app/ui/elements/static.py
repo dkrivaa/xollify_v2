@@ -7,8 +7,6 @@ def logo():
              width='stretch',
              text_alignment='center')
 
-    st.divider()
-
 
 def no_stores_selected():
     """ Show message if no stores are selected """

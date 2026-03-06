@@ -26,6 +26,7 @@ def render():
 
     # Navigation menu
     navigation_selection = navigation_section()
+    st.divider()
     st.space()
 
     if not navigation_selection:
