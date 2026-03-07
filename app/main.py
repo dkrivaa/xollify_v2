@@ -42,16 +42,7 @@ from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB("XollifyDB", "data")
     st.session_state.db.init()
-    st.session_state.recovered = False
 
-if not st.session_state.recovered:
-    recovered = st.session_state.db.recover_if_needed()
-    records = st.session_state.db._idb.get_all()
-    st.write(f"raw get_all: {records}")
-    st.write(f"recovered: {recovered}, cache: {st.session_state.db._cache}")
-    if recovered:
-        st.session_state.recovered = True
-        st.rerun()
 
 
 
