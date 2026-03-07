@@ -20,38 +20,42 @@ from typing import Literal
 
 
 # STARTUP CODE TO RUN APP ###########
-# Initialize all chains
-
-
+# Set page configuration for all pages in app
 st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
 # Initialize upstash and assign user unique sid
-st.write("checkpoint 1")
-
 from backend.services.redis import init_session
 sid = init_session()
-
-st.write("checkpoint 2")
-
+# Initialize all chains
 from common.bootstrap import initialize_backend
 initialize_backend()
 
-st.write("checkpoint 3")
-
-
-
-# Initialize IndexedDB
+# Initialize IndexedDB and db in session_state
 from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
+    # Set flag for session_state.db
+    st.session_state.db_ready = False
 
-st.write(f"cache key: {st.session_state.db._cache_key}")
-st.write(f"cache key in session_state: {st.session_state.db._cache_key in st.session_state}")
-st.write(f"cache contents: {st.session_state.db._cache}")
+# Handling session_state.db not ready
+if not st.session_state.db_ready:
+    # Get all from browser indexedDB
+    records = st.session_state.db._idb.get_all()
+    # Before js resolved
+    if records is None:
+        st.stop()    # Stop execution. When js resolves it invokes rerun
+    # js resolved - records are either [] (because new user session) and so it correctly skip the following
+    # or has data (ex. after mobile lock) => gets data from indexedDB and adds to session_state
+    if records:
+        # Add to session_state
+        for record in records:
+            st.session_state.db._cache_set(record["id"], record)
+    # Reset flag for session_state.db
+    st.session_state.db_ready = True
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
