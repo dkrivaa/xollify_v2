@@ -13,13 +13,9 @@ from ui.views.items_section import items_section_element
 
 def render():
     """ Function to render home page """
-    st.write("home checkpoint 1")
-    if st.button("test"):
-        st.write("clicked")
-
     # # Apply layout
     # # apply_responsive_layout()
-    #
+
     # Reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
         st.session_state['chain_selector'] = None
@@ -38,7 +34,7 @@ def render():
             st.write('More Test with container')
 
     else:
-
+        # Show relevant section element
         if navigation_selection == 1:
             stores_section_element()
         if navigation_selection == 2:
