@@ -39,7 +39,7 @@ st.write(f"db in session_state: {'db' in st.session_state}")
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
-    st.session_state.db = SessionIndexedDB(f"XollifyDB", "data")
+    st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
 
 st.write(f"cache key: {st.session_state.db._cache_key}")
