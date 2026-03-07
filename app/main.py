@@ -1,6 +1,9 @@
+import streamlit as st
 # For streamlit cloud
 import subprocess
-subprocess.run(["playwright", "install", "chromium"], check=True)
+if "playwright_installed" not in st.session_state:
+    subprocess.run(["playwright", "install", "chromium"], check=True)
+    st.session_state.playwright_installed = True
 
 # For streamlit on local
 import sys
@@ -13,7 +16,7 @@ if sys.platform == 'win32':
 # Organizing the paths so streamlit can find secrets.toml on local
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import streamlit as st
+
 from streamlit_js_eval import streamlit_js_eval
 from typing import Literal
 
