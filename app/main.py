@@ -35,12 +35,12 @@ st.set_page_config(
 
 # Initialize upstash and assign user unique sid
 from backend.services.redis import init_session
-init_session()
+sid = init_session()
 
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
-    st.session_state.db = SessionIndexedDB("XollifyDB", "data")
+    st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
 
 st.session_state.db.recover_if_needed()
