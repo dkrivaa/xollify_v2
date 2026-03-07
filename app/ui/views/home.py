@@ -25,7 +25,6 @@ def render():
     # Add logo at top of page
     logo()
 
-    # st.write(st.session_state.db.get_all())
     # Navigation menu
     navigation_selection = navigation_section()
     st.space()
