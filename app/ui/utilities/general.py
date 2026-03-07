@@ -89,7 +89,7 @@ def get_stores_missing_data(stores: list[dict]) -> list[dict]:
         if stores_to_fetch:
             store_data_for_selected_stores(stores_to_fetch)
     """
-    cache = st.session_state.get("_idb_cache_XollifyDB_data", {})
+    cache = st.session_state.db._cache
     missing = []
 
     for store in stores:
@@ -123,7 +123,7 @@ def remove_stale_store_data(stores: list[dict]) -> None:
         valid_keys.add(f"{chain_code}_{store_code}_promo_data")
 
     # Get all keys from both cache and IndexedDB
-    cache = st.session_state.get("_idb_cache_XollifyDB_data", {})
+    cache = st.session_state.db._cache
     cache_keys = set(cache.keys())
     idb_keys = set(st.session_state.db.get_all_keys())
 
