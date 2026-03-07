@@ -5,6 +5,7 @@ from ui.utilities.general import get_stores_missing_data, store_data_for_selecte
 from ui.elements.static import no_stores_selected
 from ui.elements.dialogs import get_home_store
 
+
 class WorkflowStep(Enum):
     """ Class of workflow steps that need to be met """
     NO_STORES = auto()            # No stores selected

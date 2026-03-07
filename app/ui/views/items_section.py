@@ -4,7 +4,6 @@ from common.core.super_class import SupermarketChain
 from ui.utilities.workflow import enforce_workflow
 from ui.utilities.items import data_for_store_from_db, relevant_promos_for_item, get_item_dict_from_db
 from ui.utilities.general import sorted_stores
-from ui.utilities.workflow import WorkflowStep
 from ui.elements.dynamic import item_selector, price_element, promo_element
 from ui.elements.dialogs import alternative_dialog
 
@@ -12,7 +11,7 @@ from ui.elements.dialogs import alternative_dialog
 def items_section_element():
     """ Section to show item details """
     # Checks of user selections (stores and home store) and data
-    enforce_workflow(required=WorkflowStep.NO_DATA)
+    enforce_workflow()
 
     # Get data for item selector (from home store)
     store = st.session_state.db.get('home_store').get('value', [])
