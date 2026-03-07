@@ -28,6 +28,10 @@ def reorganize_data(edited_data: list[dict]):
 
 def stores_section_element():
     """ Section to select stores of interest """
+
+    st.write(f"cache: {st.session_state.db._cache}")
+    st.write(f"cache key: {st.session_state.db._cache_key}")
+
     with st.container(border=True):
         # Define tabs
         tab1, tab2 = st.tabs(['Select Store', 'Selected Stores'])
