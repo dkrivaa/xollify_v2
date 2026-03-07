@@ -32,8 +32,7 @@ st.set_page_config(
 from backend.services.redis import init_session
 sid = init_session()
 st.write(f'sid: {sid}')
-
-
+st.write(f"query_params: {st.query_params}")
 
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB

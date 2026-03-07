@@ -28,7 +28,6 @@ def reorganize_data(edited_data: list[dict]):
 
 def stores_section_element():
     """ Section to select stores of interest """
-    st.write(f"query_params: {st.query_params}")
     with st.container(border=True):
         # Define tabs
         tab1, tab2 = st.tabs(['Select Store', 'Selected Stores'])
