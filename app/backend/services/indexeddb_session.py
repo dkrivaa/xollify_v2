@@ -54,6 +54,8 @@ class SessionIndexedDB:
     def get(self, item_id: str, default: Any = None) -> dict | Any:
         if item_id in self._cache:
             return self._cache[item_id]
+        if st.session_state.get("db_ready"):
+            return default  # cache is authoritative after startup
         record = self._idb.get(item_id)
         if record is not None:
             self._cache_set(item_id, record)
