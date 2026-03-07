@@ -15,7 +15,7 @@ def render():
     """ Function to render home page """
     # # Apply layout
     # # apply_responsive_layout()
-
+    st.write(st.session_state)
     # Reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
         st.session_state['chain_selector'] = None
