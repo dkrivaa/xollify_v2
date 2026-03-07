@@ -36,6 +36,7 @@ st.set_page_config(
 # Initialize upstash and assign user unique sid
 from backend.services.redis import init_session
 sid = init_session()
+st.write(f'sid: {sid}')
 
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB
