@@ -43,6 +43,8 @@ if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB("XollifyDB", "data")
     st.session_state.db.init()
     # st.session_state.db.recover_if_needed()
+records = st.session_state.db._idb.get_all()
+st.write(f"raw get_all: {records}")
 recovered = st.session_state.db.recover_if_needed()
 st.write(f"recovered: {recovered}, cache: {st.session_state.db._cache}")
 
