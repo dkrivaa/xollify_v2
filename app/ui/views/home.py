@@ -29,10 +29,10 @@ def render():
     # Add logo at top of page
     logo()
 
-    # # Navigation menu
-    # navigation_selection = navigation_section()
-    # st.space()
-    #
+    # Navigation menu
+    navigation_selection = navigation_section()
+    st.space()
+
     # if not navigation_selection:
     #     with st.container():
     #         st.write('More Test with container')
