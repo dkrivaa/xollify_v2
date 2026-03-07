@@ -73,7 +73,6 @@ def stores_section_element():
         # Manage stores selected
         with tab2:
             data = st.session_state.db.get(item_id='stores')
-            st.write(data)
 
             if data:
                 organized_data = make_data_for_editor(data.get('value'))
