@@ -128,14 +128,15 @@ def remove_stale_store_data(stores: list[dict]) -> None:
     # Get all keys from both cache and IndexedDB
     cache = st.session_state.db._cache
     cache_keys = set(cache.keys())
-    idb_keys = set(st.session_state.db.get_all_keys())
+    # idb_keys = set(st.session_state.db.get_all_keys())
 
-    # Union — covers stale keys in either location
-    all_known_keys = cache_keys | idb_keys
+    # # Union — covers stale keys in either location
+    # all_known_keys = cache_keys | idb_keys
 
     # Only consider keys that are store price/promo data — ignore everything else
     store_data_keys = {
-        key for key in all_known_keys
+        # key for key in all_known_keys
+        key for key in cache.keys()
         if key.endswith("_price_data") or key.endswith("_promo_data")
     }
 
