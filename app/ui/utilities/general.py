@@ -99,10 +99,13 @@ def get_stores_missing_data(stores: list[dict]) -> list[dict]:
         price_key = f"{chain_code}_{store_code}_price_data"
         promo_key = f"{chain_code}_{store_code}_promo_data"
 
-        price_present = price_key in cache or st.session_state.db.exists(item_id=price_key)
-        promo_present = promo_key in cache or st.session_state.db.exists(item_id=promo_key)
+        # price_present = price_key in cache or st.session_state.db.exists(item_id=price_key)
+        # promo_present = promo_key in cache or st.session_state.db.exists(item_id=promo_key)
+        #
+        # if not price_present or not promo_present:
+        #     missing.append(store)
 
-        if not price_present or not promo_present:
+        if price_key not in cache or promo_key not in cache:
             missing.append(store)
 
     return missing
