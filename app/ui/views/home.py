@@ -1,6 +1,7 @@
 import streamlit as st
 
 from common.utilities.supermarkets import get_chain_from_code
+from common.core.super_class import SupermarketChain
 from backend.db.crud.items import item_details
 from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
                                     upstash_get_value, upstash_delete_key)
@@ -16,6 +17,7 @@ def render():
     # # Apply layout
     # # apply_responsive_layout()
     st.write(st.session_state)
+    st.write(SupermarketChain.registry)
     # Reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
         st.session_state['chain_selector'] = None
