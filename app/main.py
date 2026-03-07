@@ -45,10 +45,18 @@ if "db" not in st.session_state:
     if "db" not in st.session_state:
         st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
         st.session_state.db.init()
-        st.session_state.db.recover_if_needed()
 
-st.write(st.session_state)
+# Wait for JS to resolve before allowing pages to run
+records = st.session_state.db._idb.get_all()
+if records is None:
+    st.stop()  # JS not resolved yet, wait
 
+# Populate cache if empty (fresh start or mobile lock recovery)
+if not st.session_state.db._cache:
+    if records:  # mobile lock recovery
+        for record in records:
+            st.session_state.db._cache_set(record["id"], record)
+    # if records is [] → genuine fresh start, cache stays empty
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
