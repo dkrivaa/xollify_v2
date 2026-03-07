@@ -30,11 +30,14 @@ st.set_page_config(
 )
 
 # Initialize upstash and assign user unique sid
+st.write("checkpoint 1")
+
 from backend.services.redis import init_session
-st.write(f"query_params before init: {dict(st.query_params)}")
 sid = init_session()
-st.write(f"sid after init: {sid}")
-st.write(f"db in session_state: {'db' in st.session_state}")
+
+st.write("checkpoint 2")
+
+
 
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB
