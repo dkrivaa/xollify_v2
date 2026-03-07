@@ -13,6 +13,7 @@ from ui.views.items_section import items_section_element
 
 def render():
     """ Function to render home page """
+    st.write("home checkpoint 1")
     # Apply layout
     # apply_responsive_layout()
 
