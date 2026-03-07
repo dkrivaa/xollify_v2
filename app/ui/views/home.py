@@ -14,32 +14,35 @@ from ui.views.items_section import items_section_element
 def render():
     """ Function to render home page """
     st.write("home checkpoint 1")
-    # Apply layout
-    # apply_responsive_layout()
+    if st.button("test"):
+        st.write("clicked")
 
-    # Reset selectors (after a store has been selected)
-    if st.session_state.get('reset_selectors_flag', False):
-        st.session_state['chain_selector'] = None
-        st.session_state['store_selector'] = None
-        st.session_state['reset_selectors_flag'] = False
-
-    # Add logo at top of page
-    logo()
-
-    # Navigation menu
-    navigation_selection = navigation_section()
-    st.space()
-
-    if not navigation_selection:
-        with st.container():
-            st.write('More Test with container')
-
-    else:
-
-        if navigation_selection == 1:
-            stores_section_element()
-        if navigation_selection == 2:
-            items_section_element()
+    # # Apply layout
+    # # apply_responsive_layout()
+    #
+    # # Reset selectors (after a store has been selected)
+    # if st.session_state.get('reset_selectors_flag', False):
+    #     st.session_state['chain_selector'] = None
+    #     st.session_state['store_selector'] = None
+    #     st.session_state['reset_selectors_flag'] = False
+    #
+    # # Add logo at top of page
+    # logo()
+    #
+    # # Navigation menu
+    # navigation_selection = navigation_section()
+    # st.space()
+    #
+    # if not navigation_selection:
+    #     with st.container():
+    #         st.write('More Test with container')
+    #
+    # else:
+    #
+    #     if navigation_selection == 1:
+    #         stores_section_element()
+    #     if navigation_selection == 2:
+    #         items_section_element()
 
 
 def navigation_section():
