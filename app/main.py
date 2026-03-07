@@ -43,7 +43,8 @@ from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
-
+    # Pre-populate cache immediately
+    st.session_state.db.get_all()
     # st.session_state.db.recover_if_needed()
 
 
