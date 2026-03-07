@@ -11,16 +11,11 @@ def init_session():
     Assign UUID to user session if not already assigned.
     The user session is used to identify user data in upstash.
     """
-    # if "sid" not in st.query_params:
-    #     st.query_params["sid"] = str(uuid.uuid4())
-    #     st.rerun()
-    # return st.query_params["sid"]
-    st.write(f"query_params in init: {dict(st.query_params)}")
     if "sid" not in st.query_params:
-        st.write("sid NOT FOUND - generating new one")
         st.query_params["sid"] = str(uuid.uuid4())
         st.rerun()
     return st.query_params["sid"]
+
 
 
 def redis_client_params():
