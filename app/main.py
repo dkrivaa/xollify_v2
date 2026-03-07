@@ -42,6 +42,9 @@ if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB", "data")
     st.session_state.db.init()
 
+st.write(f"cache key: {st.session_state.db._cache_key}")
+st.write(f"cache key in session_state: {st.session_state.db._cache_key in st.session_state}")
+st.write(f"cache contents: {st.session_state.db._cache}")
 
 # PAGE DEFINITIONS ###########
 home_page = st.Page(
