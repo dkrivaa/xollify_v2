@@ -39,6 +39,9 @@ sid = init_session()
 st.write(f'sid: {sid}')
 st.write(st.session_state)
 
+if "db" not in st.session_state:
+    st.stop()
+
 # Initialize IndexedDB
 # from backend.services.indexeddb_session import SessionIndexedDB
 # if "db" not in st.session_state:
