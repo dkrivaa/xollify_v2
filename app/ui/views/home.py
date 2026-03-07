@@ -20,12 +20,12 @@ def render():
     # # Apply layout
     # # apply_responsive_layout()
     #
-    # # Reset selectors (after a store has been selected)
-    # if st.session_state.get('reset_selectors_flag', False):
-    #     st.session_state['chain_selector'] = None
-    #     st.session_state['store_selector'] = None
-    #     st.session_state['reset_selectors_flag'] = False
-    #
+    # Reset selectors (after a store has been selected)
+    if st.session_state.get('reset_selectors_flag', False):
+        st.session_state['chain_selector'] = None
+        st.session_state['store_selector'] = None
+        st.session_state['reset_selectors_flag'] = False
+
     # # Add logo at top of page
     # logo()
     #
