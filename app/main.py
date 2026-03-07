@@ -1,9 +1,7 @@
-import streamlit as st
+
 # For streamlit cloud
 import subprocess
-if "playwright_installed" not in st.session_state:
-    subprocess.run(["playwright", "install", "chromium"], check=True)
-    st.session_state.playwright_installed = True
+subprocess.run(["playwright", "install", "chromium"], check=True)
 
 # For streamlit on local
 import sys
@@ -16,7 +14,7 @@ if sys.platform == 'win32':
 # Organizing the paths so streamlit can find secrets.toml on local
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
+import streamlit as st
 from streamlit_js_eval import streamlit_js_eval
 from typing import Literal
 
@@ -41,7 +39,7 @@ st.write(f"db in session_state: {'db' in st.session_state}")
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
-    st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
+    st.session_state.db = SessionIndexedDB(f"XollifyDB", "data")
     st.session_state.db.init()
 
 
