@@ -37,7 +37,7 @@ st.write(f'sid: {sid}')
 # Initialize IndexedDB
 from backend.services.indexeddb_session import SessionIndexedDB
 if "db" not in st.session_state:
-    st.session_state.db = SessionIndexedDB(f"XollifyDB", "data")
+    st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
 
 
