@@ -11,7 +11,7 @@ from ui.elements.dialogs import alternative_dialog
 def items_section_element():
     """ Section to show item details """
     # Checks of user selections (stores and home store) and data
-    # enforce_workflow()
+    enforce_workflow()
     st.write(st.session_state)
     # Get data for item selector (from home store)
     store = st.session_state.db.get('home_store').get('value', [])
