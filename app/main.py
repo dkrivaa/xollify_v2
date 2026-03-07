@@ -37,21 +37,22 @@ st.set_page_config(
 from backend.services.redis import init_session
 sid = init_session()
 st.write(f'sid: {sid}')
+st.write(st.session_state)
 
 # Initialize IndexedDB
-from backend.services.indexeddb_session import SessionIndexedDB
-if "db" not in st.session_state:
-    st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
-    st.session_state.db.init()
-    st.session_state.db_ready = False
-
-if not st.session_state.db_ready:
-    records = st.session_state.db._idb.get_all()
-    if records is not None:  # JS resolved (even if empty list)
-        for record in records:
-            st.session_state.db._cache_set(record["id"], record)
-        st.session_state.db_ready = True
-    st.stop()  # don't render anything until db is ready
+# from backend.services.indexeddb_session import SessionIndexedDB
+# if "db" not in st.session_state:
+#     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
+#     st.session_state.db.init()
+#     st.session_state.db_ready = False
+#
+# if not st.session_state.db_ready:
+#     records = st.session_state.db._idb.get_all()
+#     if records is not None:  # JS resolved (even if empty list)
+#         for record in records:
+#             st.session_state.db._cache_set(record["id"], record)
+#         st.session_state.db_ready = True
+#     st.stop()  # don't render anything until db is ready
 
 
 
