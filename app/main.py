@@ -21,8 +21,7 @@ from typing import Literal
 
 # STARTUP CODE TO RUN APP ###########
 # Initialize all chains
-from common.bootstrap import initialize_backend
-initialize_backend()
+
 
 st.set_page_config(
     layout="centered",
@@ -36,6 +35,11 @@ from backend.services.redis import init_session
 sid = init_session()
 
 st.write("checkpoint 2")
+
+from common.bootstrap import initialize_backend
+initialize_backend()
+
+st.write("checkpoint 3")
 
 
 
