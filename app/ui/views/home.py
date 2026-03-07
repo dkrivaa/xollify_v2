@@ -33,10 +33,10 @@ def render():
     navigation_selection = navigation_section()
     st.space()
 
-    # if not navigation_selection:
-    #     with st.container():
-    #         st.write('More Test with container')
-    #
+    if not navigation_selection:
+        with st.container():
+            st.write('More Test with container')
+
     # else:
     #
     #     if navigation_selection == 1:
