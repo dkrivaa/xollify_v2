@@ -68,7 +68,7 @@ def stores_section_element():
                         st.session_state.db.delete(item_id='home_store')
                         # Reset flag to clear select boxes
                         st.session_state['reset_selectors_flag'] = True
-                        st.rerun()
+                        # st.rerun()
 
         # Manage stores selected
         with tab2:
