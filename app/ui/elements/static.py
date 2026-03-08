@@ -12,7 +12,7 @@ def logo():
 
 def explanation():
     """ Popover with explanation of app """
-    with st.popover(label='Learn more', icon=':material/arrow_right_alt:', type='tertiary', ):
+    with st.popover(label='Learn more', type='tertiary', ):
         st.write('This is a test')
 
 
