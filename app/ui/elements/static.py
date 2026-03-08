@@ -12,7 +12,8 @@ def logo():
 
 def explanation():
     """ Popover with explanation of app """
-    st.popover(label='Learn more', icon=':material/arrow_right_alt:', type='tertiary', disabled=False)
+    with st.popover(label='Learn more', icon=':material/arrow_right_alt:', type='tertiary', ):
+        st.write('This is a test')
 
 
 def no_stores_selected():
