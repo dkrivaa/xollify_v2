@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
-from backend.db.crud.supabase import get_database_url
+from backend.db.supabase import get_database_url
 from ui.utilities.upload import InventoryFileHandler
 
 

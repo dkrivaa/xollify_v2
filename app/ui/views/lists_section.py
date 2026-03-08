@@ -4,7 +4,6 @@ from ui.utilities.workflow import enforce_workflow
 from ui.utilities.lists import read_uploaded_file
 
 
-
 def lists_section_element():
     """ Section to show shoppinglist section """
     # Checks of user selections (stores and home store) and data
