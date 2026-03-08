@@ -27,6 +27,7 @@ def render():
 
     # Navigation menu
     navigation_selection = navigation_section()
+    st.button(label='Learn more', icon=':material/arrow_right_alt', icon_position='right')
     st.space()
 
     if not navigation_selection:
