@@ -13,7 +13,7 @@ def logo():
 def explanation():
     """ Popover with explanation of app """
     with st.popover(label='Learn more', type='tertiary', ):
-        st.mark
+        st.subheader(body=':yellow[Xollify]', text_alignment='center')
 
 
 def no_stores_selected():
