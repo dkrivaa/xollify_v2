@@ -13,7 +13,7 @@ def logo():
 def explanation():
     """ Popover with explanation of app """
     with st.popover(label='Learn more', type='tertiary', ):
-        st.write('This is a test')
+        st.mark
 
 
 def no_stores_selected():

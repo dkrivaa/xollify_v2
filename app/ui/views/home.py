@@ -50,7 +50,7 @@ def navigation_section():
         pills_map = {
             1: ':material/add_business: Stores',
             2: ':material/add_shopping_cart: Items',
-            3: ':material/list: List'
+            3: ':material/list: Lists'
         }
 
         section_selection = st.pills(label='Set up system',
