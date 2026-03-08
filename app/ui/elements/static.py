@@ -10,6 +10,12 @@ def logo():
     st.divider()
 
 
+def explanation():
+    """ Popover with explanation of app """
+    st.popover(label='Learn more', icon=':material/arrow_right_alt:', icon_position='right',
+               type='tertiary', key='explanation_key')
+
+
 def no_stores_selected():
     """ Show message if no stores are selected """
     with st.container(border=True):
