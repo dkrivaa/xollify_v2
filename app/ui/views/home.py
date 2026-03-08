@@ -9,6 +9,7 @@ from ui.elements.static import logo, explanation
 from ui.elements.dynamic import chain_selector, store_selector
 from ui.views.stores_section import stores_section_element
 from ui.views.items_section import items_section_element
+from ui.views.lists_section import lists_section_element
 
 
 def render():
@@ -37,6 +38,8 @@ def render():
         stores_section_element()
     if navigation_selection == 2:
         items_section_element()
+    if navigation_selection == 3:
+        lists_section_element()
 
 
 def navigation_section():
