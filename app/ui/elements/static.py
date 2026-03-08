@@ -12,8 +12,7 @@ def logo():
 
 def explanation():
     """ Popover with explanation of app """
-    st.popover(label='Learn more', icon=':material/arrow_right_alt:', type='tertiary',
-               key='explanation_key')
+    st.popover(label='Learn more', icon=':material/arrow_right_alt:', type='tertiary',key='explanation')
 
 
 def no_stores_selected():
