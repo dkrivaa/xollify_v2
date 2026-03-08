@@ -45,9 +45,9 @@ def navigation_section():
     """ Navigation section at top of page """
     with st.container():
         pills_map = {
-            1: ':material/add_business: Select Stores',
-            2: ':material/add_shopping_cart: Compare Items',
-            3: ':material/list: Shopping List'
+            1: ':material/add_business: Stores',
+            2: ':material/add_shopping_cart: Items',
+            3: ':material/list: List'
         }
 
         section_selection = st.segmented_control(label='Set up system',
