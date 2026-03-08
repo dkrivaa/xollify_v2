@@ -50,7 +50,7 @@ def navigation_section():
             3: ':material/list: Shopping List'
         }
 
-        section_selection = st.pills(label='Set up system',
+        section_selection = st.segmented_control(label='Set up system',
                                      label_visibility='hidden',
                                      options=[k for k, v in pills_map.items()],
                                      format_func=lambda x: pills_map[x],
