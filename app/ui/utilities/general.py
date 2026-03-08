@@ -173,3 +173,4 @@ def store_data_for_selected_stores(stores: list[dict]):
                 for d in promo_data if d
             ]
             st.session_state.db.put_many(items)
+
