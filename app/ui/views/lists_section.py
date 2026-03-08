@@ -8,6 +8,8 @@ def lists_section_element():
     # Checks of user selections (stores and home store) and data
     enforce_workflow()
 
-    tab1, tab2, tab3 = st.tabs([":green[Upload Shopping List]",
-                                ":green[Make / Add to Shopping List]",
-                                ":green[See Items in List]"])
+    tab1, tab2, tab3 = st.tabs([":green[:material/upload: Upload List]",
+                                ":green[:material/add_shopping_list: Make/Add to List]",
+                                ":green[:material/visibility: See List]"])
+
+
