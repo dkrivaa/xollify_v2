@@ -27,8 +27,10 @@ def lists_section_element():
             items_list = read_uploaded_file(uploaded_file)
             # Add to uploader_counter - clear upload widget when rerun
             st.session_state.uploader_counter += 1
-
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_id='items_list', value=items_list)
 
+        # Message
+        if st.session_state.db.get(item_id='items_list')['value']:
+            st.success('File uploaded')
 
