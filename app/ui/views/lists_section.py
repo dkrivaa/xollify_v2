@@ -39,6 +39,7 @@ def lists_section_element():
                 and st.session_state.db.get(item_id='items_list', default={})):
             st.success('Shopping list uploaded successfully. To add or edit the list - '
                        'goto "Make/Edit Shopping List"')
+            st.session_state['show_upload_message'] = False
 
 
 
