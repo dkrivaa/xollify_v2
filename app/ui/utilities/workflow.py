@@ -72,7 +72,7 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
         if state == WorkflowStep.NO_DATA:
             stores = st.session_state.db.get(item_id='stores').get('value', [])
             store_data_for_selected_stores(stores)
-            st.rerun()
+            # st.rerun()
 
     return True
 
