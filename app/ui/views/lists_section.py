@@ -20,7 +20,8 @@ def lists_section_element():
         if uploaded_file:
             # Read uploaded file and return items_list - {item_code: code, quantity: int}
             items_list = read_uploaded_file(uploaded_file)
-            st.write('items_list', items_list)
+            if not items_list:
+                st.write('items_list', items_list)
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_it='items_list', value=items_list)
 
