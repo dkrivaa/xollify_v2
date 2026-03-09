@@ -19,7 +19,7 @@ def read_uploaded_file(uploaded_file: UploadedFile) -> list[dict]:
 
     if not detected.is_valid:
         st.error("Could not detect barcode and quantity columns.")
-        st.stop()
+        # st.stop()
 
     if result.not_found:
         st.warning(f"{len(result.not_found)} barcodes not found in DB:")
