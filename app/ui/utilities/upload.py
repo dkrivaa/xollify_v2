@@ -119,7 +119,7 @@ class ColumnDetector:
             if sample is None:
                 continue
             scores[col] = {
-                "barcode": self._score(sample, BARCODE_PATTERNS, self.barcode_min_ratio),
+                "barcode": self._score_barcode(sample),
                 "quantity": self._score(sample, QUANTITY_PATTERNS, self.quantity_min_ratio),
             }
 
@@ -147,10 +147,39 @@ class ColumnDetector:
         return s if len(s) > 0 else None
 
     def _score(self, sample: pd.Series, patterns: list[Pattern], min_ratio: float) -> float:
+        """
+            For barcodes: if ANY value matches a strong pattern (EAN-13, UPC-A, EAN-8),
+            the column is a barcode candidate — don't require a minimum ratio.
+            For quantity: still requires min_ratio match across the sample.
+            """
         for p in patterns:
             ratio = sample.str.match(p.regex).mean()
             if ratio >= min_ratio:
                 return p.confidence * ratio
+        return 0.0
+
+    # Separate method for barcode-specific scoring
+    def _score_barcode(self, sample: pd.Series) -> float:
+        """
+        A column qualifies as barcodes if:
+        - At least one value matches a strong barcode pattern (anchor), OR
+        - Most values match the generic numeric pattern
+        """
+        STRONG_PATTERNS = [
+            p for p in BARCODE_PATTERNS
+            if p.description in ("EAN-13", "UPC-A", "EAN-8")
+        ]
+
+        # If even one value matches a strong pattern — this is a barcode column
+        for p in STRONG_PATTERNS:
+            if sample.str.match(p.regex).any():
+                return p.confidence  # anchor found, high confidence
+
+        # Fall back to checking if most values are numeric (any length)
+        numeric_ratio = pd.to_numeric(sample, errors="coerce").notna().mean()
+        if numeric_ratio >= 0.60:
+            return 0.70  # weak signal — numeric but no strong barcode found
+
         return 0.0
 
     def _best(
