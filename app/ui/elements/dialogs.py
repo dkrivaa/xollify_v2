@@ -26,6 +26,7 @@ def get_home_store():
         if st.button(label='Submit', width='stretch'):
             # if submit - enter selection into session_state and indexedDB
             st.session_state.db.put(item_id='home_store', value=home_store)
+            st.rerun()
 
 
 def selected_item(alternatives: list[dict], suggested_alt_item: str, searched_alt_item: str):
