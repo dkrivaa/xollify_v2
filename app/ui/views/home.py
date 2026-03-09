@@ -27,7 +27,7 @@ def render():
     # Explanation of app
     explanation()
 
-    if st.session_state.get(item_id='stores'):
+    if st.session_state.db.get(item_id='stores'):
         stores = select_home_store(st.session_state.get(item_id='stores').get('value', []))
         home = select_home_store(stores)
         st.write(home)
