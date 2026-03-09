@@ -17,11 +17,7 @@ def render():
     # # Apply layout
     # # apply_responsive_layout()
     st.write(st.session_state)
-    # Reset selectors (after a store has been selected)
-    if st.session_state.get('reset_selectors_flag', False):
-        st.session_state['chain_selector'] = None
-        st.session_state['store_selector'] = None
-        st.session_state['reset_selectors_flag'] = False
+
 
     # Add logo at top of page
     logo()
@@ -35,6 +31,12 @@ def render():
 
     # Show relevant section element
     if navigation_selection == 1:
+        # Reset selectors (after a store has been selected)
+        if st.session_state.get('reset_selectors_flag', False):
+            st.session_state['chain_selector'] = None
+            st.session_state['store_selector'] = None
+            st.session_state['reset_selectors_flag'] = False
+
         stores_section_element()
     if navigation_selection == 2:
         items_section_element()
