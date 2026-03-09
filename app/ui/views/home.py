@@ -28,8 +28,11 @@ def render():
     explanation()
 
     if st.session_state.db.get(item_id='stores'):
-        home = select_home_store(st.session_state.db.get(item_id='stores').get('value', []))
-        st.write(home)
+        stores = st.session_state.db.get(item_id='stores').get('value', [])
+        if len(stores) > 1:
+            home = select_home_store()
+            st.write(home)
+            st.session_state.db.put(item_id='home_store', value=home)
 
     st.space()
 
