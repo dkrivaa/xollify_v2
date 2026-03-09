@@ -32,5 +32,5 @@ def lists_section_element():
 
         # Message
         if st.session_state.db.get(item_id='items_list')['value']:
-            st.success('File uploaded')
+            st.success("File uploaded successfully. Go to 'See List'")
 
