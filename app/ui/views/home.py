@@ -29,8 +29,6 @@ def render():
 
     if st.session_state.db.get(item_id='stores'):
         stores = st.session_state.db.get(item_id='stores').get('value', [])
-        if len(stores) == 1:
-            st.session_state.db.put(item_id='home_store', value=stores[0])
 
         if len(stores) > 1:
             home = select_home_store(stores)
