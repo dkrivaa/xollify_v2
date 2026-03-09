@@ -20,7 +20,6 @@ def lists_section_element():
         if uploaded_file:
             items_list = read_uploaded_file(uploaded_file)
             st.write(items_list)
-            st.write(type(items_list[0]['quantity']))
 
 
 
