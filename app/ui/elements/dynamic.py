@@ -153,6 +153,7 @@ def home_store_selector(stores: list[dict]):
         return stores[idx]
 
 
+@st.fragment
 def select_home_store(stores: list[dict]):
 
     with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
@@ -169,7 +170,7 @@ def select_home_store(stores: list[dict]):
                        index=None
                        )
 
-        st.markdown('Press anywhere to close box')
+        st.markdown('Press anywhere to close this box')
     # Return the dict at index idx
     if idx is not None:
         return stores[idx]
