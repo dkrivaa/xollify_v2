@@ -9,10 +9,6 @@ def lists_section_element():
     # Checks of user selections (stores and home store) and data
     enforce_workflow()
 
-    # init message flag
-    if 'show_upload_message' not in st.session_state:
-        st.session_state['show_upload_message'] = False
-
     tab1, tab2 = st.tabs([":green[:material/upload: Upload Shopping List]",
                           ":green[:material/visibility: Make/Edit Shopping List]",])
 
@@ -34,12 +30,7 @@ def lists_section_element():
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_id='items_list', value=items_list)
 
-        # Message
-        if (st.session_state['show_upload_message']
-                and st.session_state.db.get(item_id='items_list', default={})):
-            st.success('Shopping list uploaded successfully. To add or edit the list - '
-                       'goto "Make/Edit Shopping List"')
-            st.session_state['show_upload_message'] = False
+
 
 
 
