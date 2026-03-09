@@ -152,3 +152,16 @@ def home_store_selector(stores: list[dict]):
     if idx is not None:
         return stores[idx]
 
+
+def select_home_store(stores: list[dict]):
+    with st.popover(label='Select "Home Store"', type='tertiary'):
+        idx = st.radio(label='Select',
+                       label_visibility='hidden',
+                       options=list(range(len(stores))),
+                       format_func=lambda x: f"{stores[x].get('chain_alias')} - "
+                                             f"{stores[x].get('store_name')}",
+                       index=None
+                       )
+    # Return the dict at index idx
+    if idx is not None:
+        return stores[idx]
