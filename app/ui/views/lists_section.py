@@ -31,5 +31,6 @@ def lists_section_element():
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_id='items_list', value=items_list)
 
-        st.write(items_list)
+        if items_list:
+            st.write(items_list)
 
