@@ -61,7 +61,7 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
             stores = st.session_state.db.get(item_id='stores').get('value', [])
             if len(stores) == 1:
                 st.session_state.db.put(item_id='home_store', value=stores[0])
-                st.rerun()
+                # st.rerun()
             else:
                 # Show dialog
                 get_home_store()
