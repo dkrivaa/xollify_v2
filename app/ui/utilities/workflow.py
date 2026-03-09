@@ -64,7 +64,7 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
                 st.rerun()
             else:
                 # Show dialog
-                get_home_store()
+                get_home_store(stores)
                 st.stop()
 
     # Handling no price and promo data for stores
