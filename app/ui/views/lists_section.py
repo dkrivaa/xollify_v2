@@ -30,7 +30,7 @@ def lists_section_element():
             st.session_state.db.put(item_id='items_list', value=items_list)
 
             # Message
-            st.write(items_list)
+            st.write(st.session_state.db.get(item_id='items_list'))
 
 
 
