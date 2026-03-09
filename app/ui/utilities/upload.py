@@ -95,9 +95,15 @@ class DetectedColumns:
 
 
 class ColumnDetector:
-    def __init__(self, sample_size: int = 50, min_match_ratio: float = 0.85):
+    def __init__(
+        self,
+        sample_size: int = 50,
+        barcode_min_ratio: float = 0.85,
+        quantity_min_ratio: float = 0.60,  # ← lower — one bad label row shouldn't disqualify
+    ):
         self.sample_size = sample_size
-        self.min_match_ratio = min_match_ratio
+        self.barcode_min_ratio = barcode_min_ratio
+        self.quantity_min_ratio = quantity_min_ratio
 
     def detect(self, df: pd.DataFrame) -> DetectedColumns:
         scores: dict[str, dict[str, float]] = {}
@@ -107,8 +113,8 @@ class ColumnDetector:
             if sample is None:
                 continue
             scores[col] = {
-                "barcode": self._score(sample, BARCODE_PATTERNS),
-                "quantity": self._score(sample, QUANTITY_PATTERNS),
+                "barcode": self._score(sample, BARCODE_PATTERNS, self.barcode_min_ratio),
+                "quantity": self._score(sample, QUANTITY_PATTERNS, self.quantity_min_ratio),
             }
 
         barcode_col, barcode_conf = self._best(scores, "barcode")
@@ -134,10 +140,10 @@ class ColumnDetector:
         s = s[s != ""].head(self.sample_size)
         return s if len(s) > 0 else None
 
-    def _score(self, sample: pd.Series, patterns: list[Pattern]) -> float:
+    def _score(self, sample: pd.Series, patterns: list[Pattern], min_ratio: float) -> float:
         for p in patterns:
             ratio = sample.str.match(p.regex).mean()
-            if ratio >= self.min_match_ratio:
+            if ratio >= min_ratio:
                 return p.confidence * ratio
         return 0.0
 
