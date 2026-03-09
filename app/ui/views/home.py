@@ -29,7 +29,8 @@ def render():
 
     if st.session_state.get(item_id='stores'):
         stores = select_home_store(st.session_state.get(item_id='stores').get('value', []))
-        select_home_store(stores)
+        home = select_home_store(stores)
+        st.write(home)
 
     st.space()
 
