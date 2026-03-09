@@ -9,6 +9,10 @@ def lists_section_element():
     # Checks of user selections (stores and home store) and data
     enforce_workflow()
 
+    # init message flag
+    if 'show_upload_message' not in st.session_state:
+        st.session_state['show_upload_message'] = False
+
     tab1, tab2 = st.tabs([":green[:material/upload: Upload Shopping List]",
                           ":green[:material/visibility: Make/Edit Shopping List]",])
 
@@ -22,6 +26,7 @@ def lists_section_element():
                                          key=f'uploader_{st.session_state.uploader_counter}')
 
         if uploaded_file:
+            st.session_state['show_upload_message'] = True
             # Read uploaded file and return items_list - {item_code: code, quantity: int}
             items_list = read_uploaded_file(uploaded_file)
             # Add to uploader_counter - clear upload widget when rerun
@@ -30,7 +35,8 @@ def lists_section_element():
             st.session_state.db.put(item_id='items_list', value=items_list)
 
         # Message
-        if st.session_state.db.get(item_id='items_list', default={}):
+        if (st.session_state['show_upload_message']
+                and st.session_state.db.get(item_id='items_list', default={})):
             st.success('Shopping list uploaded successfully. To add or edit the list - '
                        'goto "Make/Edit Shopping List"')
 
