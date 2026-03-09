@@ -154,11 +154,13 @@ def home_store_selector(stores: list[dict]):
 
 
 def select_home_store(stores: list[dict]):
-    st.subheader(body=':material/home: Select "Home Store"')
-    st.markdown(body='The "Home Store" is used to select items for your shopping '
-                     'and should represent where you normally shop',
-                text_alignment='center')
+
     with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
+        st.subheader(body=':material/home: Select "Home Store"')
+        st.markdown(body='The "Home Store" is used to select items for your shopping '
+                         'and should represent where you normally shop',
+                    text_alignment='center')
+
         idx = st.radio(label='Select',
                        label_visibility='hidden',
                        options=list(range(len(stores))),
