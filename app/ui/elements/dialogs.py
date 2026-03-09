@@ -76,7 +76,7 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
                                                placeholder='Enter quantity')
             st.space()
 
-            submit = st.form_submit_button('Submit', )
+            submit = st.form_submit_button('Submit', width='stretch')
 
     if submit:
         # Enter selected item
