@@ -125,7 +125,7 @@ def remove_stale_store_data(stores: list[dict]) -> None:
         valid_keys.add(f"{chain_code}_{store_code}_price_data")
         valid_keys.add(f"{chain_code}_{store_code}_promo_data")
 
-    # Get all keys from both cache and IndexedDB
+    # Get all keys from cache and IndexedDB
     cache = st.session_state.db._cache
     cache_keys = set(cache.keys())
     # idb_keys = set(st.session_state.db.get_all_keys())
