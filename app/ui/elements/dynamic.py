@@ -154,23 +154,51 @@ def home_store_selector(stores: list[dict]):
 
 
 @st.fragment
-def select_home_store(stores: list[dict]):
+def select_home_store(stores: dict | None):
 
     with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
-        st.subheader(body=':material/home: Select "Home Store"')
-        st.markdown(body='The "Home Store" is used to select items for your shopping '
-                         'and should represent where you normally shop',
-                    text_alignment='center')
 
-        idx = st.radio(label='Select',
-                       label_visibility='hidden',
-                       options=list(range(len(stores))),
-                       format_func=lambda x: f"{stores[x].get('chain_alias')} - "
-                                             f"{stores[x].get('store_name')}",
-                       index=None
-                       )
+        if not stores:
+            st.subheader(body=':material/error: No stores selected',
+                         width='stretch',
+                         text_alignment='center')
+            st.markdown(body='Please select store/s',
+                        width='stretch',
+                        text_alignment='center')
+            st.markdown('Press anywhere to close this box',
+                        text_alignment='center')
+            return None
 
-        st.markdown('Press anywhere to close this box')
-    # Return the dict at index idx
-    if idx is not None:
-        return stores[idx]
+        else:
+            stores = stores.get('value')
+            if len(stores) == 1:
+                st.subheader(body=':material/home: Only one stores selected',
+                             width='stretch',
+                             text_alignment='center')
+                st.markdown(body='This will be your "Home Store" by default',
+                            width='stretch',
+                            text_alignment='center')
+                st.markdown('Press anywhere to close this box',
+                            text_alignment='center')
+                return stores[0]
+
+            if len(stores) > 1:
+                st.subheader(body=':material/home: Select "Home Store"')
+                st.markdown(body='The "Home Store" is used to select items for your shopping '
+                                 'and should represent where you normally shop',
+                            text_alignment='center')
+
+                idx = st.radio(label='Select',
+                               label_visibility='hidden',
+                               options=list(range(len(stores))),
+                               format_func=lambda x: f"{stores[x].get('chain_alias')} - "
+                                                     f"{stores[x].get('store_name')}",
+                               index=None
+                               )
+
+                st.markdown('Press anywhere to close this box')
+
+                # Return the dict at index idx
+                if idx is not None:
+                    return stores[idx]
+

@@ -27,13 +27,9 @@ def render():
     # Explanation of app
     explanation()
 
-    if st.session_state.db.get(item_id='stores'):
-        stores = st.session_state.db.get(item_id='stores').get('value', [])
-
-        if len(stores) > 1:
-            home = select_home_store(stores)
-            st.write(home)
-            st.session_state.db.put(item_id='home_store', value=home)
+    home = select_home_store(st.session_state.db.get(item_id='stores', default={}))
+    if home is not None:
+        st.session_state.db.put(item_id='home_store', value=home)
 
     st.space()
 
