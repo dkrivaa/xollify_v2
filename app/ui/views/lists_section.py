@@ -23,7 +23,7 @@ def lists_section_element():
             if not items_list:
                 st.write('items_list', items_list)
             # Enter items_list into session state and indexedDB
-            st.session_state.db.put(item_it='items_list', value=items_list)
+            st.session_state.db.put(item_id='items_list', value=items_list)
 
 
 
