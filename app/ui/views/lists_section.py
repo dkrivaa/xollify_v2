@@ -9,8 +9,8 @@ def lists_section_element():
     # Checks of user selections (stores and home store) and data
     enforce_workflow()
 
-    tab1, tab2 = st.tabs([":green[:material/upload: Upload List]",
-                                ":green[:material/visibility: Make/Edit List]",])
+    tab1, tab2 = st.tabs([":green[:material/upload: Upload Shopping List]",
+                          ":green[:material/visibility: Make/Edit Shopping List]",])
 
     with tab1:
         # Counter to clear file_upload after file read
