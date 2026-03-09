@@ -90,7 +90,8 @@ class DetectedColumns:
 
     @property
     def is_valid(self) -> bool:
-        return self.barcode_col is not None and self.quantity_col is not None
+        return self.barcode_col is not None  # quantity no longer required
+        # return self.barcode_col is not None and self.quantity_col is not None
 
 
 class ColumnDetector:
@@ -173,10 +174,12 @@ class InventoryRow(BaseModel):
     @field_validator("quantity", mode="before")
     @classmethod
     def parse_quantity(cls, v) -> int:
+        if v is None:
+            return 1
         try:
-            return int(float(str(v).strip()))  # handles "5.0" from Excel
+            return int(float(str(v).strip())) or 1  # also default if 0
         except (ValueError, TypeError):
-            raise ValueError(f"Cannot parse quantity: {v!r}")
+            return 1  # don't raise — just fall back to default
 
 
 # ---------------------------------------------------------------------------
@@ -285,14 +288,11 @@ class InventoryFileHandler:
             try:
                 item = InventoryRow(
                     barcode=row[detected.barcode_col],
-                    quantity=row[detected.quantity_col],
+                    quantity=row[detected.quantity_col] if detected.quantity_col else None,
                 )
                 format_valid.append((i, item))
             except Exception as e:
-                invalid_rows.append({
-                    "row": i + 2,   # +2: 1-indexed + header row
-                    "error": str(e),
-                })
+                invalid_rows.append({"row": i + 2, "error": str(e)})
 
         # One DB round-trip for all format-valid barcodes
         barcodes = [item.barcode for _, item in format_valid]
