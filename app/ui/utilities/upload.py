@@ -123,7 +123,11 @@ class ColumnDetector:
                 "quantity": self._score(sample, QUANTITY_PATTERNS, self.quantity_min_ratio),
             }
 
-        barcode_col, barcode_conf = self._best(scores, "barcode")
+        # Guard: a column that scores higher as quantity cannot be barcode
+        barcode_col, barcode_conf = self._best(
+            scores, "barcode",
+            exclude_if=lambda col: scores[col]["quantity"] >= scores[col]["barcode"]
+        )
         quantity_col, quantity_conf = self._best(scores, "quantity")
 
         # Edge case: same column won both — give quantity to next best
@@ -183,12 +187,18 @@ class ColumnDetector:
         return 0.0
 
     def _best(
-        self, scores: dict, field: str, exclude: str = None
+            self,
+            scores: dict,
+            field: str,
+            exclude: str = None,
+            exclude_if: callable = None,
     ) -> tuple[Optional[str], float]:
         candidates = {
             col: s[field]
             for col, s in scores.items()
-            if s[field] > 0 and col != exclude
+            if s[field] > 0
+               and col != exclude
+               and (exclude_if is None or not exclude_if(col))
         }
         if not candidates:
             return None, 0.0
