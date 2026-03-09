@@ -18,6 +18,7 @@ def get_home_store(stores: list[dict]):
     if home_store:
         if st.button(label='Submit', width='stretch'):
             # if submit - enter selection into session_state and indexedDB
+            st.write(home_store)
             st.session_state.db.put(item_id='home_store', value=home_store)
 
 
