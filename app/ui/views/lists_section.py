@@ -30,9 +30,5 @@ def lists_section_element():
             st.session_state.db.put(item_id='items_list', value=items_list)
 
         # Message
-        items_list_exist = st.session_state.db.get(item_id='items_list', default={})
-        if items_list_exist:
-            items_list = items_list_exist.get['value']
-            st.success(f"Shopping list uploaded successfully. Your list has {len(items_list)} items. "
-                       f"Go to 'Make/Edit Shopping List' to see list.")
+
 
