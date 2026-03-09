@@ -53,10 +53,16 @@ BARCODE_PATTERNS = [
         examples=["73513537", "40170725", "12345670"],
     ),
     Pattern(
-        regex=r"^\d{8,14}$",
-        confidence=0.90,
+        regex=r"^\d{6,14}$",  # ← was 8,14 — extended down to 6
+        confidence=0.88,
         description="generic numeric barcode",
-        examples=["123456789", "12345678901", "1234567890123"],
+        examples=["123456", "123456789", "12345678901", "1234567890123"],
+    ),
+    Pattern(
+        regex=r"^\d+\.\d+[eE][+\-]?\d+$",
+        confidence=0.88,
+        description="scientific notation barcode (Excel export)",
+        examples=["7.29E+12", "1.23456789E+11"],
     ),
 ]
 
@@ -98,7 +104,7 @@ class ColumnDetector:
     def __init__(
         self,
         sample_size: int = 50,
-        barcode_min_ratio: float = 0.85,
+        barcode_min_ratio: float = 0.60,
         quantity_min_ratio: float = 0.60,  # ← lower — one bad label row shouldn't disqualify
     ):
         self.sample_size = sample_size
