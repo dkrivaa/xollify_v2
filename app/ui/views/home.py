@@ -6,7 +6,7 @@ from backend.services.redis import (upstash_client, upstash_save_value, upstash_
                                     upstash_get_value, upstash_delete_key)
 from ui.utilities.general import apply_responsive_layout
 from ui.elements.static import logo, explanation
-from ui.elements.dynamic import chain_selector, store_selector, select_home_store
+from ui.elements.dynamic import chain_selector, store_selector, popover_content
 from ui.views.stores_section import stores_section_element
 from ui.views.items_section import items_section_element
 from ui.views.lists_section import lists_section_element
@@ -27,9 +27,8 @@ def render():
     # Explanation of app
     explanation()
 
-    home = select_home_store(st.session_state.db.get(item_id='stores', default={}))
-    if home is not None:
-        st.session_state.db.put(item_id='home_store', value=home)
+    with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
+        popover_content()
 
     st.space()
 
