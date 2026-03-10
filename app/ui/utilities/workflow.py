@@ -59,6 +59,9 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
         if state == WorkflowStep.NO_HOME_STORE:
             if 'home_store' in st.session_state:
                 st.session_state.db.put(item_id='home_store', value=st.session_state['home_store'])
+            elif len(st.session_state.db.get(item_id='stores').get('value')) == 1:
+                stores = st.session_state.db.get(item_id='stores').get('value')
+                st.session_state.db.put(item_id='home_store', value=stores)
             else:
                 no_home_store_selected()
                 st.stop()
