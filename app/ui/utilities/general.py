@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 
 from common.pipeline.fresh_price_promo import get_stores_price_data, get_stores_promo_data
 from backend.services.async_runner import run_async
@@ -159,23 +160,37 @@ def store_data_for_selected_stores(stores: list[dict]):
 
     if stores_to_fetch:
         # Guard against reruns
-        if 'temp_price_data' not in st.session_state or 'temp_promo_data' not in st.session_state:
-            # Get data for stores (not already in session_state / indexedDB
-            with st.spinner('Getting Data for Selected Stores'):
-                st.session_state['temp_price_data'] = run_async(get_stores_price_data, stores=stores_to_fetch)
-                st.session_state['temp_promo_data'] = run_async(get_stores_promo_data, stores=stores_to_fetch)
 
-        # if data, enter into session_state and indexedDB
-        if st.session_state['temp_price_data']:
-            items = [
+        cache_key = f"fetch_{json.dumps(sorted(stores_to_fetch, key=lambda d: d['store_code']), 
+                                        sort_keys=True)}"
+
+        # Evict stale fetches from session_state
+        for key in list(st.session_state.keys()):
+            if key.startswith("fetch_") and key != cache_key:
+                del st.session_state[key]
+
+        # Run crawls only if not already fetched for this selection
+        if cache_key not in st.session_state:
+            with st.spinner('Getting Data for Selected Stores'):
+                st.session_state[cache_key] = {
+                    "price": run_async(get_stores_price_data, stores=stores_to_fetch),
+                    "promo": run_async(get_stores_promo_data, stores=stores_to_fetch),
+                }
+
+        fetch = st.session_state[cache_key]
+
+        # Enter final data into session state and indexedDB
+        if fetch["price"]:
+            price_items = [
                 (f"{d['chain_code']}_{d['store_code']}_price_data", d)
-                for d in st.session_state['temp_price_data'] if d
+                for d in fetch["price"] if d
             ]
-            st.session_state.db.put_many(items)
-        if st.session_state['temp_promo_data']:
-            items = [
+            st.session_state.db.put_many(price_items)
+
+        if fetch["promo"]:
+            promo_items = [
                 (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
-                for d in st.session_state['temp_promo_data'] if d
+                for d in fetch["promo"] if d
             ]
-            st.session_state.db.put_many(items)
+            st.session_state.db.put_many(promo_items)
 
