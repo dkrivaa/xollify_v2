@@ -41,6 +41,8 @@ def render():
         lists_section_element()
 
     stores = st.session_state.db.get(item_id='stores', default={})
+    if stores:
+        st.write(len(stores['value']))
 
 
 def navigation_section():
