@@ -61,7 +61,7 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
                 st.session_state.db.put(item_id='home_store', value=st.session_state['home_store'])
             else:
                 no_home_store_selected()
-                st.stop()
+                # st.stop()
             # # If only one store -> set as home_store, else show dialog
             # stores = st.session_state.db.get(item_id='stores').get('value', [])
             # if len(stores) == 1:
