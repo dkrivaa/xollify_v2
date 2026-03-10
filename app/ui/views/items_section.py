@@ -1,7 +1,7 @@
 import streamlit as st
 
 from common.core.super_class import SupermarketChain
-from ui.utilities.workflow import enforce_workflow
+from ui.utilities.workflow import WorkflowStep, enforce_workflow
 from ui.utilities.items import data_for_store_from_db, relevant_promos_for_item, get_item_dict_from_db
 from ui.utilities.general import sorted_stores
 from ui.elements.dynamic import item_selector, price_element, promo_element
@@ -11,10 +11,19 @@ from ui.elements.dialogs import alternative_dialog
 def items_section_element():
     """ Section to show item details """
     # Checks of user selections (stores and home store) and data
+    # check stores exist
+    enforce_workflow(required=WorkflowStep.NO_STORE)
+
+    stores = st.session_state.db.get(item_id='stores').get('value', [])
+    if len(stores) == 1:
+        st.session_state['temp_home_store'] = stores
+
+    # Check all in workflow, incl. getting data for stores
     enforce_workflow()
 
     # Get data for item selector (from home store)
     store = st.session_state.db.get('home_store').get('value', [])
+
     price_data = data_for_store_from_db(store=store)
     # Display item selector
     item = item_selector(price_data=price_data)
