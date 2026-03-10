@@ -152,7 +152,7 @@ def home_store_selector(stores: list[dict]):
 
 def popover_content():
     """ Popover content to get "Home Store" """
-    stores = st.session_state.db.get(item_id='stores', default={}).get(item_id='value', default=[])
+    stores = st.session_state.db.get(item_id='stores', default={}).get('value')
 
     st.session_state.pop("home_store", None)
     st.subheader(body=':material/home: Select "Home Store"')
