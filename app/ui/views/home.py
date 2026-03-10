@@ -27,6 +27,7 @@ def render():
 
     stores = st.session_state.db.get(item_id='stores', default={})
     if len(stores.get('value', [])) > 1:
+        st.session_state.pop('temp_home_store', None)
         with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
             home = popover_content()
             st.session_state['temp_home_store'] = home
