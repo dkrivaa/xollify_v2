@@ -7,12 +7,14 @@ def logo():
              width='stretch',
              text_alignment='center')
 
+    # Explanation of app
+    explanation()
     st.divider()
 
 
 def explanation():
     """ Popover with explanation of app """
-    with st.popover(label='Learn more', type='tertiary', ):
+    with st.popover(label='Learn more', type='tertiary', width='stretch'):
         st.subheader(body=':orange[:material/attach_money: Xollify]',
                      width='stretch',
                      text_alignment='center')

@@ -24,8 +24,7 @@ def render():
 
     # Navigation menu
     navigation_selection = navigation_section()
-    # Explanation of app
-    explanation()
+
 
     with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
         popover_content()
