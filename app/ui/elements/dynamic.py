@@ -136,9 +136,6 @@ def render_percentage_discount(chain: SupermarketChain, promo: dict):
     st.divider()
 
 
-
-
-
 def home_store_selector(stores: list[dict]):
     """ Radio widget to select home store """
     idx = st.radio(label='Select',
