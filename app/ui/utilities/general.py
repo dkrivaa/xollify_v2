@@ -158,22 +158,24 @@ def store_data_for_selected_stores(stores: list[dict]):
     stores_to_fetch = get_stores_missing_data(stores)
 
     if stores_to_fetch:
-        # Get data for stores (not already in session_state / indexedDB
-        with st.spinner('Getting Data for Selected Stores'):
-            price_data = run_async(get_stores_price_data, stores=stores_to_fetch)
-            promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch)
+        # Guard against reruns
+        if 'temp_price_data' not in st.session_state or 'temp_promo_data' not in st.session_state:
+            # Get data for stores (not already in session_state / indexedDB
+            with st.spinner('Getting Data for Selected Stores'):
+                st.session_state['temp_price_data'] = run_async(get_stores_price_data, stores=stores_to_fetch)
+                st.session_state['temp_promo_data'] = run_async(get_stores_promo_data, stores=stores_to_fetch)
 
         # if data, enter into session_state and indexedDB
-        if price_data:
+        if st.session_state['temp_price_data']:
             items = [
                 (f"{d['chain_code']}_{d['store_code']}_price_data", d)
-                for d in price_data if d
+                for d in st.session_state['temp_price_data'] if d
             ]
             st.session_state.db.put_many(items)
-        if promo_data:
+        if st.session_state['temp_promo_data']:
             items = [
                 (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
-                for d in promo_data if d
+                for d in st.session_state['temp_promo_data'] if d
             ]
             st.session_state.db.put_many(items)
 
