@@ -17,7 +17,7 @@ def items_section_element():
     # Set temp home store
     stores = st.session_state.db.get(item_id='stores').get('value', [])
     if len(stores) == 1:
-        st.session_state['temp_home_store'] = stores
+        st.session_state['temp_home_store'] = stores[0]
 
     # Check all in workflow, incl. getting data for stores
     enforce_workflow()
