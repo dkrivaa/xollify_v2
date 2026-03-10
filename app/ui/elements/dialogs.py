@@ -5,23 +5,6 @@ from backend.agent.alternative_product import get_alternatives
 from ui.elements.dynamic import home_store_selector, item_selector
 
 
-@st.dialog(title=':material/home: Select "Home Store"', dismissible=False)
-def get_home_store(stores: list[dict]):
-    """ Dialog function to get 'Home Store """
-    st.markdown(body='The "Home Store" is used to select items for your shopping '
-                     'and should represent where you normally shop',
-                text_alignment='center')
-
-    # Radio to display selected stores
-    home_store = home_store_selector(stores=stores)
-    # If user selected - show button
-    if home_store:
-        if st.button(label='Submit', width='stretch'):
-            # if submit - enter selection into session_state and indexedDB
-            st.session_state.db.put(item_id='home_store', value=home_store)
-            st.rerun()
-
-
 def selected_item(alternatives: list[dict], suggested_alt_item: str, searched_alt_item: str):
     """ Helper to get user selection of alternative item. If user didn't select, first alternative """
     if searched_alt_item:

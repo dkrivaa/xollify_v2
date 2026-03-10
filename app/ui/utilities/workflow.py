@@ -3,7 +3,6 @@ from enum import Enum, auto
 
 from ui.utilities.general import get_stores_missing_data, store_data_for_selected_stores
 from ui.elements.static import no_stores_selected, no_home_store_selected
-from ui.elements.dialogs import get_home_store
 
 
 class WorkflowStep(Enum):
@@ -64,15 +63,6 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
             else:
                 no_home_store_selected()
                 st.stop()
-            # # If only one store -> set as home_store, else show dialog
-            # stores = st.session_state.db.get(item_id='stores').get('value', [])
-            # if len(stores) == 1:
-            #     st.session_state.db.put(item_id='home_store', value=stores[0])
-            #     st.rerun()
-            # else:
-            #     # Show dialog
-            #     get_home_store(stores)
-            #     st.stop()
 
     # Handling no price and promo data for stores
     if required.value >= WorkflowStep.NO_DATA.value:
