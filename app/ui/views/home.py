@@ -33,7 +33,6 @@ def render():
             st.session_state['temp_home_store'] = home
             enforce_workflow(required=WorkflowStep.NO_HOME_STORE)
 
-
     st.space()
 
     # Show relevant section element
