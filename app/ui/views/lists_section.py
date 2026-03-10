@@ -31,7 +31,7 @@ def lists_section_element():
             # Add to uploader_counter => clear upload widget when rerun
             st.session_state.uploader_counter += 1
             # Enter items_list into session state and indexedDB
-            st.session_state.db.put(item_id='enriched_items_list', value=items_list)
+            st.session_state.db.put(item_id='enriched_items_list', value=enriched_items_list)
 
 
 
