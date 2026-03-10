@@ -49,6 +49,7 @@ def remove_home_store_from_db(stores: list[dict]):
     if not home_store:
         return
     if home_store['value'] not in stores:
+        st.session_state.pop('temp_home_store', None)
         st.session_state.db.delete(item_id='home_store')
         return
 
