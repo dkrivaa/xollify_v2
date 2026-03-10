@@ -24,6 +24,7 @@ def items_section_element():
 
     # Get data for item selector (from home store)
     store = st.session_state.db.get('home_store').get('value', [])
+    st.write('store:', store)
 
     price_data = data_for_store_from_db(store=store)
     # Display item selector
