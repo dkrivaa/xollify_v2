@@ -150,11 +150,8 @@ def home_store_selector(stores: list[dict]):
         return stores[idx]
 
 
-def popover_content():
+def popover_content(stores: list[dict]):
     """ Popover content to get "Home Store" """
-    stores = st.session_state.db.get(item_id='stores', default={}).get('value')
-
-    st.session_state.pop("temp_home_store", None)
     st.subheader(body=':material/home: Select "Home Store"')
     st.markdown(body='The "Home Store" is used to select items for your shopping '
                      'and should represent where you normally shop',)

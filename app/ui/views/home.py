@@ -29,7 +29,7 @@ def render():
     if len(stores.get('value', [])) > 1:
         st.session_state.pop('temp_home_store', None)
         with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
-            home = popover_content()
+            home = popover_content(stores.get('value'))
             st.session_state['temp_home_store'] = home
             enforce_workflow(required=WorkflowStep.NO_HOME_STORE)
 
