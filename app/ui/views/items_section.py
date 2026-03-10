@@ -12,8 +12,9 @@ def items_section_element():
     """ Section to show item details """
     # Checks of user selections (stores and home store) and data
     # check stores exist
-    enforce_workflow(required=WorkflowStep.NO_STORE)
+    enforce_workflow(required=WorkflowStep.NO_STORES)
 
+    # Set temp home store
     stores = st.session_state.db.get(item_id='stores').get('value', [])
     if len(stores) == 1:
         st.session_state['temp_home_store'] = stores
