@@ -154,46 +154,50 @@ def home_store_selector(stores: list[dict]):
 def popover_content():
 
     stores_db_item = st.session_state.db.get(item_id='stores', default={})
-
-    if not stores_db_item:
-        st.subheader(body=':material/error: No stores selected',
-                     width='stretch',
-                     text_alignment='center')
-        st.markdown(body='Please select store/s',
-                    width='stretch',
-                    text_alignment='center')
-        st.markdown('Press anywhere to close this box',
-                    text_alignment='center')
-
-    else:
-        stores = stores_db_item.get('value')
-        if len(stores) == 1:
-            st.subheader(body=':material/home: Only one stores selected',
+    with st.container():
+        if not stores_db_item:
+            st.subheader(body=':material/error: No stores selected',
                          width='stretch',
                          text_alignment='center')
-            st.markdown(body='This will be your "Home Store" by default',
+            st.markdown(body='Please select store/s',
                         width='stretch',
                         text_alignment='center')
             st.markdown('Press anywhere to close this box',
                         text_alignment='center')
 
-        if len(stores) > 1:
-            st.subheader(body=':material/home: Select "Home Store"')
-            st.markdown(body='The "Home Store" is used to select items for your shopping '
-                             'and should represent where you normally shop',
-                        text_alignment='center')
+            return None
 
-            idx = st.radio(label='Select',
-                           label_visibility='hidden',
-                           options=list(range(len(stores))),
-                           format_func=lambda x: f"{stores[x].get('chain_alias')} - "
-                                                 f"{stores[x].get('store_name')}",
-                           index=None
-                           )
+        else:
+            stores = stores_db_item.get('value')
+            if len(stores) == 1:
+                st.subheader(body=':material/home: Only one stores selected',
+                             width='stretch',
+                             text_alignment='center')
+                st.markdown(body='This will be your "Home Store" by default',
+                            width='stretch',
+                            text_alignment='center')
+                st.markdown('Press anywhere to close this box',
+                            text_alignment='center')
 
-            st.markdown('Press anywhere to close this box')
+                return stores[0]
 
-            # # Return the dict at index idx
-            # if idx is not None:
-            #     return stores[idx]
+            if len(stores) > 1:
+                st.subheader(body=':material/home: Select "Home Store"')
+                st.markdown(body='The "Home Store" is used to select items for your shopping '
+                                 'and should represent where you normally shop',
+                            text_alignment='center')
+
+                idx = st.radio(label='Select',
+                               label_visibility='hidden',
+                               options=list(range(len(stores))),
+                               format_func=lambda x: f"{stores[x].get('chain_alias')} - "
+                                                     f"{stores[x].get('store_name')}",
+                               index=None
+                               )
+
+                st.markdown('Press anywhere to close this box')
+
+                # Return the dict at index idx
+                if idx is not None:
+                    return stores[idx]
 
