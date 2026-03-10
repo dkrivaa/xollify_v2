@@ -164,7 +164,7 @@ def store_data_for_selected_stores(stores: list[dict]):
         cache_key = f"fetch_{json.dumps(sorted(stores_to_fetch, key=lambda d: d['store_code']), 
                                         sort_keys=True)}"
 
-        # Evict stale fetches from session_state
+        # Evict stale fetches from session_state (previous runs for different stores if has occurred)
         for key in list(st.session_state.keys()):
             if key.startswith("fetch_") and key != cache_key:
                 del st.session_state[key]
