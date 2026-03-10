@@ -157,8 +157,7 @@ def popover_content():
     st.session_state.pop("home_store", None)
     st.subheader(body=':material/home: Select "Home Store"')
     st.markdown(body='The "Home Store" is used to select items for your shopping '
-                     'and should represent where you normally shop',
-                text_alignment='center')
+                     'and should represent where you normally shop',)
 
     idx = st.radio(label='Select',
                    label_visibility='hidden',
