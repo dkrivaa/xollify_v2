@@ -2,7 +2,7 @@ import streamlit as st
 from enum import Enum, auto
 
 from ui.utilities.general import get_stores_missing_data, store_data_for_selected_stores
-from ui.elements.static import no_stores_selected
+from ui.elements.static import no_stores_selected, no_home_store_selected
 from ui.elements.dialogs import get_home_store
 
 
@@ -57,15 +57,20 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
     # Handling home store
     if required.value >= WorkflowStep.NO_HOME_STORE.value:
         if state == WorkflowStep.NO_HOME_STORE:
-            # If only one store -> set as home_store, else show dialog
-            stores = st.session_state.db.get(item_id='stores').get('value', [])
-            if len(stores) == 1:
-                st.session_state.db.put(item_id='home_store', value=stores[0])
-                st.rerun()
+            if 'home_store' in st.session_state:
+                st.session_state.db.put(item_id='home_store', value=st.session_state['home_store'])
             else:
-                # Show dialog
-                get_home_store(stores)
+                no_home_store_selected()
                 st.stop()
+            # # If only one store -> set as home_store, else show dialog
+            # stores = st.session_state.db.get(item_id='stores').get('value', [])
+            # if len(stores) == 1:
+            #     st.session_state.db.put(item_id='home_store', value=stores[0])
+            #     st.rerun()
+            # else:
+            #     # Show dialog
+            #     get_home_store(stores)
+            #     st.stop()
 
     # Handling no price and promo data for stores
     if required.value >= WorkflowStep.NO_DATA.value:

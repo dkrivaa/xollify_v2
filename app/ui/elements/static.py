@@ -29,3 +29,14 @@ def no_stores_selected():
         st.markdown(body='Please Select Store/s to continue',
                     width='stretch',
                     text_alignment='center')
+
+def no_home_store_selected():
+    """ Show message if home store no selected """
+    with st.container(border=True):
+        st.subheader(body=':material/error: No "Home Store"" selected',
+                     width='stretch',
+                     text_alignment='center')
+        st.markdown(body='Please Select to continue',
+                    width='stretch',
+                    text_alignment='center')
+
