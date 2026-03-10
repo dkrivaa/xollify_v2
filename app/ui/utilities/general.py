@@ -161,8 +161,10 @@ def store_data_for_selected_stores(stores: list[dict]):
     if stores_to_fetch:
         # Guard against reruns
 
-        cache_key = f"fetch_{json.dumps(sorted(stores_to_fetch, key=lambda d: d['store_code']), 
-                                        sort_keys=True)}"
+        cache_key = "fetch_" + "_".join(
+            f"{d['chain_code']}-{d['store_code']}"
+            for d in sorted(stores_to_fetch, key=lambda d: (d['chain_code'], d['store_code']))
+        )
 
         # Evict stale fetches from session_state (previous runs for different stores if has occurred)
         for key in list(st.session_state.keys()):
