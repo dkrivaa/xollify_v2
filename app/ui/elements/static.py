@@ -6,6 +6,9 @@ def logo():
     st.title(body=':orange[:material/attach_money: Xollify]',
              width='stretch',
              text_alignment='center')
+    st.subheader(body=':grey[Optimize Shopping and Save MONEY!!]',
+                 width='stretch',
+                 text_alignment='center')
 
     # Explanation of app
     explanation()
@@ -16,9 +19,6 @@ def explanation():
     """ Popover with explanation of app """
     with st.popover(label='Learn more', type='tertiary', width='stretch'):
         st.subheader(body=':orange[:material/attach_money: Xollify]',
-                     width='stretch',
-                     text_alignment='center')
-        st.markdown(body=':grey[Optimize Shopping and Save MONEY!!]',
                      width='stretch',
                      text_alignment='center')
 
