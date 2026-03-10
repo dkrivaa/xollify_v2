@@ -25,6 +25,11 @@ def render():
     # Navigation menu
     navigation_selection = navigation_section()
 
+    stores = st.session_state.db.get(item_id='stores', default={})
+    if len(stores.get('value', [])) > 1:
+        with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
+            home = popover_content()
+
     st.space()
 
     # Show relevant section element
@@ -40,10 +45,7 @@ def render():
     if navigation_selection == 3:
         lists_section_element()
 
-    stores = st.session_state.db.get(item_id='stores', default={})
-    if len(stores.get('value', [])) > 1:
-        with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
-            home = popover_content()
+
 
 
 def navigation_section():
