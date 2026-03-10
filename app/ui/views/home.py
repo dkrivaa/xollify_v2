@@ -4,7 +4,7 @@ from common.core.super_class import SupermarketChain
 from backend.db.crud.items import item_details
 from backend.services.redis import (upstash_client, upstash_save_value, upstash_append_item,
                                     upstash_get_value, upstash_delete_key)
-from ui.utilities.general import apply_responsive_layout
+from ui.utilities.workflow import WorkflowStep, enforce_workflow
 from ui.elements.static import logo, explanation
 from ui.elements.dynamic import chain_selector, store_selector, popover_content
 from ui.views.stores_section import stores_section_element
@@ -31,6 +31,8 @@ def render():
         with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
             home = popover_content()
             st.session_state['temp_home_store'] = home
+            enforce_workflow(required=WorkflowStep.NO_HOME_STORE)
+
 
     st.space()
 
