@@ -56,7 +56,7 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
     # Handling home store
     if required.value >= WorkflowStep.NO_HOME_STORE.value:
         if state == WorkflowStep.NO_HOME_STORE:
-            if 'temp_home_store' in st.session_state:
+            if 'temp_home_store' in st.session_state and st.session_state['temp_home_store'] is not None:
                 st.session_state.db.put(item_id='home_store', value=st.session_state['temp_home_store'])
                 st.session_state.pop('temp_home_store', None)
                 st.stop()
