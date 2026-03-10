@@ -25,6 +25,7 @@ def render():
     # Navigation menu
     navigation_selection = navigation_section()
 
+    # Home store
     stores = st.session_state.db.get(item_id='stores', default={})
     if len(stores.get('value', [])) > 1:
         st.session_state.pop('temp_home_store', None)

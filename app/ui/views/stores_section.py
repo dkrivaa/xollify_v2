@@ -87,7 +87,7 @@ def stores_section_element():
                                    }
                 )
 
-                if st.button(label='Update Data',
+                if st.button(label='Update',
                              icon=':material/refresh:',
                              icon_position='left',
                              width='stretch'):
