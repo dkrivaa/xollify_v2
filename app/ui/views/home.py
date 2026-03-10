@@ -27,7 +27,7 @@ def render():
 
     with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
         home = popover_content()
-    # st.session_state['home_store'] = home
+    st.session_state['home_store'] = home
 
     st.space()
 
