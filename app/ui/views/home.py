@@ -31,7 +31,7 @@ def render():
         with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
             home = popover_content(stores.get('value'))
             st.session_state['temp_home_store'] = home
-            enforce_workflow(required=WorkflowStep.NO_HOME_STORE)
+        enforce_workflow(required=WorkflowStep.NO_HOME_STORE)
 
     st.space()
 

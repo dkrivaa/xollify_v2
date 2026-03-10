@@ -21,8 +21,9 @@ def get_workflow_state() -> WorkflowStep:
     if not stores:
         return WorkflowStep.NO_STORES
 
-    # Check if home store
-    if not st.session_state.db.get(item_id='home_store'):
+    # Check if home store exist or change in home store
+    if (not st.session_state.db.get(item_id='home_store') or
+            st.session_state.db.get(item_id='home_store').get('value', {}) != st.session_state.get('temp_home_store', {})):
         return WorkflowStep.NO_HOME_STORE
 
     # Check if price and promo data for selected stores
