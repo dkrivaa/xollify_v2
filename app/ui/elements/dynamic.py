@@ -151,7 +151,7 @@ def home_store_selector(stores: list[dict]):
 
 
 def popover_content():
-
+    """ Popover content to get "Home Store" """
     stores_db_item = st.session_state.db.get(item_id='stores', default={})
     with st.container():
         if not stores_db_item:
