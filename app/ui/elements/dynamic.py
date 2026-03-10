@@ -150,7 +150,6 @@ def home_store_selector(stores: list[dict]):
         return stores[idx]
 
 
-@st.fragment
 def popover_content():
 
     stores_db_item = st.session_state.db.get(item_id='stores', default={})
