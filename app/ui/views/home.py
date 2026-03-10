@@ -41,7 +41,9 @@ def render():
         lists_section_element()
 
     stores = st.session_state.db.get(item_id='stores', default={})
-    st.write(len(stores['value']))
+    if len(stores['value']) > 1:
+        with st.popover(label=':material/home: Select "Home Store"', type='tertiary'):
+            home = popover_content()
 
 
 def navigation_section():
