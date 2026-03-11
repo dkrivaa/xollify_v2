@@ -1,12 +1,21 @@
 import streamlit as st
 
-from ui.utilities.workflow import enforce_workflow
+from ui.utilities.workflow import WorkflowStep, enforce_workflow
 from ui.utilities.lists import read_uploaded_file, enrich_items_list
 
 
 def lists_section_element():
     """ Section to show shoppinglist section """
     # Checks of user selections (stores and home store) and data
+    # check stores exist
+    enforce_workflow(required=WorkflowStep.NO_STORES)
+
+    # Set temp home store
+    stores = st.session_state.db.get(item_id='stores').get('value', [])
+    if len(stores) == 1:
+        st.session_state['temp_home_store'] = stores[0]
+
+    # Check all in workflow, incl. getting data for stores
     enforce_workflow()
 
     tab1, tab2 = st.tabs([":green[:material/upload: Upload Shopping List]",
