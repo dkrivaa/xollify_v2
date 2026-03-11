@@ -33,6 +33,14 @@ def lists_section_element():
             st.session_state.db.put(item_id='enriched_items_list', value=enriched_items_list)
 
 
+    with tab2:
+        # Display and make / add / edit items_list
 
+        # Get items_list
+        data_dict = st.session_state.db.get(item_id='enriched_items_list', default={})
+        if data_dict:
+            data=data_dict.get('value', [])
+
+        edited_data = st.data_editor(data=data)
 
 
