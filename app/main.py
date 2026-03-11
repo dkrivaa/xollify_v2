@@ -34,28 +34,85 @@ from common.bootstrap import initialize_backend
 initialize_backend()
 
 # Initialize IndexedDB and db in session_state
+import time
 from backend.services.indexeddb_session import SessionIndexedDB
+
+# Retry and timeout defaults for restoration from indexedDB (after mobile lock)
+_IDB_MAX_RETRIES = 3
+_IDB_TIMEOUT_SECS = 8
+
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
-    # Set flag for session_state.db
     st.session_state.db_ready = False
+    st.session_state._idb_state = "pending"
+    st.session_state._idb_attempts = 0
+    st.session_state._idb_started_at = None
 
-# Handling session_state.db not ready
 if not st.session_state.db_ready:
-    # Get all from browser indexedDB
-    records = st.session_state.db._idb.get_all()
-    # Before js resolved
-    if records is None:
-        st.stop()    # Stop execution. When js resolves it invokes rerun
-    # js resolved - records are either [] (because new user session) and so it correctly skip the following
-    # or has data (ex. after mobile lock) => gets data from indexedDB and adds to session_state
-    if records:
-        # Add to session_state
-        for record in records:
-            st.session_state.db._cache_set(record["id"], record)
-    # Reset flag for session_state.db
-    st.session_state.db_ready = True
+    state = st.session_state._idb_state
+
+    if state == "pending":
+        # Fire JS request and start timer
+        st.session_state._idb_started_at = time.time()
+        st.session_state.db._idb.get_all()
+        st.session_state._idb_state = "loading"
+        st.stop()
+
+    elif state == "loading":
+        records = st.session_state.db._idb.get_all()
+        elapsed = time.time() - st.session_state._idb_started_at
+
+        if records is None:
+            # JS still pending — check for timeout
+            if elapsed > _IDB_TIMEOUT_SECS:
+                attempts = st.session_state._idb_attempts + 1
+                st.session_state._idb_attempts = attempts
+                if attempts >= _IDB_MAX_RETRIES:
+                    st.session_state._idb_state = "failed"
+                else:
+                    # Retry: re-fire JS request
+                    st.session_state._idb_started_at = time.time()
+            st.stop()
+
+        elif records:
+            for record in records:
+                st.session_state.db._cache_set(record["id"], record)
+            st.session_state._idb_state = "done"
+            st.session_state.db_ready = True
+
+        else:
+            # JS resolved with [] — new session, nothing to restore
+            st.session_state._idb_state = "done"
+            st.session_state.db_ready = True
+
+    elif state == "failed":
+        # All retries exhausted — proceed without restored data
+        st.warning("Session could not be restored. Some data may be missing.")
+        st.session_state.db_ready = True
+
+
+# if "db" not in st.session_state:
+#     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
+#     st.session_state.db.init()
+#     # Set flag for session_state.db
+#     st.session_state.db_ready = False
+#
+# # Handling session_state.db not ready
+# if not st.session_state.db_ready:
+#     # Get all from browser indexedDB
+#     records = st.session_state.db._idb.get_all()
+#     # Before js resolved
+#     if records is None:
+#         st.stop()    # Stop execution. When js resolves it invokes rerun
+#     # js resolved - records are either [] (because new user session) and so it correctly skip the following
+#     # or has data (ex. after mobile lock) => gets data from indexedDB and adds to session_state
+#     if records:
+#         # Add to session_state
+#         for record in records:
+#             st.session_state.db._cache_set(record["id"], record)
+#     # Reset flag for session_state.db
+#     st.session_state.db_ready = True
 
 # Post-lock recovery: cache empty but db_ready=True and get_all data exists
 elif not st.session_state.db._cache:

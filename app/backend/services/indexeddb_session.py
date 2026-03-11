@@ -107,3 +107,4 @@ class SessionIndexedDB:
                     self._cache_set(record["id"], record)
                 return True
         return False
+
