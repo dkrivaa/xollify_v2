@@ -57,15 +57,17 @@ def lists_section_element():
 
             options = [d['ItemCode'] for d in price_data]
 
-            edited_data = st.data_editor(data=data,
-                                         column_order=('item_code', 'quantity'),
-                                         column_config={'item_code': st.column_config.SelectboxColumn(
-                                             label='Product',
-                                             options=sorted(options, key=int),
-                                             format_func=lambda x: f"{x} - {next(d.get('ItemName') 
-                                                                                 or d.get('ItemNm') 
-                                                                                 for d in price_data 
-                                                                                 if d['ItemCode'] == x)}",
-                                         )})
+            edited_data = st.data_editor(
+                data=data,
+                column_order=('item_code', 'quantity'),
+                column_config={
+                    'item_code': st.column_config.SelectboxColumn(
+                        label='Product',
+                        options=sorted(options, key=int),
+                        format_func=lambda x: f"{x} - {next(d.get('ItemName') or d.get('ItemNm')
+                                                            for d in price_data if d['ItemCode'] == x)}",
+                    )
+                }
+            )
 
 
