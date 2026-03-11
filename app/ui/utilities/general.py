@@ -179,11 +179,10 @@ def store_data_for_selected_stores(stores: list[dict]):
 
             # Enter final data into session state and indexedDB
             if price_data:
-                price_items = [
+                st.session_state.db.put_many([
                     (f"{d['chain_code']}_{d['store_code']}_price_data", d)
                     for d in price_data if d
-                ]
-                st.session_state.db.put_many(price_items)
+                ]))
 
             if promo_data:
                 promo_items = [
