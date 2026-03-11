@@ -60,6 +60,7 @@ def lists_section_element():
             edited_data = st.data_editor(data=data,
                                          column_order=('item_code', 'quantity'),
                                          column_config={'item_code': st.column_config.SelectboxColumn(
+                                             label='Product',
                                              options=sorted(options, key=int),
                                              format_func=lambda x: f"{x} - {next(d.get('ItemName') 
                                                                                  or d.get('ItemNm') 
