@@ -50,6 +50,6 @@ def lists_section_element():
         if data_dict:
             data=data_dict.get('value', [])
 
-        edited_data = st.data_editor(data=data)
+            edited_data = st.data_editor(data=data)
 
 
