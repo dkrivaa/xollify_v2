@@ -174,25 +174,24 @@ def store_data_for_selected_stores(stores: list[dict]):
         # Run crawls only if not already fetched for this selection
         if cache_key not in st.session_state:
             with st.spinner('Getting Data for Selected Stores'):
-                st.session_state[cache_key] = {
-                    "price": run_async(get_stores_price_data, stores=stores_to_fetch),
-                    "promo": run_async(get_stores_promo_data, stores=stores_to_fetch),
-                }
+                price_data = run_async(get_stores_price_data, stores=stores_to_fetch),
+                promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch),
 
-        fetch = st.session_state[cache_key]
+            # Enter final data into session state and indexedDB
+            if price_data:
+                price_items = [
+                    (f"{d['chain_code']}_{d['store_code']}_price_data", d)
+                    for d in price_data if d
+                ]
+                st.session_state.db.put_many(price_items)
 
-        # Enter final data into session state and indexedDB
-        if fetch["price"]:
-            price_items = [
-                (f"{d['chain_code']}_{d['store_code']}_price_data", d)
-                for d in fetch["price"] if d
-            ]
-            st.session_state.db.put_many(price_items)
+            if promo_data:
+                promo_items = [
+                    (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
+                    for d in promo_data if d
+                ]
+                st.session_state.db.put_many(promo_items)
 
-        if fetch["promo"]:
-            promo_items = [
-                (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
-                for d in fetch["promo"] if d
-            ]
-            st.session_state.db.put_many(promo_items)
+            # Mark as done — only a bool, not the data - just a placeholder
+            st.session_state[cache_key] = True
 
