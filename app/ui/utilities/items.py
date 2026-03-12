@@ -62,7 +62,7 @@ def get_alternative_item(store: dict, item: str, ):
         # Use alternative item selected in previous rerun
         effective_item = alt_item['selection']
         quantity = alt_item['quantity']
-        item_dict = next((d for d in price_data if d['ItemCode'] == alt_item), {})
+        item_dict = next((d for d in price_data if d['ItemCode'] == effective_item), {})
         return effective_item, quantity, item_dict
 
     # Run alternative dialog if alternative flag is raised
