@@ -5,7 +5,7 @@ from backend.agent.alternative_product import get_alternatives
 from ui.elements.dynamic import home_store_selector, item_selector
 
 
-def selected_item(alternatives: list[dict], suggested_alt_item: str, searched_alt_item: str):
+def selected_item(alternatives: list[dict], suggested_alt_item: str | None, searched_alt_item: str | None):
     """ Helper to get user selection of alternative item. If user didn't select, first alternative """
     if searched_alt_item:
         return searched_alt_item
