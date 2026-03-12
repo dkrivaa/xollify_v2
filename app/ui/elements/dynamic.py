@@ -78,8 +78,6 @@ def item_selector(price_data: list[dict], label: str = 'Item', key: str = 'item_
 
 def price_element(item: str, item_details: dict, store: dict[str, str], delta: bool = False):
     """ Renders a single price element for the given item """
-    st.write(store)
-    st.write(item_details)
     st.metric(
         label=f":blue[{store['chain_alias']} - {store['store_name']}]",
         label_visibility='visible',
