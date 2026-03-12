@@ -49,6 +49,20 @@ if "db" not in st.session_state:
     st.session_state._idb_attempts = 0
     st.session_state._idb_started_at = None
 
+    # Delete all orphaned XollifyDB_* databases that don't match current sid
+    current_db = f"XollifyDB_{sid}"
+    st.session_state.db._idb._eval(f"""
+          new Promise(async (resolve) => {{
+            const databases = await indexedDB.databases();
+            for (const db of databases) {{
+              if (db.name.startsWith('XollifyDB_') && db.name !== {json.dumps(current_db)}) {{
+                indexedDB.deleteDatabase(db.name);
+              }}
+            }}
+            resolve(true);
+          }})
+    """, "cleanup_orphans")
+
 if not st.session_state.db_ready:
     state = st.session_state._idb_state
 
