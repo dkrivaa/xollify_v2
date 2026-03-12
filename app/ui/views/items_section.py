@@ -2,7 +2,8 @@ import streamlit as st
 
 from common.core.super_class import SupermarketChain
 from ui.utilities.workflow import WorkflowStep, enforce_workflow
-from ui.utilities.items import data_for_store_from_db, relevant_promos_for_item, get_item_dict_from_db
+from ui.utilities.items import (data_for_store_from_db, relevant_promos_for_item,
+                                get_item_dict_from_db, get_alternative_item)
 from ui.utilities.general import sorted_stores
 from ui.elements.dynamic import item_selector, price_element, promo_element
 from ui.elements.dialogs import alternative_dialog
@@ -33,7 +34,7 @@ def items_section_element():
 
     # Show results
     if item:
-        # Sort stores (home store first
+        # Sort stores (home store first)
         stores = sorted_stores()
 
         for store in stores:
@@ -53,29 +54,31 @@ def items_section_element():
             if do_alternatives:
 
                 if not item_dict:
-                    # Check if user already selected an alternative for this store
-                    alt_key = f"alt_{store_key}_{item}"
-                    alt_item_id = st.session_state.db.get(alt_key, {})
-                    alt_item = alt_item_id.get('value', None)
-
-                    if alt_item:
-                        # Use alternative item selected in previous rerun
-                        effective_item = alt_item
-                        item_dict = next((d for d in price_data if d['ItemCode'] == alt_item), {})
-                    else:
-                        # Flag to run alternative dialog is raised
-                        flag = st.session_state.db.get(item_id='alternative_flag')
-                        if flag and flag.get('value', False):
-                            # Get item dict from supabase db
-                            original_dict = get_item_dict_from_db(item)
-                            alt_key = f"alt_{store_key}_{item}"
-                            # Show alternative dialog
-                            alternative_dialog(price_data, original_dict, store, alt_key)
-                            st.stop()  # Avoid continued code execution in current run
-                        else:
-                            # No alternative yet — raise flag to show alternative dialog
-                            st.session_state.db.put(item_id='alternative_flag', value=True)
-                            st.rerun()
+                    # Get alternative data from dialog
+                    effective_item, quantity, item_dict = get_alternative_item(store=store, item=item)
+                    # # Check if user already selected an alternative for this store
+                    # alt_key = f"alt_{store_key}_{item}"
+                    # alt_item_id = st.session_state.db.get(alt_key, {})
+                    # alt_item = alt_item_id.get('value', None)
+                    #
+                    # if alt_item:
+                    #     # Use alternative item selected in previous rerun
+                    #     effective_item = alt_item
+                    #     item_dict = next((d for d in price_data if d['ItemCode'] == alt_item), {})
+                    # else:
+                    #     # Run alternative dialog if alternative flag is raised
+                    #     flag = st.session_state.db.get(item_id='alternative_flag')
+                    #     if flag and flag.get('value', False):
+                    #         # Get item dict from supabase db
+                    #         original_dict = get_item_dict_from_db(item)
+                    #         alt_key = f"alt_{store_key}_{item}"
+                    #         # Show alternative dialog
+                    #         alternative_dialog(price_data, original_dict, store, alt_key)
+                    #         st.stop()  # Avoid continued code execution in current run
+                    #     else:
+                    #         # No alternative yet — raise flag to show alternative dialog
+                    #         st.session_state.db.put(item_id='alternative_flag', value=True)
+                    #         st.rerun()
 
             # Display price element
             price_element(item=effective_item, item_details=item_dict, store=store, delta=effective_item != item)

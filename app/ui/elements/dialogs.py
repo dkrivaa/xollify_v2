@@ -64,7 +64,9 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
     if submit:
         # Enter selected item
         selection = selected_item(alternatives, suggested_alt_item, searched_alt_item)
-        st.session_state.db.put(item_id=alt_key, value=selection)
+        quantity = new_quantity if new_quantity else None
+        # Enter selected alternative item into session state and indexedDB
+        st.session_state.db.put(item_id=alt_key, value={'selection': selection, 'quantity': quantity})
 
         # Reset flag to show alternative dialog
         st.session_state.db.put(item_id='alternative_flag', value=False)
