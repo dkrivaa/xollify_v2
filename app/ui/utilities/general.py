@@ -177,8 +177,9 @@ def store_data_for_selected_stores(stores: list[dict]):
                 price_data = run_async(get_stores_price_data, stores=stores_to_fetch),
                 promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch),
 
-            st.write(type(price_data), type(price_data[0]) if price_data else None)
-            st.stop()
+            # TaskGroup wraps results in a tuple when run via run_until_complete
+            if isinstance(price_data, tuple): price_data = list(price_data[0]) if price_data else []
+            if isinstance(promo_data, tuple): promo_data = list(promo_data[0]) if promo_data else []
 
             # Enter final data into session state and indexedDB
             if price_data:
