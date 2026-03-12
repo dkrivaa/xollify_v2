@@ -59,6 +59,7 @@ def lists_section_element():
 
             edited_data = st.data_editor(
                 data=data,
+                num_rows='dynamic',
                 column_order=('item_code', 'quantity'),
                 column_config={
                     'item_code': st.column_config.SelectboxColumn(
