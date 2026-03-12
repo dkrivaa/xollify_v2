@@ -6,7 +6,7 @@ def logo():
     st.title(body=':orange[:material/attach_money: Xollify]',
              width='stretch',
              text_alignment='center')
-    st.subheader(body=':grey[Optimize Shopping and Save MONEY!!]',
+    st.subheader(body=':grey[Optimize Shopping, Save MONEY!!]',
                  width='stretch',
                  text_alignment='center')
 
