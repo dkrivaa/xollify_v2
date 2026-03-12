@@ -36,12 +36,10 @@ def lists_section_element():
             st.session_state['show_upload_message'] = True
             # Read uploaded file and return items_list - {item_code: code, quantity: int}
             items_list = read_uploaded_file(uploaded_file)
-            # enrich items_list with price and name
-            enriched_items_list = enrich_items_list(items_list)
             # Add to uploader_counter => clear upload widget when rerun
             st.session_state.uploader_counter += 1
             # Enter items_list into session state and indexedDB
-            st.session_state.db.put(item_id='enriched_items_list', value=enriched_items_list)
+            st.session_state.db.put(item_id='items_list', value=items_list)
 
 
     with tab2:
@@ -52,7 +50,7 @@ def lists_section_element():
         price_data = data_for_store_from_db(store=home_store, data_type='price')
 
         # Get items_list
-        data_dict = st.session_state.db.get(item_id='enriched_items_list', default={})
+        data_dict = st.session_state.db.get(item_id='items_list', default={})
         if data_dict:
             data=data_dict.get('value', [])
 
