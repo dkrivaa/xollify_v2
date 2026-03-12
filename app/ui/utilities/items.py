@@ -46,7 +46,7 @@ def get_alternative_item(store: dict, item: str, ):
     store price data
     Params:
         store - store dict where item not found
-        item - item code for missing item
+        item - item code that is missing
     """
     # Temp store key
     store_key = f"{store['chain_code']}_{store['store_code']}"
