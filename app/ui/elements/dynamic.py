@@ -164,7 +164,7 @@ def popover_content(stores: list[dict]):
                    index=None
                    )
 
-    st.markdown('Press anywhere to close this box')
+    st.markdown('Press anywhere outside the box to close')
 
     # Return the dict at index idx
     if idx is not None:

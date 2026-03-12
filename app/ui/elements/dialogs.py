@@ -70,7 +70,7 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
         # Reset flag to show alternative dialog
         st.session_state.db.put(item_id='alternative_flag', value=False)
 
-        # st.rerun()
+        st.rerun()
 
 
 
