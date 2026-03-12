@@ -177,6 +177,9 @@ def store_data_for_selected_stores(stores: list[dict]):
                 price_data = run_async(get_stores_price_data, stores=stores_to_fetch),
                 promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch),
 
+            st.write(price_data)
+            st.stop()
+
             # Enter final data into session state and indexedDB
             if price_data:
                 st.session_state.db.put_many([
