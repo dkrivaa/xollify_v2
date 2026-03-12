@@ -5,6 +5,7 @@ from ui.utilities.lists import read_uploaded_file, enrich_items_list
 from ui.utilities.general import make_store_key
 from ui.utilities.items import data_for_store_from_db
 
+
 def lists_section_element():
     """ Section to show shoppinglist section """
     # Checks of user selections (stores and home store) and data
