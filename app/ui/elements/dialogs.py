@@ -50,13 +50,12 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
             st.write('Search For Alternative:')
             searched_alt_item = item_selector(price_data, key='dialog_item_selector')
             # Add quantity select if shopping
-            if shoppinglist:
-                new_quantity = st.number_input(label='Change Quantity',
-                                               min_value=0.0,
-                                               step=0.5,
-                                               value=None,
-                                               icon=':material/bucket_check:',
-                                               placeholder='Enter quantity')
+            new_quantity = st.number_input(label='Change Quantity',
+                                           min_value=0.0,
+                                           step=0.5,
+                                           value=None,
+                                           icon=':material/bucket_check:',
+                                           placeholder='Enter quantity')
             st.space()
 
             submit = st.form_submit_button('Submit', width='stretch')
@@ -64,7 +63,7 @@ def alternative_dialog(price_data: list[dict], input_dict: dict,
     if submit:
         # Enter selected item
         selection = selected_item(alternatives, suggested_alt_item, searched_alt_item)
-        quantity = new_quantity if new_quantity else None
+        quantity = new_quantity if selection == searched_alt_item else None
         # Enter selected alternative item into session state and indexedDB
         st.session_state.db.put(item_id=alt_key, value={'selection': selection, 'quantity': quantity})
 
