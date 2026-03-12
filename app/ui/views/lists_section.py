@@ -3,6 +3,7 @@ import streamlit as st
 from ui.utilities.workflow import WorkflowStep, enforce_workflow
 from ui.utilities.lists import read_uploaded_file, enrich_items_list
 from ui.utilities.general import make_store_key
+from ui.utilities.items import data_for_store_from_db
 
 def lists_section_element():
     """ Section to show shoppinglist section """
@@ -47,8 +48,7 @@ def lists_section_element():
 
         # Get price data for "Home Store"
         home_store = st.session_state.db.get(item_id='home_store').get('value', [])
-        store_key = make_store_key(home_store)
-        price_data = st.session_state.db.get(item_id=store_key).get('value', {}).get('data', [])
+        price_data = data_for_store_from_db(store=home_store, data_type='price')
 
         # Get items_list
         data_dict = st.session_state.db.get(item_id='enriched_items_list', default={})

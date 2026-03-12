@@ -4,6 +4,7 @@ from streamlit.runtime.uploaded_file_manager import UploadedFile
 from backend.db.supabase import get_database_url
 from ui.utilities.upload import InventoryFileHandler
 from ui.utilities.general import make_store_key
+from ui.utilities.items import data_for_store_from_db
 
 
 def read_uploaded_file(uploaded_file: UploadedFile) -> list[dict]:
@@ -43,12 +44,9 @@ def read_uploaded_file(uploaded_file: UploadedFile) -> list[dict]:
     return items
 
 
-def enrich_items_list(items_list: list[dict]) -> list[dict]:
+def enrich_items_list(items_list: list[dict], store: dict) -> list[dict]:
     """ Adding item name and item price to items in uploaded shopping list """
-    home_store = st.session_state.db.get(item_id='home_store').get('value', [])
-    store_key = make_store_key(home_store)
-
-    price_data = st.session_state.db.get(item_id=store_key).get('value', {}).get('data',[])
+    price_data = data_for_store_from_db(store=store, data_type='price')
 
     # Build a lookup by ItemCode once
     lookup = {d["ItemCode"]: d for d in price_data}
