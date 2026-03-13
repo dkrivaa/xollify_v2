@@ -118,7 +118,7 @@ elif not st.session_state.db._cache:
 # PAGE DEFINITIONS ###########
 pages = {
     'home_page_old': st.Page(
-        title='Xollify',
+        title='Xollify_old',
         page='ui/views/home_old.py',
         icon=':material/home:',
         default=True,
