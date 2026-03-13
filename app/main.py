@@ -150,6 +150,7 @@ accessible = {
     name for name in pages
     if name not in preconditions or preconditions[name]()
 }
+st.write(accessible)
 
 # st.navigation gets a list of st.Page objects, filtered by accessibility
 nav_pages = [pages[name] for name in accessible]
