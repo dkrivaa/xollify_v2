@@ -15,9 +15,11 @@ def render():
               type='secondary',
               width='stretch',
               key='sec')
-    st.button(label='Test :material/arrow_right:',
+    st.button(label='Test',
               type='tertiary',
               width='stretch',
+              icon=' :material/arrow_forward:',
+              icon_position='right',
               key='ter')
 
 
