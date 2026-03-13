@@ -125,7 +125,7 @@ pages = {
     ),
     'home_page': st.Page(
         title='Xollify',
-        page='ui/views/home_old.py',
+        page='ui/views/home.py',
         icon=':material/home:',
     )
 
