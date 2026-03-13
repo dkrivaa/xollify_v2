@@ -26,7 +26,6 @@ def render():
 
     st.page_link(page='ui/views/home_old.py',
                  label='Test',
-                 width='stretch',
                  icon=':material/arrow_right_alt:',
                  icon_position='right',
                  )
