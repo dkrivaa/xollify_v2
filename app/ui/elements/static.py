@@ -3,7 +3,7 @@ import streamlit as st
 
 def logo():
     """ Logo at top of all pages """
-    st.title(body=':orange[:material/attach_money: Xollify]',
+    st.header(body=':orange[:material/attach_money: Xollify]',
              width='stretch',
              text_alignment='center')
     st.markdown(body=':grey[Optimize Shopping, Save MONEY!!]',
