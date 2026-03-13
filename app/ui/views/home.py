@@ -8,8 +8,17 @@ def render():
     logo()
 
     st.button(label='Test',
+              type='primary',
+              width='stretch',
+              key='pri')
+    st.button(label='Test',
+              type='secondary',
+              width='stretch',
+              key='sec')
+    st.button(label='Test',
               type='tertiary',
-              width='stretch')
+              width='stretch',
+              key='ter')
 
 
 if __name__ == "__main__":
