@@ -127,6 +127,11 @@ pages = {
         title='Xollify',
         page='ui/views/home.py',
         icon=':material/home:',
+    ),
+    'stores_page': st.Page(
+        title='Xollify',
+        page='ui/views/home.py',
+        icon=':material/storefront:',
     )
 
 }
