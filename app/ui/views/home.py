@@ -24,7 +24,7 @@ def render():
               icon_position='right',
               key='ter')
 
-    st.page_link(page='ui.views.home_old.py',
+    st.page_link(page='ui/views/home_old.py',
                  label='Test',
                  width='stretch',
                  icon=':material/arrow_right_alt:',
