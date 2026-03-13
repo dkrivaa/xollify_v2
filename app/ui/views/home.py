@@ -7,28 +7,18 @@ def render():
     """ Main func to render page """
     logo()
 
-    st.button(label='Test',
-              type='primary',
-              width='stretch',
-              key='pri')
-    st.button(label='Test',
+    st.button(label='Info - Product Price & Promos',
               type='secondary',
               width='stretch',
-              icon=':material/arrow_right_alt:',
-              icon_position='right',
-              key='sec')
-    st.button(label='Test',
-              type='tertiary',
+              icon=':material/add_shopping_cart:',
+              icon_position='left',
+              key='info_key')
+    st.button(label='Plan - Compare Cost of Shopping List',
+              type='secondary',
               width='stretch',
-              icon=':material/arrow_right_alt:',
-              icon_position='right',
-              key='ter')
-
-    st.page_link(page='ui/views/home_old.py',
-                 label='Test',
-                 icon=':material/arrow_right_alt:',
-                 icon_position='right',
-                 )
+              icon=':material/list:',
+              icon_position='left',
+              key='plan_key')
 
 
 if __name__ == "__main__":
