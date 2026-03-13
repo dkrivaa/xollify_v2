@@ -7,7 +7,10 @@ def render():
     """ Main func to render page """
     logo()
 
-    st.button(label='Info - Product Price & Promos',
+    label1 = {'english': 'Info - Product Price & Promos',
+              'hebrew': 'מידע על מוצר - מחיר ומבצעים'}
+
+    st.button(label=label1['english'],
               type='secondary',
               width='stretch',
               icon=':material/add_shopping_cart:',
