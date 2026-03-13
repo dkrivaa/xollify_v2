@@ -106,29 +106,6 @@ if not st.session_state.db_ready:
         st.warning("Session could not be restored. Some data may be missing.")
         st.session_state.db_ready = True
 
-
-# if "db" not in st.session_state:
-#     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
-#     st.session_state.db.init()
-#     # Set flag for session_state.db
-#     st.session_state.db_ready = False
-#
-# # Handling session_state.db not ready
-# if not st.session_state.db_ready:
-#     # Get all from browser indexedDB
-#     records = st.session_state.db._idb.get_all()
-#     # Before js resolved
-#     if records is None:
-#         st.stop()    # Stop execution. When js resolves it invokes rerun
-#     # js resolved - records are either [] (because new user session) and so it correctly skip the following
-#     # or has data (ex. after mobile lock) => gets data from indexedDB and adds to session_state
-#     if records:
-#         # Add to session_state
-#         for record in records:
-#             st.session_state.db._cache_set(record["id"], record)
-#     # Reset flag for session_state.db
-#     st.session_state.db_ready = True
-
 # Post-lock recovery: cache empty but db_ready=True and get_all data exists
 elif not st.session_state.db._cache:
     for key, val in st.session_state.items():
@@ -139,6 +116,46 @@ elif not st.session_state.db._cache:
             break
 
 # PAGE DEFINITIONS ###########
+# pages = {
+#     'home_page': st.Page(
+#         title='Xollify',
+#         icon=':material/home:',
+#         default=True,
+#     ),
+#
+# }
+#
+# preconditions = {
+#     "filter":   lambda: st.session_state.db.exists("some_price_key"),
+#     "analysis": lambda: (
+#         st.session_state.db.exists("some_price_key") and
+#         st.session_state.get("filters_set")
+#     ),
+# }
+# Or if the conditions get complex, a named function is cleaner:
+# pythondef analysis_ready() -> bool:
+#     return (
+#         st.session_state.db.exists("some_price_key") and
+#         st.session_state.get("filters_set") and
+#         st.session_state.get("some_other_condition")
+#     )
+#
+# preconditions = {
+#     "filter":   lambda: st.session_state.db.exists("some_price_key"),
+#     "analysis": analysis_ready,
+# }
+#
+# accessible = {
+#     name for name in pages
+#     if name not in preconditions or preconditions[name]()
+# }
+#
+# # st.navigation gets a list of st.Page objects, filtered by accessibility
+# nav_pages = [pages[name] for name in ["data", "filter", "analysis"] if name in accessible]
+# pg = st.navigation(nav_pages, position="hidden")
+# pg.run()
+
+
 home_page = st.Page(
     title='Xollify',
     page='ui/views/home.py',
