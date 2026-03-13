@@ -159,7 +159,7 @@ pg.run()
 
 # home_page = st.Page(
 #     title='Xollify',
-#     page='ui/views/home.py',
+#     page='ui/views/home_old.py',
 #     icon=':material/home:',
 #     default=True,
 # )
