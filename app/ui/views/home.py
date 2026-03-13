@@ -14,6 +14,8 @@ def render():
     st.button(label='Test',
               type='secondary',
               width='stretch',
+              icon=':material/arrow_right_alt:',
+              icon_position='right',
               key='sec')
     st.button(label='Test',
               type='tertiary',
