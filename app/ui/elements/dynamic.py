@@ -185,6 +185,6 @@ def lang():
 
     st.session_state.db.put(item_id='language', value={'language': language,
                                                        'icon_position': icon_position})
+    st.stop()
 
-    return language, icon_position
 
