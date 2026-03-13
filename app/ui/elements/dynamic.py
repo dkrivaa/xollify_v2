@@ -175,7 +175,11 @@ def lang():
     # LANGUAGE ###################
     lang = 'english'
     icon_position = 'left'
-    hebrew = st.toggle(label='עברית')
+
+    col1, col2 = st.columns([8, 1])
+    with col2:
+        hebrew = st.toggle(label='עברית')
+
     if hebrew:
         lang = 'hebrew'
         icon_position = 'right'

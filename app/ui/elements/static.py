@@ -10,8 +10,6 @@ def logo():
                 width='stretch',
                 text_alignment='center')
 
-    st.divider()
-
 
 def explanation():
     """ Popover with explanation of app """
