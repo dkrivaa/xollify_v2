@@ -18,7 +18,7 @@ def render():
     st.button(label='Test',
               type='tertiary',
               width='stretch',
-              icon=':material/arrow_forward:',
+              icon=':material/arrow_right_alt:',
               icon_position='right',
               key='ter')
 
