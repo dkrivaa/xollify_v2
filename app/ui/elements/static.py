@@ -10,8 +10,6 @@ def logo():
                 width='stretch',
                 text_alignment='center')
 
-    # Explanation of app
-    explanation()
     st.divider()
 
 

@@ -21,6 +21,7 @@ def render():
 
     # Add logo at top of page
     logo()
+    explanation()
 
     # Navigation menu
     navigation_selection = navigation_section()
