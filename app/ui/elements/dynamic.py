@@ -176,7 +176,7 @@ def lang():
     lang = 'english'
     icon_position = 'left'
 
-    col1, col2 = st.columns([8, 1])
+    col1, col2 = st.columns([6, 1])
     with col2:
         hebrew = st.toggle(label='עברית')
 
