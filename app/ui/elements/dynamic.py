@@ -183,8 +183,6 @@ def lang():
         language = 'hebrew'
         icon_position = 'right'
 
-    st.session_state['language'] = {'language': language, 'icon_position': icon_position}
-
     return language, icon_position
 
 
