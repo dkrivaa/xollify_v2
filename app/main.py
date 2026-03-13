@@ -124,12 +124,12 @@ pages = {
         default=True,
     ),
     'home_page': st.Page(
-        title='Xollify',
+        title='Xollify-Home',
         page='ui/views/home.py',
         icon=':material/home:',
     ),
     'stores_page': st.Page(
-        title='Xollify',
+        title='Xollify-Stores',
         page='ui/views/stores.py',
         icon=':material/storefront:',
     )
