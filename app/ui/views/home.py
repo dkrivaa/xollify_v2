@@ -13,23 +13,25 @@ def render():
 
     label1 = {'english': 'Product Price & Promos',
               'hebrew': 'מחיר מוצר ומבצעים'}
-    st.button(label=label1[language],
-              type='secondary',
-              width='stretch',
-              icon=':material/add_shopping_cart:',
-              icon_position=icon_position,
-              key='info_key')
+    if st.button(label=label1[language],
+                 type='secondary',
+                 width='stretch',
+                 icon=':material/add_shopping_cart:',
+                 icon_position=icon_position,
+                 key='info_key'):
+        st.switch_page('ui/views/stores.py')
 
     st.space()
 
     label2 = {'english': 'Compare Cost of Shopping List',
               'hebrew': 'השוואת עלות רשימת קניות'}
-    st.button(label=label2[language],
-              type='secondary',
-              width='stretch',
-              icon=':material/list:',
-              icon_position=icon_position,
-              key='plan_key')
+    if st.button(label=label2[language],
+                 type='secondary',
+                 width='stretch',
+                 icon=':material/list:',
+                 icon_position=icon_position,
+                 key='plan_key'):
+        st.switch_page('ui/views/stores.py')
 
 
 if __name__ == "__main__":
