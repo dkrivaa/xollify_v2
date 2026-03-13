@@ -5,7 +5,7 @@ from ui.elements.static import logo
 
 def render():
     """ Main func to render page """
-    st.logo(logo())
+    logo()
 
     st.button(label='Test',
               type='primary',
