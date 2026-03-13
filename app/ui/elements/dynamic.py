@@ -174,15 +174,17 @@ def popover_content(stores: list[dict]):
 def lang():
     """ Function to set language of ui """
     # LANGUAGE ###################
-    lang = 'english'
+    language = 'english'
     icon_position = 'left'
 
-    col1, col2 = st.columns([6, 1])
-    with col2:
-        hebrew = st.toggle(label='עברית')
+    hebrew = st.toggle(label='עברית', )
 
     if hebrew:
-        lang = 'hebrew'
+        language = 'hebrew'
         icon_position = 'right'
-    return lang, icon_position
+
+    st.session_state.db.put(item_id='language', value={'language': language,
+                                                       'icon_position': icon_position})
+
+    return language, icon_position
 
