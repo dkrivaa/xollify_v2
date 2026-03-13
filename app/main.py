@@ -119,10 +119,15 @@ elif not st.session_state.db._cache:
 pages = {
     'home_page_old': st.Page(
         title='Xollify',
-        page = 'ui/views/home_old.py',
+        page='ui/views/home_old.py',
         icon=':material/home:',
         default=True,
     ),
+    'home_page': st.Page(
+        title='Xollify',
+        page='ui/views/home_old.py',
+        icon=':material/home:',
+    )
 
 }
 
@@ -153,7 +158,7 @@ accessible = {
 
 # st.navigation gets a list of st.Page objects, filtered by accessibility
 nav_pages = [pages[name] for name in accessible]
-pg = st.navigation(nav_pages, position="hidden")
+pg = st.navigation(nav_pages, position="top")
 pg.run()
 
 
