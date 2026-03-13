@@ -10,8 +10,8 @@ def render():
     language, icon_position = lang()
     st.divider()
 
-    label1 = {'english': ':blue[Info] - Product Price & Promos',
-              'hebrew': 'מידע על מוצר - מחיר ומבצעים'}
+    label1 = {'english': 'Product Price & Promos',
+              'hebrew': 'מחיר מוצר ומבצעים'}
     st.button(label=label1[language],
               type='secondary',
               width='stretch',
@@ -21,8 +21,8 @@ def render():
 
     st.space()
 
-    label2 = {'english': 'Plan - Compare Cost of Shopping List',
-              'hebrew': 'תכנון - השוואת עלות רשימת קניות'}
+    label2 = {'english': 'Compare Cost of Shopping List',
+              'hebrew': 'השוואת עלות רשימת קניות'}
     st.button(label=label2[language],
               type='secondary',
               width='stretch',
