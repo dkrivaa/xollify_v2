@@ -6,9 +6,9 @@ def logo():
     st.title(body=':orange[:material/attach_money: Xollify]',
              width='stretch',
              text_alignment='center')
-    st.subheader(body=':grey[Optimize Shopping, Save MONEY!!]',
-                 width='stretch',
-                 text_alignment='center')
+    st.markdown(body=':grey[Optimize Shopping, Save MONEY!!]',
+                width='stretch',
+                text_alignment='center')
 
     # Explanation of app
     explanation()
