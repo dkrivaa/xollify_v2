@@ -172,6 +172,7 @@ def popover_content(stores: list[dict]):
 
 
 def lang():
+    """ Function to set language of ui """
     # LANGUAGE ###################
     lang = 'english'
     icon_position = 'left'
