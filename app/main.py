@@ -152,7 +152,7 @@ accessible = {
 }
 
 # st.navigation gets a list of st.Page objects, filtered by accessibility
-nav_pages = [pages[name] for name in ["data", "filter", "analysis"] if name in accessible]
+nav_pages = [pages[name] for name in accessible]
 pg = st.navigation(nav_pages, position="hidden")
 pg.run()
 
