@@ -13,6 +13,9 @@ def render():
               icon=':material/add_shopping_cart:',
               icon_position='left',
               key='info_key')
+
+    st.space()
+
     st.button(label='Plan - Compare Cost of Shopping List',
               type='secondary',
               width='stretch',
