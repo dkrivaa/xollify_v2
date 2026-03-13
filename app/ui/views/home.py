@@ -7,6 +7,9 @@ def render():
     """ Main func to render page """
     logo()
 
+    language = 'english'
+    icon_position = 'left' if language == 'english' else 'right'
+
     label1 = {'english': 'Info - Product Price & Promos',
               'hebrew': 'מידע על מוצר - מחיר ומבצעים'}
 
@@ -14,7 +17,7 @@ def render():
               type='secondary',
               width='stretch',
               icon=':material/add_shopping_cart:',
-              icon_position='left',
+              icon_position=icon_position,
               key='info_key')
 
     st.space()
