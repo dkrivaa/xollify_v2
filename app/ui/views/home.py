@@ -13,7 +13,7 @@ def render():
     label1 = {'english': 'Info - Product Price & Promos',
               'hebrew': 'מידע על מוצר - מחיר ומבצעים'}
 
-    st.button(label=label1['english'],
+    st.button(label=label1[language],
               type='secondary',
               width='stretch',
               icon=':material/add_shopping_cart:',
