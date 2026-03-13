@@ -10,7 +10,7 @@ def render():
     language, icon_position = lang()
     st.divider()
 
-    label1 = {'english': 'Info - Product Price & Promos',
+    label1 = {'english': ':blue[Info] - Product Price & Promos',
               'hebrew': 'מידע על מוצר - מחיר ומבצעים'}
     st.button(label=label1[language],
               type='secondary',
