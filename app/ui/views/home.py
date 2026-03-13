@@ -8,7 +8,7 @@ def render():
     """ Main func to render page """
     logo()
     language, icon_position = lang()
-    st.divider()
+    st.space()
 
     label1 = {'english': 'Product Price & Promos',
               'hebrew': 'מחיר מוצר ומבצעים'}
