@@ -1,18 +1,17 @@
 import streamlit as st
 
 from ui.elements.static import logo
+from ui.elements.dynamic import lang
 
 
 def render():
     """ Main func to render page """
     logo()
 
-    language = 'hebrew'
-    icon_position = 'left' if language == 'english' else 'right'
+    language, icon_position = lang()
 
     label1 = {'english': 'Info - Product Price & Promos',
               'hebrew': 'מידע על מוצר - מחיר ומבצעים'}
-
     st.button(label=label1[language],
               type='secondary',
               width='stretch',
@@ -22,11 +21,13 @@ def render():
 
     st.space()
 
-    st.button(label='Plan - Compare Cost of Shopping List',
+    label2 = {'english': 'Plan - Compare Cost of Shopping List',
+              'hebrew': 'תכנון - השוואת עלות רשימת קניות'}
+    st.button(label=label2[language],
               type='secondary',
               width='stretch',
               icon=':material/list:',
-              icon_position='left',
+              icon_position=icon_position,
               key='plan_key')
 
 

@@ -170,3 +170,14 @@ def popover_content(stores: list[dict]):
     if idx is not None:
         return stores[idx]
 
+
+def lang():
+    # LANGUAGE ###################
+    lang = 'english'
+    icon_position = 'left'
+    hebrew = st.toggle(label='עברית')
+    if hebrew:
+        lang = 'hebrew'
+        icon_position = 'right'
+    return lang, icon_position
+
