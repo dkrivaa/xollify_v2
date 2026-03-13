@@ -116,23 +116,23 @@ elif not st.session_state.db._cache:
             break
 
 # PAGE DEFINITIONS ###########
-# pages = {
-#     'home_page': st.Page(
-#         title='Xollify',
-#         page = 'ui/views/home.py',
-#         icon=':material/home:',
-#         default=True,
-#     ),
-#
-# }
-#
-# preconditions = {
-#     "filter":   lambda: st.session_state.db.exists("some_price_key"),
-#     "analysis": lambda: (
-#         st.session_state.db.exists("some_price_key") and
-#         st.session_state.get("filters_set")
-#     ),
-# }
+pages = {
+    'home_page': st.Page(
+        title='Xollify',
+        page = 'ui/views/home.py',
+        icon=':material/home:',
+        default=True,
+    ),
+
+}
+
+preconditions = {
+    "filter":   lambda: st.session_state.db.exists("some_price_key"),
+    "analysis": lambda: (
+        st.session_state.db.exists("some_price_key") and
+        st.session_state.get("filters_set")
+    ),
+}
 # Or if the conditions get complex, a named function is cleaner:
 # pythondef analysis_ready() -> bool:
 #     return (
@@ -140,35 +140,35 @@ elif not st.session_state.db._cache:
 #         st.session_state.get("filters_set") and
 #         st.session_state.get("some_other_condition")
 #     )
-#
+
 # preconditions = {
 #     "filter":   lambda: st.session_state.db.exists("some_price_key"),
 #     "analysis": analysis_ready,
 # }
-#
-# accessible = {
-#     name for name in pages
-#     if name not in preconditions or preconditions[name]()
-# }
-#
-# # st.navigation gets a list of st.Page objects, filtered by accessibility
-# nav_pages = [pages[name] for name in ["data", "filter", "analysis"] if name in accessible]
-# pg = st.navigation(nav_pages, position="hidden")
-# pg.run()
 
+accessible = {
+    name for name in pages
+    if name not in preconditions or preconditions[name]()
+}
 
-home_page = st.Page(
-    title='Xollify',
-    page='ui/views/home.py',
-    icon=':material/home:',
-    default=True,
-)
-
-pages = [home_page]
-
-# RUN APP ###########
-pg = st.navigation(pages=pages, position='top')
+# st.navigation gets a list of st.Page objects, filtered by accessibility
+nav_pages = [pages[name] for name in ["data", "filter", "analysis"] if name in accessible]
+pg = st.navigation(nav_pages, position="hidden")
 pg.run()
 
+
+# home_page = st.Page(
+#     title='Xollify',
+#     page='ui/views/home.py',
+#     icon=':material/home:',
+#     default=True,
+# )
+#
+# pages = [home_page]
+#
+# # RUN APP ###########
+# pg = st.navigation(pages=pages, position='top')
+# pg.run()
+#
 
 
