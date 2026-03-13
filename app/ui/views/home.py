@@ -7,7 +7,7 @@ def render():
     """ Main func to render page """
     logo()
 
-    language = 'english'
+    language = 'hebrew'
     icon_position = 'left' if language == 'english' else 'right'
 
     label1 = {'english': 'Info - Product Price & Promos',
