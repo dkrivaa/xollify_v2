@@ -183,8 +183,8 @@ def lang():
         language = 'hebrew'
         icon_position = 'right'
 
-    st.session_state.db.put(item_id='language', value={'language': language,
-                                                       'icon_position': icon_position})
-    st.stop()
+    st.session_state['language'] = {'language': language, 'icon_position': icon_position}
+
+    return language, icon_position
 
 
