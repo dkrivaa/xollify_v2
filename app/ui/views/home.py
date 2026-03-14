@@ -21,7 +21,7 @@ def render():
                  icon=':material/add_shopping_cart:',
                  icon_position=icon_position,
                  key='info_key'):
-        st.switch_page('ui/views/stores.py')
+        st.switch_page('ui/views/home_store.py')
 
     st.space()
 
@@ -33,7 +33,7 @@ def render():
                  icon=':material/list:',
                  icon_position=icon_position,
                  key='plan_key'):
-        st.switch_page('ui/views/stores.py')
+        st.switch_page('ui/views/home_store.py')
 
 
 if __name__ == "__main__":

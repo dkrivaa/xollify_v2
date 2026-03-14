@@ -132,9 +132,9 @@ pages = {
         page='ui/views/home.py',
         icon=':material/home:',
     ),
-    'stores_page': st.Page(
-        title='Xollify-Stores',
-        page='ui/views/stores.py',
+    'home_store_page': st.Page(
+        title='Xollify-Home Store',
+        page='ui/views/home_store.py',
         icon=':material/storefront:',
     )
 
