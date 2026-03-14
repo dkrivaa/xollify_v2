@@ -11,6 +11,12 @@ def render():
     st.divider()
     st.space()
 
+    # Chekc if reset selectors (after a store has been selected)
+    if st.session_state.get('reset_selectors_flag', False):
+        st.session_state['chain_selector'] = None
+        st.session_state['store_selector'] = None
+        st.session_state['reset_selectors_flag'] = False
+
     with st.chat_message(name='ai', width='stretch', ):
         st.markdown(body='Great. Added your "Home Store"')
         st.markdown(body=':blue[Do you want to add stores to compare prices?]')
@@ -30,6 +36,9 @@ def render():
                 # Enter new store into session_state and indexedDB
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=False)
+
+                # Reset flag to clear select boxes
+                st.session_state['reset_selectors_flag'] = True
 
         st.space()
         if st.button(label='Skip',
