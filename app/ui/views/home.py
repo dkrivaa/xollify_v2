@@ -13,7 +13,7 @@ def render():
     st.divider()
     st.space()
 
-    label1 = {'english': 'Product Price & Promos',
+    label1 = {'english': 'Check Product Price & Promos',
               'hebrew': 'מחיר מוצר ומבצעים'}
     if st.button(label=label1[language],
                  type='secondary',
