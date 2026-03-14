@@ -21,7 +21,7 @@ def render():
             # Show store selector for selected chain
             store_code, store_name = store_selector(chain_code)
             # Add store to session_state
-            if st.button(label='Add "Home Store"',
+            if st.button(label='Add Store',
                          icon=':material/add_business:',
                          icon_position='left',
                          width='stretch',
@@ -29,7 +29,7 @@ def render():
                          disabled=not store_code):
                 # Enter new store into session_state and indexedDB
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
-                                                     store_name, home_store=True)
+                                                     store_name, home_store=False)
 
     st.space()
     if st.button(label='Skip',
