@@ -115,6 +115,10 @@ elif not st.session_state.db._cache:
                     st.session_state.db._cache_set(record["id"], record)
             break
 
+# LANGUAGE ###################
+
+
+
 # PAGE DEFINITIONS ###########
 pages = {
     'home_page_old': st.Page(

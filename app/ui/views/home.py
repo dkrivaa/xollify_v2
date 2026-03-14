@@ -7,7 +7,8 @@ from ui.elements.dynamic import lang
 def render():
     """ Main func to render page """
     logo()
-    language, icon_position = lang()
+    language = 'english'
+    icon_position = 'left' if language == 'english' else 'right'
 
     st.divider()
     st.space()
