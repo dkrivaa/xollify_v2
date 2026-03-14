@@ -11,15 +11,21 @@ def render():
     st.divider()
     st.space()
 
-    # Chekc if reset selectors (after a store has been selected)
+    message = 'Great. Added your "Home Store"'
+    question = 'Do you want to add stores to compare prices?'
+
+    # Check if flag to reset selectors (after a store has been selected)
     if st.session_state.get('reset_selectors_flag', False):
         st.session_state['chain_selector'] = None
         st.session_state['store_selector'] = None
         st.session_state['reset_selectors_flag'] = False
+        # Change message and question after store has been selected
+        message = 'Added the selected store'
+        question = 'Do you want to add another store?'
 
     with st.chat_message(name='ai', width='stretch', ):
-        st.markdown(body='Great. Added your "Home Store"')
-        st.markdown(body=':blue[Do you want to add stores to compare prices?]')
+        st.markdown(body=message)
+        st.markdown(body=f':blue[{question}]')
 
         # Show chain selector
         chain_code, chain_alias = chain_selector()
