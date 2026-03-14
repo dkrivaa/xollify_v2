@@ -14,7 +14,7 @@ def render():
     with st.chat_message(name='ai', width='stretch'):
         st.markdown(body='Just a few questions:')
 
-    stores_section_element()
+        stores_section_element()
 
 
 
