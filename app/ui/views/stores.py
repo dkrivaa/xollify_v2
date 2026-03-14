@@ -31,6 +31,9 @@ def render():
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=True)
 
+                with st.chat_message(name='ai', width='stretch'):
+                    st.markdown(body='Want to add another store to compare prices?')
+
 
 
 if __name__ == "__main__":
