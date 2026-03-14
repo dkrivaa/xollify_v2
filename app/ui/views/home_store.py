@@ -31,12 +31,7 @@ def render():
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=True)
 
-                if st.button(label='Add Stores to Compare',
-                             icon=':material/add_business:',
-                             icon_position='left',
-                             width='stretch',
-                             key='add_stores_button'):
-                    pass
+                st.switch_page('ui/views/other_stores.py')
 
 
 
