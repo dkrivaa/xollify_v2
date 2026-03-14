@@ -25,18 +25,11 @@ def render():
                          icon=':material/add_business:',
                          icon_position='left',
                          width='stretch',
-                         key='add_home_store_button',
+                         key='add_store_button',
                          disabled=not store_code):
                 # Enter new store into session_state and indexedDB
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=True)
-
-                if st.button(label='Add Stores to Compare',
-                             icon=':material/add_business:',
-                             icon_position='left',
-                             width='stretch',
-                             key='add_stores_button'):
-                    pass
 
 
 
@@ -44,4 +37,3 @@ def render():
 
 if __name__ == "__main__":
     render()
-
