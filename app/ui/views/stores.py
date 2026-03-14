@@ -21,7 +21,7 @@ def render():
             # Show store selector for selected chain
             store_code, store_name = store_selector(chain_code)
             # Add store to session_state
-            if st.button(label='Add Home Store',
+            if st.button(label='Add "Home Store"',
                          icon=':material/add_business:',
                          icon_position='left',
                          width='stretch',
