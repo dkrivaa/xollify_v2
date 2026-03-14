@@ -11,8 +11,10 @@ def render():
     st.divider()
     st.space()
 
+    with st.chat_message(name='ai', width='stretch', ):
+        st.markdown(body='Great. Added your "Home Store"')
     with st.chat_message(name='ai', width='stretch'):
-        st.markdown(body='Just a few questions:')
+        st.markdown(body='Do you want to add stores to compare prices?')
 
         st.markdown(body=':blue[Where do you normally shop?]')
         # Show chain selector
@@ -31,7 +33,8 @@ def render():
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=True)
 
-
+    if st.button(label='Skip',):
+        pass
 
 
 
