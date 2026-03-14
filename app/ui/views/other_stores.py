@@ -33,7 +33,9 @@ def render():
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=True)
 
-    if st.button(label='Skip',):
+    st.space()
+    if st.button(label='Skip',
+                 width='stretch'):
         pass
 
 
