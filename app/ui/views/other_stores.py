@@ -13,9 +13,8 @@ def render():
 
     with st.chat_message(name='ai', width='stretch', ):
         st.markdown(body='Great. Added your "Home Store"')
-        st.markdown(body='Do you want to add stores to compare prices?')
+        st.markdown(body=':blue[Do you want to add stores to compare prices?]')
 
-        st.markdown(body=':blue[Where do you normally shop?]')
         # Show chain selector
         chain_code, chain_alias = chain_selector()
         if chain_code:
