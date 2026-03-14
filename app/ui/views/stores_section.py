@@ -40,7 +40,7 @@ def stores_section_element():
                 # Show store selector for selected chain
                 store_code, store_name = store_selector(chain_code)
                 # if store_code:
-                # Add store to session_state and upstash
+                # Add store to session_state
                 if st.button(label='Add Store',
                              icon=':material/add_business:',
                              icon_position='left',

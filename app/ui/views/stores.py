@@ -1,7 +1,7 @@
 import streamlit as st
 
 from ui.elements.static import logo
-from ui.elements.dynamic import chain_selector, lang
+from ui.elements.dynamic import chain_selector, store_selector, lang
 from ui.views.stores_section import stores_section_element
 
 
@@ -17,6 +17,9 @@ def render():
         st.markdown(body='Where do you normally shop?')
         # Show chain selector
         chain_code, chain_alias = chain_selector()
+        if chain_code:
+            # Show store selector for selected chain
+            store_code, store_name = store_selector(chain_code)
 
 
 
