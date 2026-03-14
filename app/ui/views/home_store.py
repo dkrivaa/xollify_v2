@@ -12,7 +12,7 @@ def render():
     st.space()
 
     with st.chat_message(name='ai', width='stretch'):
-        st.markdown(body='Just a few questions to get relevant data:')
+        st.markdown(body='Just a few questions to get the relevant data:')
 
         st.markdown(body=':blue[Where do you normally shop?]')
         # Show chain selector
