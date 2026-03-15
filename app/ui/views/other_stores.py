@@ -52,10 +52,12 @@ def render():
         # Action buttons
         col1, col2 = st.columns(2)
         with col1:
+            # Go to selected stores
             if st.button(label='See Selected Stores', width='stretch',
                          icon=':material/visibility:', icon_position='left'):
                 st.switch_page('ui/views/selected_stores.py')
         with col2:
+            # Forward to items or shoppinglist
             if st.button(label='Next',
                          width='stretch',
                          icon=':material/east:',

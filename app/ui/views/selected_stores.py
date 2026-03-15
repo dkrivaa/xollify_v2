@@ -36,8 +36,9 @@ def render():
     st.divider()
     st.space()
 
+    # Get selected stores
     data = st.session_state.db.get(item_id='stores')
-
+    # Display selected stores
     if data:
         organized_data = make_data_for_editor(data.get('value'))
         edited_data = st.data_editor(
@@ -50,7 +51,7 @@ def render():
                            'delete': st.column_config.CheckboxColumn(label='Delete', width='small', )
                            }
         )
-
+        # Update stores, go to home store selection if home store removed
         if st.button(label='Update',
                      icon=':material/refresh:',
                      icon_position='left',
@@ -62,12 +63,14 @@ def render():
 
         col1, col2 = st.columns(2)
         with col1:
+            # Back to stores selection
             if st.button(label='Back',
                          width='stretch',
                          icon=':material/west:',
                          icon_position='left'):
                 st.switch_page('ui/views/other_stores.py')
         with col2:
+            # Forward to items or shoppinglist
             if st.button(label='Next',
                          width='stretch',
                          icon=':material/east:',
