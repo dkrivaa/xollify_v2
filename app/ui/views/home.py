@@ -24,7 +24,7 @@ def render():
         st.session_state['activity'] = 'info'
         st.switch_page('ui/views/home_store.py')
     with st.container():
-        st.caption('A useful and simple way to get all price and promo information while shopping')
+        st.caption('The simple way to get all price and promo information while shopping')
 
     st.space()
 
@@ -39,7 +39,7 @@ def render():
         st.session_state['activity'] = 'plan'
         st.switch_page('ui/views/home_store.py')
     with st.container():
-        st.caption('Use this tool to plan your shopping and maximize savings')
+        st.caption('Tool to plan your shopping for maximum savings')
 
 
 if __name__ == "__main__":
