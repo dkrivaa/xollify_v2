@@ -11,6 +11,8 @@ def render():
     st.divider()
     st.space()
 
+    st.subheader(st.session_state.get('title', None))
+
     with st.chat_message(name='ai', width='stretch'):
         st.markdown(body='Just a few questions to get the relevant data:')
 

@@ -19,11 +19,16 @@ def reorganize_data(edited_data: list[dict]):
         if not d.get("delete", False)
     ]
     # Remove home store if removed from selected stores
-    remove_home_store_from_db(stores=stores)
+    home_store_removed = remove_home_store_from_db(stores=stores)
     # Save updated stores data to session_state and indexedDB
     st.session_state.db.put(item_id='stores', value=stores)
-    # Rerun app
-    st.rerun()
+
+    if home_store_removed:
+        # Go to select new home store
+        st.switch_page('ui/views/home_store.py')
+    else:
+        # Rerun app
+        st.rerun()
 
 
 def render():
