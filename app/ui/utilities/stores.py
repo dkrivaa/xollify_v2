@@ -7,12 +7,12 @@ def add_store_to_session_state_indexeddb(chain_code: str,
                                          store_name: str,
                                          home_store: bool = False):
     """ Function to enter selected store into session_state and indexedDB """
-    if home_store:
-        store = {'chain_code': chain_code,
-                 'chain_alias': chain_alias,
-                 'store_code': store_code,
-                 'store_name': store_name}
-        st.session_state.db.put(item_id='home_store', value=store)
+    # if home_store:
+    #     store = {'chain_code': chain_code,
+    #              'chain_alias': chain_alias,
+    #              'store_code': store_code,
+    #              'store_name': store_name}
+    #     st.session_state.db.put(item_id='home_store', value=store)
 
     try:
         current = st.session_state.db.get(item_id='stores')['value']
