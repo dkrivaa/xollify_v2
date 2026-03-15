@@ -36,6 +36,8 @@ def render():
                  icon_position=icon_position,
                  key='plan_key'):
         st.switch_page('ui/views/home_store.py')
+    with st.container():
+        st.caption('Use this tool to plan your shopping and maximize savings')
 
 
 if __name__ == "__main__":
