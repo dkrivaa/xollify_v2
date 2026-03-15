@@ -34,9 +34,6 @@ def render():
                 st.switch_page('ui/views/other_stores.py')
 
 
-
-
-
 if __name__ == "__main__":
     render()
 
