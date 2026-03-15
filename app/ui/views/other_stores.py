@@ -57,7 +57,7 @@ def render():
         with col2:
             if st.button(label='Next',
                          width='stretch',
-                         icon=':material/east',
+                         icon=':material/east:',
                          icon_position='right'):
                 pass
 
