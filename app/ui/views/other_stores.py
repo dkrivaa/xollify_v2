@@ -49,9 +49,10 @@ def render():
         st.space()
         st.divider()
 
+        # Action buttons
         col1, col2 = st.columns(2)
         with col1:
-            if st.button(label='Selected Stores', width='stretch'):
+            if st.button(label='See Selected Stores', width='stretch'):
                 pass
         with col2:
             if st.button(label='Skip',
