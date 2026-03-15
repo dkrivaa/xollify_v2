@@ -18,7 +18,11 @@ def render():
     with st.chat_message(name='ai', width='stretch'):
         st.markdown(body='Just a few questions to get the relevant data:')
 
-        st.markdown(body=':blue[Where do you normally shop?]')
+        if st.session_state.get('activity') == 'info':
+            st.markdown(body=':blue[Where are you shopping now?]')
+        elif st.session_state.get('activity') == 'plan':
+            st.markdown(body=':blue[Where do you normally shop?]')
+
         # Show chain selector
         chain_code, chain_alias = chain_selector()
         if chain_code:
