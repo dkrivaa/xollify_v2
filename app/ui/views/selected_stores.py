@@ -76,7 +76,7 @@ def render():
                          icon=':material/east:',
                          icon_position='right'):
                 if st.session_state.get('activity') == 'info':
-                    pass
+                    st.switch_page('ui/views/items.py')
                 if st.session_state.get('activity') == 'plan':
                     pass
 
