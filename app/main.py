@@ -147,6 +147,11 @@ pages = {
         page='ui/views/selected_stores.py',
         icon=':material/storefront:',
     ),
+    'items_page': st.Page(
+        title='Xollify-Product Price',
+        page='ui/views/items.py',
+        icon=':material/shopping_cart:',
+    ),
 }
 
 preconditions = {

@@ -24,9 +24,6 @@ def get_workflow_state() -> WorkflowStep:
     # Check if home store exist or change in home store
     if not st.session_state.db.get(item_id='home_store'):
         return WorkflowStep.NO_HOME_STORE
-    elif (st.session_state.get('temp_home_store', {})
-          and st.session_state.db.get(item_id='home_store').get('value', {}) != st.session_state.get('temp_home_store', {})):
-        return WorkflowStep.NO_HOME_STORE
 
     # Check if price and promo data for selected stores
     stores_to_fetch = get_stores_missing_data(stores=stores)
@@ -59,13 +56,8 @@ def enforce_workflow(required: WorkflowStep = WorkflowStep.READY) -> bool:
     # Handling home store
     if required.value >= WorkflowStep.NO_HOME_STORE.value:
         if state == WorkflowStep.NO_HOME_STORE:
-            if 'temp_home_store' in st.session_state and st.session_state['temp_home_store'] is not None:
-                st.session_state.db.put(item_id='home_store', value=st.session_state['temp_home_store'])
-                st.session_state.pop('temp_home_store', None)
-                st.stop()
-            else:
-                no_home_store_selected()
-                st.stop()
+            no_home_store_selected()
+            st.stop()
 
     # Handling no price and promo data for stores
     if required.value >= WorkflowStep.NO_DATA.value:
