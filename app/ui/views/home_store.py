@@ -19,7 +19,7 @@ def render():
         st.markdown(body='Just a few questions to get the relevant data:')
 
         if st.session_state.get('activity') == 'info':
-            st.markdown(body=':blue[Where are you shopping now?]')
+            st.markdown(body=':blue[Where are you shopping?]')
         elif st.session_state.get('activity') == 'plan':
             st.markdown(body=':blue[Where do you normally shop?]')
 
