@@ -1,5 +1,6 @@
 import streamlit as st
 
+from ui.elements.static import logo
 from ui.utilities.general import remove_home_store_from_db
 
 
@@ -27,6 +28,10 @@ def reorganize_data(edited_data: list[dict]):
 
 def render():
     """ Page to manage selected stores. Main function to render page """
+    logo()
+    st.divider()
+    st.space()
+
     data = st.session_state.db.get(item_id='stores')
 
     if data:
