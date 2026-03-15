@@ -12,8 +12,8 @@ def render():
     st.space()
 
     # Add title to page
-    if 'title' in st.session_state:
-        st.subheader(st.session_state.get('title'))
+    # if 'title' in st.session_state:
+    #     st.subheader(st.session_state.get('title'))
 
     with st.chat_message(name='ai', width='stretch'):
         st.markdown(body='Just a few questions to get the relevant data:')
