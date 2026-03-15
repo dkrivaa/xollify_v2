@@ -27,8 +27,7 @@ def reorganize_data(edited_data: list[dict]):
         # Go to select new home store
         st.switch_page('ui/views/home_store.py')
     else:
-        # Rerun app
-        st.rerun()
+        st.switch_page('ui/views/other_stores.py')
 
 
 def render():
