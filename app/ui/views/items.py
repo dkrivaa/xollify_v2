@@ -18,7 +18,7 @@ def render():
     enforce_workflow()
 
     with st.chat_message(name='ai', width='stretch'):
-        st.markdown(body='Just a few questions to get the relevant data:')
+        st.markdown(body=':blue[All ready!! Select Item and get price and promo information]')
 
         # Get data for item selector (from home store)
         store = st.session_state.db.get('home_store').get('value', [])
