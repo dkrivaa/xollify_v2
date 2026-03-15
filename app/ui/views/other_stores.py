@@ -56,7 +56,9 @@ def render():
                 st.switch_page('ui/views/selected_stores.py')
         with col2:
             if st.button(label='Next',
-                         width='stretch'):
+                         width='stretch',
+                         icon=':material/east',
+                         icon_position='right'):
                 pass
 
 
