@@ -29,4 +29,7 @@ def add_store_to_session_state_indexeddb(chain_code: str,
     if new_store not in current:
         current.append(new_store)
         # Enter all stores into session_state and indexedDB
-        st.session_state.db.put(item_id='stores', value=current)
+        return st.session_state.db.put(item_id='stores', value=current)
+
+    # Store already in stores list
+    return True
