@@ -47,9 +47,16 @@ def render():
                 st.session_state['reset_selectors_flag'] = True
 
         st.space()
-        if st.button(label='Skip',
-                     width='stretch'):
-            pass
+        st.divider()
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button(label='Selected Stores', width='stretch'):
+                pass
+        with col2:
+            if st.button(label='Skip',
+                         width='stretch'):
+                pass
 
 
 
