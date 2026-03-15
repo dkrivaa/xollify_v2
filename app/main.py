@@ -150,7 +150,7 @@ pages = {
 }
 
 preconditions = {
-    'selected_stores_page':  lambda: 'stores' in st.session_state.db.get_all_keys(),
+    # 'selected_stores_page': lambda: 'stores' in st.session_state.db.get_all_keys(),
     "analysis": lambda: (
         st.session_state.db.exists("some_price_key") and
         st.session_state.get("filters_set")
