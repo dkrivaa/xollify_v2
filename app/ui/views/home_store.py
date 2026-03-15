@@ -44,7 +44,7 @@ def render():
         st.stop()  # JS not resolved yet, wait for rerun
 
     if st.session_state.get("_add_store_result") is True:
-        del st.session_state["_add_store_result"]  # clean up
+        # del st.session_state["_add_store_result"]  # clean up
         # Forward to other stores selection - only after write to indexedDB confirmed
         st.switch_page('ui/views/other_stores.py')
 
