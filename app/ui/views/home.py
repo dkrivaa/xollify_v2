@@ -23,7 +23,7 @@ def render():
                  key='info_key'):
         st.switch_page('ui/views/home_store.py')
     with st.container():
-        st.caption('This is a useful and simple way to get all price and promo information while shopping')
+        st.caption('A useful and simple way to get all price and promo information while shopping')
 
     st.space()
 
