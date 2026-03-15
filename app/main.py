@@ -149,14 +149,13 @@ pages = {
     ),
 }
 
-if st.session_state.get("db_ready"):
-    preconditions = {
-        'selected_stores_page': lambda: 'stores' in st.session_state.db.get_all_keys(),
-        "analysis": lambda: (
-            st.session_state.db.exists("some_price_key") and
-            st.session_state.get("filters_set")
-        ),
-    }
+preconditions = {
+    # 'selected_stores_page': lambda: 'stores' in st.session_state.db.get_all_keys(),
+    "analysis": lambda: (
+        st.session_state.db.exists("some_price_key") and
+        st.session_state.get("filters_set")
+    ),
+}
 # Or if the conditions get complex, a named function is cleaner:
 # def analysis_ready() -> bool:
 #     return (
