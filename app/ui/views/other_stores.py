@@ -60,7 +60,10 @@ def render():
                          width='stretch',
                          icon=':material/east:',
                          icon_position='right'):
-                pass
+                if st.session_state.get('activity') == 'info':
+                    pass
+                if st.session_state.get('activity') == 'plan':
+                    pass
 
 
 

@@ -58,6 +58,25 @@ def render():
                      width='stretch'):
             reorganize_data(edited_data)
 
+        st.divider()
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button(label='Back',
+                         width='stretch',
+                         icon=':material/west:',
+                         icon_position='left'):
+                st.switch_page('ui/views/other_stores.py')
+        with col2:
+            if st.button(label='Next',
+                         width='stretch',
+                         icon=':material/east:',
+                         icon_position='right'):
+                if st.session_state.get('activity') == 'info':
+                    pass
+                if st.session_state.get('activity') == 'plan':
+                    pass
+
 
 if __name__ == "__main__":
     render()
