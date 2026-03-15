@@ -11,6 +11,7 @@ def render():
     st.divider()
     st.space()
 
+    # Add title to page
     if 'title' in st.session_state:
         st.subheader(st.session_state.get('title'))
 

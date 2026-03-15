@@ -21,6 +21,7 @@ def render():
                  icon=':material/add_shopping_cart:',
                  icon_position=icon_position,
                  key='info_key'):
+        st.session_state['title'] = 'Before Getting Product Price and Promos'
         st.switch_page('ui/views/home_store.py')
 
     st.space()
