@@ -146,19 +146,18 @@ pages = {
         title='Xollify-Selected Stores',
         page='ui/views/selected_stores.py',
         icon=':material/storefront:',
-    )
-
+    ),
 }
 
 preconditions = {
-    "filter":   lambda: st.session_state.db.exists("some_price_key"),
+    'selected_stores_page':  lambda: 'stores' in st.session_state.db.get_all_keys(),
     "analysis": lambda: (
         st.session_state.db.exists("some_price_key") and
         st.session_state.get("filters_set")
     ),
 }
 # Or if the conditions get complex, a named function is cleaner:
-# pythondef analysis_ready() -> bool:
+# def analysis_ready() -> bool:
 #     return (
 #         st.session_state.db.exists("some_price_key") and
 #         st.session_state.get("filters_set") and
