@@ -36,9 +36,13 @@ def render():
                          key='add_home_store_button',
                          disabled=not store_code):
                 # Enter new store into session_state and indexedDB
-                add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
-                                                     store_name, home_store=True)
-                # Forward to other stores selection
+                result = add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
+                                                              store_name, home_store=True)
+
+                if result is None:
+                    st.stop()  # JS not resolved yet, wait for rerun
+
+                # Forward to other stores selection - only after write to indexedDB confirmed
                 st.switch_page('ui/views/other_stores.py')
 
 
