@@ -9,12 +9,16 @@ from common.upstash.redis_service import (get_redis_client, save_to_redis,
 def init_session():
     """
     Assign UUID to user session if not already assigned.
-    The user session is used to identify user data in upstash.
+    The user session is used to identify user data.
     """
     if "sid" not in st.session_state:
         if "sid" not in st.query_params:
             st.query_params["sid"] = str(uuid.uuid4())
         st.session_state.sid = st.query_params["sid"]
+
+    # Always keep query param in sync regardless of page
+    st.query_params["sid"] = st.session_state.sid
+
     return st.session_state.sid
 
 
