@@ -55,7 +55,7 @@ def render():
             if st.button(label='See Selected Stores', width='stretch'):
                 st.switch_page('ui/views/selected_stores.py')
         with col2:
-            if st.button(label='Skip',
+            if st.button(label='Next',
                          width='stretch'):
                 pass
 
