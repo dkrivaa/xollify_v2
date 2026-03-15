@@ -34,6 +34,7 @@ def render():
                  icon=':material/list:',
                  icon_position=icon_position,
                  key='plan_key'):
+        st.session_state['title'] = 'Before Comparing Cost of Shopping List'
         st.switch_page('ui/views/home_store.py')
 
 
