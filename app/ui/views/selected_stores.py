@@ -58,6 +58,7 @@ def render():
                      width='stretch'):
             reorganize_data(edited_data)
 
+        st.space()
         st.divider()
 
         col1, col2 = st.columns(2)
