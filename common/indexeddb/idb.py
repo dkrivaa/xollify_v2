@@ -69,7 +69,10 @@ class IndexedDB:
             req.onerror = (e) => reject(e.target.error);
           }})
         """
-        return self._eval(js, "put") is True
+        result = self._eval(js, "put")
+        if result is None:
+            return None  # still pending
+        return result is True
 
     def put_many(self, items: list[tuple[str, Any]]) -> bool:
         records = json.dumps([
