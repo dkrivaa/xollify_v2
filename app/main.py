@@ -150,7 +150,7 @@ pages = {
 }
 
 preconditions = {
-    # 'selected_stores_page': lambda: 'stores' in st.session_state.db.get_all_keys(),
+    'selected_stores_page': lambda: 'stores' in st.session_state.db.get_all_keys(),
     "analysis": lambda: (
         st.session_state.db.exists("some_price_key") and
         st.session_state.get("filters_set")
@@ -169,10 +169,12 @@ preconditions = {
 #     "analysis": analysis_ready,
 # }
 
-accessible = {
-    name for name in pages
-    if name not in preconditions or preconditions[name]()
-}
+accessible = set()
+if st.session_state.get("db_ready"):
+    accessible = {
+        name for name in pages
+        if name not in preconditions or preconditions[name]()
+    }
 
 # st.navigation gets a list of st.Page objects, filtered by accessibility
 nav_pages = [pages[name] for name in accessible]
