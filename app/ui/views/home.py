@@ -22,6 +22,7 @@ def render():
                  icon_position=icon_position,
                  key='info_key'):
         st.switch_page('ui/views/home_store.py')
+    st.caption('This is useful')
 
     st.space()
 
