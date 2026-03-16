@@ -5,8 +5,9 @@ from backend.db.crud.items import item_details
 from backend.services.async_runner import run_async
 from backend.db.supabase import get_database_url
 from ui.utilities.upload import InventoryFileHandler
-from ui.utilities.general import make_store_key
 from ui.utilities.items import data_for_store_from_db
+from ui.utilities.general import make_store_key
+from ui.utilities.items import data_for_store_from_db, get_alternative_item
 
 
 def read_uploaded_file(uploaded_file: UploadedFile) -> list[dict]:
@@ -83,3 +84,34 @@ def enrich_items_list_from_db(items_list: list[dict]) -> list[dict]:
 
     # return the enriched list
     return items_list
+
+
+def shoppinglist_for_store(store: dict):
+    """ Make shoppinglist for given store from items list """
+    # Get items list
+    items_list_dict = st.session_state.db.get(item_id='items_list', default={})
+    items_list = items_list_dict.get('value', [])
+
+    # Get price data for store:
+    price_data = data_for_store_from_db(store=store, data_type='price')
+
+    for item in items_list:
+        item_details = next((d for d in price_data if d['ItemCode'] == item['item_code']), None)
+
+        # Item not in store
+        if not item_details:
+            # Get alternative data from dialog
+            effective_item, quantity, item_dict = get_alternative_item(store=store, item=item['item_code'])
+            # Update items_list with dialog data
+            item['item_code'] = effective_item
+            if quantity is not None and float(quantity) != float(item['quantity']):
+                item['quantity'] = quantity
+            item['item_name'] = item_dict.get('ItemName') or item_dict.get('ItemNm')
+            item['price'] = item_dict.get('ItemPrice')
+
+        # Item in store
+        item['item_name'] = item_details.get('ItemName') or item_details.get('ItemNm')
+        item['item_price'] = item_details.get('ItemPrice')
+
+    return items_list
+

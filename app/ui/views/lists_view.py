@@ -3,7 +3,7 @@ import streamlit as st
 from ui.elements.static import logo
 from common.core.super_class import SupermarketChain
 from ui.utilities.workflow import WorkflowStep, enforce_workflow
-from ui.utilities.lists import read_uploaded_file
+from ui.utilities.lists import read_uploaded_file, shoppinglist_for_store
 from ui.utilities.items import (data_for_store_from_db, relevant_promos_for_item,
                                 get_item_dict_from_db, get_alternative_item)
 from ui.utilities.general import sorted_stores
@@ -31,6 +31,7 @@ def render():
                                          key=f'uploader_{st.session_state.uploader_counter}')
 
         if uploaded_file:
+            # Set flag to clear file uploader widget
             st.session_state['show_upload_message'] = True
             # Read uploaded file and return items_list - {item_code: code, quantity: int}
             items_list = read_uploaded_file(uploaded_file)
@@ -38,6 +39,12 @@ def render():
             st.session_state.uploader_counter += 1
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_id='items_list', value=items_list)
+
+        store = st.session_state.db.get('home_store').get('value', {})
+        if store:
+            shopping_list = shoppinglist_for_store(store=store)
+            st.write(shopping_list)
+
 
 
 if __name__ == "__main__":

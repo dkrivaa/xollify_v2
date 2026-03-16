@@ -7,7 +7,7 @@ from ui.elements.dialogs import alternative_dialog
 
 
 def data_for_store_from_db(store: dict[str, str], data_type: str = 'price'):
-    """ Get price or promo data for specified store """
+    """ Get price or promo data for specified store from session state / indexedDB """
     # Make store key
     store_key = make_store_key(store=store, key_type=data_type)
     # Get data from db
