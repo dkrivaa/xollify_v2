@@ -55,7 +55,7 @@ def render():
             # Go to selected stores
             if st.button(label='See Selected Stores', width='stretch',
                          icon=':material/visibility:', icon_position='left'):
-                st.switch_page('ui/views/selected_stores.py')
+                st.switch_page('ui/views/selected_stores_view.py')
         with col2:
             # Forward to items or shoppinglist
             if st.button(label='Next',

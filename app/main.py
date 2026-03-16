@@ -129,7 +129,7 @@ pages = {
     ),
     'home_page': st.Page(
         title='Xollify-Home',
-        page='ui/views/home.py',
+        page='ui/views/home_view.py',
         icon=':material/home:',
     ),
     'home_store_page': st.Page(
@@ -144,7 +144,7 @@ pages = {
     ),
     'selected_stores_page': st.Page(
         title='Xollify-Selected Stores',
-        page='ui/views/selected_stores.py',
+        page='ui/views/selected_stores_view.py',
         icon=':material/storefront:',
     ),
     'items_page': st.Page(
