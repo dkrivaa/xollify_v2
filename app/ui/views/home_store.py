@@ -38,12 +38,13 @@ def render():
                 # Enter new store into session_state and indexedDB
                 add_store_to_session_state_indexeddb(chain_code, chain_alias, store_code,
                                                      store_name, home_store=True)
-    #             st.session_state._navigate_to_other_stores = True
-    #
-    # if st.session_state.get("_navigate_to_other_stores"):
-    #     # del st.session_state["_navigate_to_other_stores"]
-    #     # Forward to other stores selection
-    #     st.switch_page('ui/views/other_stores.py')
+                st.session_state._navigate_to_other_stores = True
+                st.stop()
+
+    if st.session_state.get("_navigate_to_other_stores"):
+        # del st.session_state["_navigate_to_other_stores"]
+        # Forward to other stores selection
+        st.switch_page('ui/views/other_stores.py')
 
 
 if __name__ == "__main__":
