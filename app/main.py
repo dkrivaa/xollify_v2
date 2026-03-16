@@ -115,7 +115,6 @@ elif not st.session_state.db._cache:
                     st.session_state.db._cache_set(record["id"], record)
             break
 
-st.write({k: v for k, v in st.session_state.items() if k.startswith("_idb")})
 # LANGUAGE ###################
 
 
