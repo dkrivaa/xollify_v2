@@ -41,6 +41,8 @@ def render():
             st.session_state.db.put(item_id='items_list', value=items_list)
 
         stores = st.session_state.db.get('stores').get('value', {})
+        stores = sorted(stores, key=lambda d: d != st.session_state.db.get('home_store').get('value'))
+        st.write(stores)
         if stores:
             for store in stores:
                 item_id = f"{store['chain_code']}_{store['store_code']}_shoppinglist"
