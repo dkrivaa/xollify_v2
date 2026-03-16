@@ -89,8 +89,7 @@ def enrich_items_list_from_db(items_list: list[dict]) -> list[dict]:
 def shoppinglist_for_store(store: dict):
     """ Make shoppinglist for given store from items list """
     # Get items list
-    items_list_dict = st.session_state.db.get(item_id='items_list', default={})
-    items_list = items_list_dict.get('value', [])
+    items_list = st.session_state.db.get(item_id='items_list', default={}).get('value', [])
 
     # Get price data for store:
     price_data = data_for_store_from_db(store=store, data_type='price')
