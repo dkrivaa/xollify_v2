@@ -114,5 +114,9 @@ def shoppinglist_for_store(store: dict):
             item['item_name'] = item_details.get('ItemName') or item_details.get('ItemNm')
             item['item_price'] = item_details.get('ItemPrice')
 
+    # Add store shoppinglist to session state and indexedDB
+    item_id = f"{store['chain_code']}_{store['store_code']}_shoppinglist"
+    st.session_state.db.put(item_id=item_id, value=items_list)
+
     return items_list
 
