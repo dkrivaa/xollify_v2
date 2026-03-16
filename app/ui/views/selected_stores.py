@@ -25,9 +25,9 @@ def reorganize_data(edited_data: list[dict]):
 
     if home_store_removed:
         # Go to select new home store
-        st.switch_page('ui/views/home_store.py')
+        st.switch_page('ui/views/home_store_view.py')
     else:
-        st.switch_page('ui/views/other_stores.py')
+        st.switch_page('ui/views/other_stores_view.py')
 
 
 def render():
@@ -68,7 +68,7 @@ def render():
                          width='stretch',
                          icon=':material/west:',
                          icon_position='left'):
-                st.switch_page('ui/views/other_stores.py')
+                st.switch_page('ui/views/other_stores_view.py')
         with col2:
             # Forward to items or shoppinglist
             if st.button(label='Next',
@@ -76,7 +76,7 @@ def render():
                          icon=':material/east:',
                          icon_position='right'):
                 if st.session_state.get('activity') == 'info':
-                    st.switch_page('ui/views/items.py')
+                    st.switch_page('ui/views/items_view.py')
                 if st.session_state.get('activity') == 'plan':
                     pass
 

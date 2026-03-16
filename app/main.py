@@ -134,12 +134,12 @@ pages = {
     ),
     'home_store_page': st.Page(
         title='Xollify-Home Store',
-        page='ui/views/home_store.py',
+        page='ui/views/home_store_view.py',
         icon=':material/storefront:',
     ),
     'other_stores_page': st.Page(
         title='Xollify-Stores',
-        page='ui/views/other_stores.py',
+        page='ui/views/other_stores_view.py',
         icon=':material/storefront:',
     ),
     'selected_stores_page': st.Page(
@@ -149,7 +149,7 @@ pages = {
     ),
     'items_page': st.Page(
         title='Xollify-Product Price',
-        page='ui/views/items.py',
+        page='ui/views/items_view.py',
         icon=':material/shopping_cart:',
     ),
 }

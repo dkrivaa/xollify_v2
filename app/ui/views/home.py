@@ -22,7 +22,7 @@ def render():
                  icon_position=icon_position,
                  key='info_key'):
         st.session_state['activity'] = 'info'
-        st.switch_page('ui/views/home_store.py')
+        st.switch_page('ui/views/home_store_view.py')
     with st.container():
         st.caption('The simple way to get all price and promo information while shopping')
 
@@ -37,7 +37,7 @@ def render():
                  icon_position=icon_position,
                  key='plan_key'):
         st.session_state['activity'] = 'plan'
-        st.switch_page('ui/views/home_store.py')
+        st.switch_page('ui/views/home_store_view.py')
     with st.container():
         st.caption('Tool to plan your shopping for maximum savings')
 

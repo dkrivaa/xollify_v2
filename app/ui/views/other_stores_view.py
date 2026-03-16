@@ -63,7 +63,7 @@ def render():
                          icon=':material/east:',
                          icon_position='right'):
                 if st.session_state.get('activity') == 'info':
-                    st.switch_page('ui/views/items.py')
+                    st.switch_page('ui/views/items_view.py')
                 if st.session_state.get('activity') == 'plan':
                     pass
 
