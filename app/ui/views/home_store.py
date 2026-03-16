@@ -42,7 +42,7 @@ def render():
                 st.stop()
 
     if st.session_state.get("_navigate_to_other_stores"):
-        # del st.session_state["_navigate_to_other_stores"]
+        del st.session_state["_navigate_to_other_stores"]
         # Forward to other stores selection
         st.switch_page('ui/views/other_stores.py')
 
