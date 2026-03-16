@@ -117,6 +117,6 @@ def shoppinglist_for_store(store: dict):
     # Add store shoppinglist to session state and indexedDB
     item_id = f"{store['chain_code']}_{store['store_code']}_shoppinglist"
     st.session_state.db.put(item_id=item_id, value=items_list)
+    st.stop()
 
-    return items_list
 

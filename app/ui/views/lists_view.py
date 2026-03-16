@@ -47,8 +47,7 @@ def render():
                 if st.session_state.db.get(item_id=item_id):
                     continue
                 else:
-                    shopping_list = shoppinglist_for_store(store=store)
-                    st.write(shopping_list)
+                    shoppinglist_for_store(store=store)
 
 
 
