@@ -49,6 +49,8 @@ def render():
                 else:
                     shoppinglist = shoppinglist_for_store(store=store)
                     st.write(shoppinglist)
+                    st.session_state.db.put(item_id=item_id, value=shoppinglist)
+                    st.stop()
 
 
 
