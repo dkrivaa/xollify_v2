@@ -153,7 +153,7 @@ pages = {
         icon=':material/shopping_cart:',
     ),
     'lists_page': st.Page(
-        title='Xollify-Product Price',
+        title='Xollify-Shopping List',
         page='ui/views/lists_view.py',
         icon=':material/list:',
     ),
