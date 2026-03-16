@@ -1,7 +1,7 @@
 import streamlit as st
 
 from ui.utilities.workflow import WorkflowStep, enforce_workflow
-from ui.utilities.lists import read_uploaded_file, enrich_items_list
+from ui.utilities.lists import read_uploaded_file, enrich_items_list_from_store
 from ui.utilities.general import make_store_key
 from ui.utilities.items import data_for_store_from_db
 
