@@ -1,6 +1,8 @@
 import streamlit as st
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
+from backend.db.crud.items import item_details
+from backend.services.async_runner import run_async
 from backend.db.supabase import get_database_url
 from ui.utilities.upload import InventoryFileHandler
 from ui.utilities.general import make_store_key
@@ -44,8 +46,8 @@ def read_uploaded_file(uploaded_file: UploadedFile) -> list[dict]:
     return items
 
 
-def enrich_items_list(items_list: list[dict], store: dict) -> list[dict]:
-    """ Adding item name and item price to items in uploaded shopping list """
+def enrich_items_list_from_store(items_list: list[dict], store: dict) -> list[dict]:
+    """ Adding item name and item price to items in uploaded shopping list from given store """
     price_data = data_for_store_from_db(store=store, data_type='price')
 
     # Build a lookup by ItemCode once
@@ -67,4 +69,17 @@ def enrich_items_list(items_list: list[dict], store: dict) -> list[dict]:
                     s["item_name"] = match[keyB]
                     break
 
+    return items_list
+
+
+def enrich_items_list_from_db(items_list: list[dict]) -> list[dict]:
+    """ Adding item name for given item in items list that is not available in store """
+    # Get list of items without item name
+    relevant_items_to_enrich = [item for item in items_list if not item.get('item_name')]
+    # Get item name from db for item
+    for item in relevant_items_to_enrich:
+        item_db_details = run_async(item_details, item_code=item['item_code'])
+        item['item_name'] = item_db_details.get('ItemName')
+
+    # return the enriched list
     return items_list
