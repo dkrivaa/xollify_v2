@@ -21,3 +21,6 @@ def render():
     with st.chat_message(name='ai', width='stretch'):
         st.markdown(body=':blue[All ready!! Select Item and get price and promo information]')
 
+
+if __name__ == "__main__":
+    render()
