@@ -19,7 +19,7 @@ def render():
     enforce_workflow()
 
     with st.chat_message(name='ai', width='stretch'):
-        st.markdown(body=':blue[All ready!! Select Item and get price and promo information]')
+        st.markdown(body=':blue[All ready!!]')
 
 
 if __name__ == "__main__":
