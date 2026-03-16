@@ -107,7 +107,7 @@ def shoppinglist_for_store(store: dict):
             if quantity is not None and float(quantity) != float(item['quantity']):
                 item['quantity'] = quantity
             item['item_name'] = item_dict.get('ItemName') or item_dict.get('ItemNm')
-            item['price'] = item_dict.get('ItemPrice')
+            item['item_price'] = item_dict.get('ItemPrice')
 
         # Item in store
         else:
