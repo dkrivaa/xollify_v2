@@ -110,8 +110,9 @@ def shoppinglist_for_store(store: dict):
             item['price'] = item_dict.get('ItemPrice')
 
         # Item in store
-        item['item_name'] = item_details.get('ItemName') or item_details.get('ItemNm')
-        item['item_price'] = item_details.get('ItemPrice')
+        else:
+            item['item_name'] = item_details.get('ItemName') or item_details.get('ItemNm')
+            item['item_price'] = item_details.get('ItemPrice')
 
     return items_list
 
