@@ -43,8 +43,12 @@ def render():
         stores = st.session_state.db.get('stores').get('value', {})
         if stores:
             for store in stores:
-                shopping_list = shoppinglist_for_store(store=store)
-                st.write(shopping_list)
+                item_id = f"{store['chain_code']}_{store['store_code']}_shoppinglist"
+                if st.session_state.db.get(item_id=item_id):
+                    continue
+                else:
+                    shopping_list = shoppinglist_for_store(store=store)
+                    st.write(shopping_list)
 
 
 
