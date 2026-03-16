@@ -40,10 +40,11 @@ def render():
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_id='items_list', value=items_list)
 
-        store = st.session_state.db.get('home_store').get('value', {})
-        if store:
-            shopping_list = shoppinglist_for_store(store=store)
-            st.write(shopping_list)
+        stores = st.session_state.db.get('stores').get('value', {})
+        if stores:
+            for store in stores:
+                shopping_list = shoppinglist_for_store(store=store)
+                st.write(shopping_list)
 
 
 
