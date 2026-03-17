@@ -43,17 +43,33 @@ def render():
         stores = st.session_state.db.get('stores').get('value', {})
         # Order stores list so home store is first
         stores = sorted(stores, key=lambda d: d != st.session_state.db.get('home_store').get('value'))
-        for store in stores:
-            # Check if store has already been handled and has shoppinglist (flag for js_eval reruns)
-            item_id = f"{store['chain_code']}_{store['store_code']}_shoppinglist"
-            if st.session_state.db.get(item_id=item_id):
-                continue
-            else:
-                # Make shopping list for store
-                shoppinglist = shoppinglist_for_store(store=store)
-                st.write(shoppinglist)
-                if shoppinglist:
-                    st.session_state.db.put(item_id=item_id, value=shoppinglist)
+
+        # Mechanism to check if all stores have been processed
+        # Set of processed stores
+        if 'processed_stores' not in st.session_state:
+            st.session_state.processed_stores = set()
+        # Set of all stores
+        all_stores = {f"{store['chain_code']}_{store['store_code']}" for store in stores}
+
+        # If all stores have been processed
+        if st.session_state.processed_stores >= all_stores:
+            if st.button(label='Continue to results'):
+                st.switch_page('ui/views/results_view.py')
+        # If not all stores have been processed
+        else:
+            for store in stores:
+                # Check if store has already been handled and has shoppinglist (flag for js_eval reruns)
+                item_id = f"{store['chain_code']}_{store['store_code']}_shoppinglist"
+                if st.session_state.db.get(item_id=item_id):
+                    # Add store to processed stores
+                    st.session_state.processed_stores.add(f"{store['chain_code']}_{store['store_code']}")
+                    continue
+                else:
+                    # Make shopping list for store
+                    shoppinglist = shoppinglist_for_store(store=store)
+                    st.write(shoppinglist)
+                    if shoppinglist:
+                        st.session_state.db.put(item_id=item_id, value=shoppinglist)
 
 
 

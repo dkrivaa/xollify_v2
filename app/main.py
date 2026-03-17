@@ -157,6 +157,11 @@ pages = {
         page='ui/views/lists_view.py',
         icon=':material/list:',
     ),
+    'results_page': st.Page(
+        title='Xollify-results',
+        page='ui/views/results_view.py',
+        icon=':material/list:',
+    ),
 }
 
 preconditions = {
