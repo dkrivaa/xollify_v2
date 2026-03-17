@@ -171,27 +171,46 @@ def store_data_for_selected_stores(stores: list[dict]):
             if isinstance(price_data, tuple): price_data = list(price_data[0]) if price_data else []
             if isinstance(promo_data, tuple): promo_data = list(promo_data[0]) if promo_data else []
 
-            import sys
-            from common.indexeddb.idb import _compress
-            st.write(f"price_data compressed size: {sys.getsizeof(_compress(price_data))} bytes")
-            st.write(f"promo_data compressed size: {sys.getsizeof(_compress(promo_data))} bytes")
-            st.write(f"price_data items: {len(price_data[0]['data'])}")
-            st.write(f"promo_data items: {len(promo_data[0]['data'])}")
-            st.stop()
+            # import sys
+            # from common.indexeddb.idb import _compress
+            # st.write(f"price_data compressed size: {sys.getsizeof(_compress(price_data))} bytes")
+            # st.write(f"promo_data compressed size: {sys.getsizeof(_compress(promo_data))} bytes")
+            # st.write(f"price_data items: {len(price_data[0]['data'])}")
+            # st.write(f"promo_data items: {len(promo_data[0]['data'])}")
+            # st.stop()
 
-            # Enter final data into session state and indexedDB
             if price_data:
+                print("Starting put_many price")
                 st.session_state.db.put_many([
                     (f"{d['chain_code']}_{d['store_code']}_price_data", d)
                     for d in price_data if d
                 ])
+                print("Finished put_many price")
 
             if promo_data:
+                print("Starting put_many promo")
                 promo_items = [
                     (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
                     for d in promo_data if d
                 ]
                 st.session_state.db.put_many(promo_items)
+                print("Finished put_many promo")
+
+            print("Done with all puts")
+
+            # # Enter final data into session state and indexedDB
+            # if price_data:
+            #     st.session_state.db.put_many([
+            #         (f"{d['chain_code']}_{d['store_code']}_price_data", d)
+            #         for d in price_data if d
+            #     ])
+            #
+            # if promo_data:
+            #     promo_items = [
+            #         (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
+            #         for d in promo_data if d
+            #     ]
+            #     st.session_state.db.put_many(promo_items)
 
             # Mark as done — only a bool, not the data - just a placeholder
             st.session_state[cache_key] = True
