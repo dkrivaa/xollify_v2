@@ -119,10 +119,13 @@ if not st.session_state.db_ready:
 elif not st.session_state.db._cache:
     for key, val in st.session_state.items():
         if key.startswith("_idb_get_all_") and isinstance(val, list) and val:
-            for record in val:
-                if record.get("id"):
-                    st.session_state.db._cache_set(record["id"], record)
-            break
+            st.write(f"Found key: {key}, records: {val[0] if val else None}")
+            st.stop()
+
+            # for record in val:
+            #     if record.get("id"):
+            #         st.session_state.db._cache_set(record["id"], record)
+            # break
 
 # LANGUAGE ###################
 
