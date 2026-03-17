@@ -165,50 +165,26 @@ def store_data_for_selected_stores(stores: list[dict]):
         if cache_key not in st.session_state:
             with st.spinner('Getting Data for Selected Stores'):
                 price_data = run_async(get_stores_price_data, stores=stores_to_fetch)
-                st.write("price_data done", type(price_data))
                 promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch)
-                st.write("promo_data done", type(promo_data))
 
             # TaskGroup wraps results in a tuple when run via run_until_complete
             if isinstance(price_data, tuple): price_data = list(price_data[0]) if price_data else []
             if isinstance(promo_data, tuple): promo_data = list(promo_data[0]) if promo_data else []
-            st.write("unwrapping done", len(price_data), len(promo_data))
 
-
+            # Enter final data into session state and indexedDB
             if price_data:
-                st.write("Starting put_many price")
                 st.session_state.db.put_many([
                     (f"{d['chain_code']}_{d['store_code']}_price_data", d)
                     for d in price_data if d
                 ])
-                st.write("Finished put_many price")
 
             if promo_data:
-                st.write("Starting put_many promo")
                 promo_items = [
                     (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
                     for d in promo_data if d
                 ]
                 st.session_state.db.put_many(promo_items)
-                st.write("Finished put_many promo")
-
-            st.write("Done with all puts")
-
-            # # Enter final data into session state and indexedDB
-            # if price_data:
-            #     st.session_state.db.put_many([
-            #         (f"{d['chain_code']}_{d['store_code']}_price_data", d)
-            #         for d in price_data if d
-            #     ])
-            #
-            # if promo_data:
-            #     promo_items = [
-            #         (f"{d['chain_code']}_{d['store_code']}_promo_data", d)
-            #         for d in promo_data if d
-            #     ]
-            #     st.session_state.db.put_many(promo_items)
 
             # Mark as done — only a bool, not the data - just a placeholder
             st.session_state[cache_key] = True
-            st.write("cache_key set")
 
