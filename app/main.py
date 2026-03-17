@@ -44,30 +44,29 @@ _IDB_TIMEOUT_SECS = 20
 
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
-    st.session_state.db.init()
     st.session_state.db_ready = False
-    st.session_state._idb_state = "init"  # wait for init to settle
+    st.session_state._idb_state = "init"
     st.session_state._idb_attempts = 0
     st.session_state._idb_started_at = None
-
-    current_db = f"XollifyDB_{sid}"
-    st.session_state.db._idb._eval(f"""
-      new Promise(async (resolve) => {{
-        const databases = await indexedDB.databases();
-        for (const db of databases) {{
-          if (db.name.startsWith('XollifyDB_') && db.name !== {json.dumps(current_db)}) {{
-            indexedDB.deleteDatabase(db.name);
-          }}
-        }}
-        resolve(true);
-      }})
-    """, "cleanup_orphans")
 
 if not st.session_state.db_ready:
     state = st.session_state._idb_state
 
     if state == "init":
-        # Give init() and cleanup_orphans a full rerun to settle
+        # Fire init and cleanup on their own rerun
+        st.session_state.db._idb.init()
+        current_db = f"XollifyDB_{sid}"
+        st.session_state.db._idb._eval(f"""
+          new Promise(async (resolve) => {{
+            const databases = await indexedDB.databases();
+            for (const db of databases) {{
+              if (db.name.startsWith('XollifyDB_') && db.name !== {json.dumps(current_db)}) {{
+                indexedDB.deleteDatabase(db.name);
+              }}
+            }}
+            resolve(true);
+          }})
+        """, "cleanup_orphans")
         st.session_state._idb_state = "pending"
         st.stop()
 
