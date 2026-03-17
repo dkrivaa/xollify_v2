@@ -42,8 +42,7 @@ from backend.services.indexeddb_session import SessionIndexedDB
 _IDB_MAX_RETRIES = 3
 _IDB_TIMEOUT_SECS = 20
 
-Here's the corrected startup block with get_all_once() pattern:
-pythonimport json
+import json
 import time
 import streamlit as st
 
