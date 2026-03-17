@@ -115,16 +115,14 @@ if not st.session_state.db_ready:
         st.warning("Session could not be restored. Some data may be missing.")
         st.session_state.db_ready = True
 
-# Post-lock recovery: cache empty but db_ready=True and get_all data exists
-elif not st.session_state.db._cache:
-    st.write("post-lock recovery triggered")
-    st.stop()
-    for key, val in st.session_state.items():
-        if key.startswith("_idb_get_all_") and isinstance(val, list) and val:
-            for record in val:
-                if record.get("id"):
-                    st.session_state.db._cache_set(record["id"], record)
-            break
+# # Post-lock recovery: cache empty but db_ready=True and get_all data exists
+# elif not st.session_state.db._cache:
+#     for key, val in st.session_state.items():
+#         if key.startswith("_idb_get_all_") and isinstance(val, list) and val:
+#             for record in val:
+#                 if record.get("id"):
+#                     st.session_state.db._cache_set(record["id"], record)
+#             break
 
 # LANGUAGE ###################
 
