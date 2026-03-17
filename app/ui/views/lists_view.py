@@ -31,8 +31,8 @@ def render():
                                          key=f'uploader_{st.session_state.uploader_counter}')
 
         if uploaded_file:
-            # Set flag to clear file uploader widget
-            st.session_state['show_upload_message'] = True
+            # # Set flag to clear file uploader widget
+            # st.session_state['show_upload_message'] = True
             # Read uploaded file and return items_list - {item_code: code, quantity: int}
             items_list = read_uploaded_file(uploaded_file)
             # Add to uploader_counter => clear upload widget when rerun
