@@ -3,6 +3,24 @@ import itertools
 import math
 
 
+def organize_shoppinglists() -> list[dict]:
+    """ This function organizes all shoppinglists dicts into list accepted in  best_cost_for_k_stores """
+    # Empty list to hold shopping dicts for all stores
+    shoppinglists = []
+
+    # Get stores
+    stores = st.session_state.db.get(item_id='stores').get('value')
+    # Make keys
+    store_keys = [f"{s['chain_code']}_{s['store_code']}_shoppinglist" for s in stores]
+    # Get dict for each store and append to shoppinglists
+    for key in store_keys:
+        store_list = {k: v for k, v in st.session_state.db.get(item_id=key).items() if k != 'updated_at'}
+        shoppinglists.append(store_list)
+
+    return shoppinglists
+
+
+
 # updated version
 def best_cost_for_k_stores(shoppinglist: list[dict], k: int):
     """
