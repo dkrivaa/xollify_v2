@@ -175,9 +175,8 @@ def store_data_for_selected_stores(stores: list[dict]):
             from common.indexeddb.idb import _compress
             st.write(f"price_data compressed size: {sys.getsizeof(_compress(price_data))} bytes")
             st.write(f"promo_data compressed size: {sys.getsizeof(_compress(promo_data))} bytes")
-            st.write(price_data)
-            st.write(f"price_data items: {len(price_data)}")
-            st.write(f"promo_data items: {len(promo_data)}")
+            st.write(f"price_data items: {len(price_data[0].get['data'])}")
+            st.write(f"promo_data items: {len(promo_data[0].get['data'])}")
             st.stop()
 
             # Enter final data into session state and indexedDB
