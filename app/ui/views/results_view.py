@@ -9,10 +9,13 @@ def render():
     st.divider()
     st.space()
 
+    all_lists = []
+
     stores = st.session_state.db.get(item_id='stores').get('value')
     store_keys = [f"{s['chain_code']}_{s['store_code']}_shoppinglist" for s in stores]
     for key in store_keys:
-        st.write(st.session_state.db.get(item_id=key).pop('updated_at'))
+        store_list = {k: v for k, v in st.session_state.db.get(item_id=key).items() if k != 'updated_at'}
+        st.write(store_list)
 
 
 if __name__ == "__main__":
