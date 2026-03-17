@@ -164,20 +164,16 @@ def store_data_for_selected_stores(stores: list[dict]):
         # Run crawls only if not already fetched for this selection
         if cache_key not in st.session_state:
             with st.spinner('Getting Data for Selected Stores'):
-                price_data = run_async(get_stores_price_data, stores=stores_to_fetch),
-                promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch),
+                price_data = run_async(get_stores_price_data, stores=stores_to_fetch)
+                st.write("price_data done", type(price_data))
+                promo_data = run_async(get_stores_promo_data, stores=stores_to_fetch)
+                st.write("promo_data done", type(promo_data))
 
             # TaskGroup wraps results in a tuple when run via run_until_complete
             if isinstance(price_data, tuple): price_data = list(price_data[0]) if price_data else []
             if isinstance(promo_data, tuple): promo_data = list(promo_data[0]) if promo_data else []
+            st.write("unwrapping done", len(price_data), len(promo_data))
 
-            # import sys
-            # from common.indexeddb.idb import _compress
-            # st.write(f"price_data compressed size: {sys.getsizeof(_compress(price_data))} bytes")
-            # st.write(f"promo_data compressed size: {sys.getsizeof(_compress(promo_data))} bytes")
-            # st.write(f"price_data items: {len(price_data[0]['data'])}")
-            # st.write(f"promo_data items: {len(promo_data[0]['data'])}")
-            # st.stop()
 
             if price_data:
                 st.write("Starting put_many price")
@@ -214,4 +210,5 @@ def store_data_for_selected_stores(stores: list[dict]):
 
             # Mark as done — only a bool, not the data - just a placeholder
             st.session_state[cache_key] = True
+            st.write("cache_key set")
 
