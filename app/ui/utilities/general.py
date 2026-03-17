@@ -172,6 +172,7 @@ def store_data_for_selected_stores(stores: list[dict]):
             if isinstance(promo_data, tuple): promo_data = list(promo_data[0]) if promo_data else []
 
             import sys
+            from common.indexeddb.idb import _compress
             st.write(f"price_data compressed size: {sys.getsizeof(_compress(price_data))} bytes")
             st.write(f"promo_data compressed size: {sys.getsizeof(_compress(promo_data))} bytes")
             st.stop()
