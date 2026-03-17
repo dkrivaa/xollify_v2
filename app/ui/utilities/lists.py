@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit.runtime.uploaded_file_manager import UploadedFile
+import copy
 
 from backend.db.crud.items import item_details
 from backend.services.async_runner import run_async
@@ -90,6 +91,7 @@ def shoppinglist_for_store(store: dict):
     """ Make shoppinglist for given store from items list """
     # Get items list
     items_list = st.session_state.db.get(item_id='items_list', default={}).get('value', [])
+    items_list = copy.deepcopy(items_list)  # ← work on a independent copy
 
     # Get price data for store:
     price_data = data_for_store_from_db(store=store, data_type='price')
