@@ -40,7 +40,7 @@ from backend.services.indexeddb_session import SessionIndexedDB
 
 # Retry and timeout defaults for restoration from indexedDB (after mobile lock)
 _IDB_MAX_RETRIES = 3
-_IDB_TIMEOUT_SECS = 8
+_IDB_TIMEOUT_SECS = 20
 
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
