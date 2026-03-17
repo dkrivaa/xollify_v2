@@ -160,7 +160,7 @@ pages = {
     'results_page': st.Page(
         title='Xollify-results',
         page='ui/views/results_view.py',
-        icon=':material/list:',
+        icon=':material/brand_awareness:',
     ),
 }
 
