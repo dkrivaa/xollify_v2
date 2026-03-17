@@ -13,7 +13,7 @@ _key_counter = itertools.count()
 def _compress(value: Any) -> str:
     """Compress a Python value to a base64-encoded zlib string."""
     raw = json.dumps(value, ensure_ascii=False).encode("utf-8")
-    return base64.b64encode(zlib.compress(raw, level=9)).decode("utf-8")
+    return base64.b64encode(zlib.compress(raw, level=1)).decode("utf-8")
 
 
 def _decompress(value: str) -> Any:
