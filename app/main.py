@@ -40,14 +40,16 @@ from backend.services.indexeddb_session import SessionIndexedDB
 
 # Retry and timeout defaults for restoration from indexedDB (after mobile lock)
 _IDB_MAX_RETRIES = 3
-_IDB_TIMEOUT_SECS = 20
+_IDB_TIMEOUT_SECS = 15
 
 import json
 import time
 import streamlit as st
 
-_IDB_MAX_RETRIES = 3
-_IDB_TIMEOUT_SECS = 15
+
+import streamlit.config as stconfig
+st.write(stconfig.get_option("server.maxMessageSize"))
+st.stop()
 
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
