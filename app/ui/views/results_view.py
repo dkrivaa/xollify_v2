@@ -15,7 +15,10 @@ def render():
     store_keys = [f"{s['chain_code']}_{s['store_code']}_shoppinglist" for s in stores]
     for key in store_keys:
         store_list = {k: v for k, v in st.session_state.db.get(item_id=key).items() if k != 'updated_at'}
-        st.write(store_list)
+        all_lists.append(store_list)
+
+    st.write(all_lists)
+
 
 
 if __name__ == "__main__":
