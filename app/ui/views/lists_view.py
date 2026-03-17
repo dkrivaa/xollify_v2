@@ -41,7 +41,6 @@ def render():
             st.session_state.db.put(item_id='items_list', value=items_list)
             st.stop()
 
-        st.write('hello')
         # stores = st.session_state.db.get('stores').get('value', {})
         # # Order stores list so home store is first
         # stores = sorted(stores, key=lambda d: d != st.session_state.db.get('home_store').get('value'))
