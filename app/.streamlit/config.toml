@@ -1,5 +1,11 @@
 # THIS FILE CONTAINS CONFIG SETTINGS FOR THE APP
 
+[server]
+maxMessageSize = 200
+
+[global]
+maxCachedMessageAge = 0
+
 # Set the base theme to dark mode
 [theme]
 base="dark"
