@@ -1,5 +1,8 @@
 # THIS FILE CONTAINS CONFIG SETTINGS FOR THE APP
 
+[global]
+maxCachedMessageAge = 0
+
 # Set the base theme to dark mode
 [theme]
 base="dark"
