@@ -103,12 +103,6 @@ def get_stores_missing_data(stores: list[dict]) -> list[dict]:
         price_key = f"{chain_code}_{store_code}_price_data"
         promo_key = f"{chain_code}_{store_code}_promo_data"
 
-        # price_present = price_key in cache or st.session_state.db.exists(item_id=price_key)
-        # promo_present = promo_key in cache or st.session_state.db.exists(item_id=promo_key)
-        #
-        # if not price_present or not promo_present:
-        #     missing.append(store)
-
         if price_key not in cache or promo_key not in cache:
             missing.append(store)
 
@@ -132,10 +126,6 @@ def remove_stale_store_data(stores: list[dict]) -> None:
     # Get all keys from cache and IndexedDB
     cache = st.session_state.db._cache
     cache_keys = set(cache.keys())
-    # idb_keys = set(st.session_state.db.get_all_keys())
-
-    # # Union — covers stale keys in either location
-    # all_known_keys = cache_keys | idb_keys
 
     # Only consider keys that are store price/promo data — ignore everything else
     store_data_keys = {
@@ -180,6 +170,11 @@ def store_data_for_selected_stores(stores: list[dict]):
             # TaskGroup wraps results in a tuple when run via run_until_complete
             if isinstance(price_data, tuple): price_data = list(price_data[0]) if price_data else []
             if isinstance(promo_data, tuple): promo_data = list(promo_data[0]) if promo_data else []
+
+            import sys
+            st.write(f"price_data compressed size: {sys.getsizeof(_compress(price_data))} bytes")
+            st.write(f"promo_data compressed size: {sys.getsizeof(_compress(promo_data))} bytes")
+            st.stop()
 
             # Enter final data into session state and indexedDB
             if price_data:

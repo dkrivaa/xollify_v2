@@ -47,10 +47,6 @@ import time
 import streamlit as st
 
 
-import streamlit.config as stconfig
-st.write(stconfig.get_option("server.maxMessageSize"))
-st.stop()
-
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db_ready = False
