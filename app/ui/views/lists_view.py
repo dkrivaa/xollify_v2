@@ -39,7 +39,10 @@ def render():
             st.session_state.uploader_counter += 1
             # Enter items_list into session state and indexedDB
             st.session_state.db.put(item_id='items_list', value=items_list)
+            st.stop()
 
+        if st.session_state.db.get(item_id='items_list'):
+            st.write(st.session_state.db.get(item_id='items_list').get('value'))
         # stores = st.session_state.db.get('stores').get('value', {})
         # # Order stores list so home store is first
         # stores = sorted(stores, key=lambda d: d != st.session_state.db.get('home_store').get('value'))
