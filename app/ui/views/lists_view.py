@@ -70,6 +70,7 @@ def render():
                     st.write(shoppinglist)
                     if shoppinglist:
                         st.session_state.db.put(item_id=item_id, value=shoppinglist)
+                        # Add store to processed stores
                         st.session_state.processed_stores.add(f"{store['chain_code']}_{store['store_code']}")
 
 
