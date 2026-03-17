@@ -46,29 +46,32 @@ if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db.init()
     st.session_state.db_ready = False
-    st.session_state._idb_state = "pending"
+    st.session_state._idb_state = "init"  # wait for init to settle
     st.session_state._idb_attempts = 0
     st.session_state._idb_started_at = None
 
-    # Delete all orphaned XollifyDB_* databases that don't match current sid
     current_db = f"XollifyDB_{sid}"
     st.session_state.db._idb._eval(f"""
-          new Promise(async (resolve) => {{
-            const databases = await indexedDB.databases();
-            for (const db of databases) {{
-              if (db.name.startsWith('XollifyDB_') && db.name !== {json.dumps(current_db)}) {{
-                indexedDB.deleteDatabase(db.name);
-              }}
-            }}
-            resolve(true);
-          }})
+      new Promise(async (resolve) => {{
+        const databases = await indexedDB.databases();
+        for (const db of databases) {{
+          if (db.name.startsWith('XollifyDB_') && db.name !== {json.dumps(current_db)}) {{
+            indexedDB.deleteDatabase(db.name);
+          }}
+        }}
+        resolve(true);
+      }})
     """, "cleanup_orphans")
 
 if not st.session_state.db_ready:
     state = st.session_state._idb_state
 
-    if state == "pending":
-        # Fire JS request and start timer
+    if state == "init":
+        # Give init() and cleanup_orphans a full rerun to settle
+        st.session_state._idb_state = "pending"
+        st.stop()
+
+    elif state == "pending":
         st.session_state._idb_started_at = time.time()
         st.session_state.db._idb.get_all()
         st.session_state._idb_state = "loading"
@@ -79,14 +82,12 @@ if not st.session_state.db_ready:
         elapsed = time.time() - st.session_state._idb_started_at
 
         if records is None:
-            # JS still pending — check for timeout
             if elapsed > _IDB_TIMEOUT_SECS:
                 attempts = st.session_state._idb_attempts + 1
                 st.session_state._idb_attempts = attempts
                 if attempts >= _IDB_MAX_RETRIES:
                     st.session_state._idb_state = "failed"
                 else:
-                    # Retry: re-fire JS request
                     st.session_state._idb_started_at = time.time()
             st.stop()
 
@@ -97,16 +98,13 @@ if not st.session_state.db_ready:
             st.session_state.db_ready = True
 
         else:
-            # JS resolved with [] — new session, nothing to restore
             st.session_state._idb_state = "done"
             st.session_state.db_ready = True
 
     elif state == "failed":
-        # All retries exhausted — proceed without restored data
         st.warning("Session could not be restored. Some data may be missing.")
         st.session_state.db_ready = True
 
-# Post-lock recovery: cache empty but db_ready=True and get_all data exists
 elif not st.session_state.db._cache:
     for key, val in st.session_state.items():
         if key.startswith("_idb_get_all_") and isinstance(val, list) and val:
