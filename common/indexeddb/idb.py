@@ -183,6 +183,25 @@ class IndexedDB:
             return None
         return [self._decompress_record(r) for r in records]
 
+    def get_all_once(self) -> str:
+        """Fire get_all JS eval once, return the session_state key to poll."""
+        store_name = json.dumps(self.store_name)
+        js = f"""
+          new Promise((resolve, reject) => {{
+            {self._open_db()}
+            req.onsuccess = (e) => {{
+              const tx = e.target.result.transaction({store_name}, "readonly");
+              const all = tx.objectStore({store_name}).getAll();
+              all.onsuccess = () => resolve(all.result);
+              all.onerror   = (err) => reject(err);
+            }};
+            req.onerror = (e) => reject(e.target.error);
+          }})
+        """
+        key = self._next_key("get_all")
+        streamlit_js_eval(js_expressions=js, want_output=True, key=key)
+        return key  # caller polls st.session_state[key]
+
     def delete(self, item_id: str) -> bool:
         store_name = json.dumps(self.store_name)
         item_id_js = json.dumps(item_id)
