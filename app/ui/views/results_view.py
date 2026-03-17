@@ -1,6 +1,7 @@
 import streamlit as st
 
 from ui.elements.static import logo
+from ui.utilities.results import best_cost_for_k_stores
 
 
 def render():
@@ -17,7 +18,16 @@ def render():
         store_list = {k: v for k, v in st.session_state.db.get(item_id=key).items() if k != 'updated_at'}
         all_lists.append(store_list)
 
-    st.write(all_lists)
+    best_combo, best_total, best_plan = best_cost_for_k_stores(all_lists, 2)
+
+    st.write('best_combo')
+    st.write(best_combo)
+
+    st.write('best_total')
+    st.write(best_total)
+
+    st.write('best_plan')
+    st.write(best_plan)
 
 
 
