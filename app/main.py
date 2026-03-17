@@ -42,18 +42,27 @@ from backend.services.indexeddb_session import SessionIndexedDB
 _IDB_MAX_RETRIES = 3
 _IDB_TIMEOUT_SECS = 20
 
+Here's the corrected startup block with get_all_once() pattern:
+pythonimport json
+import time
+import streamlit as st
+
+_IDB_MAX_RETRIES = 3
+_IDB_TIMEOUT_SECS = 15
+
 if "db" not in st.session_state:
     st.session_state.db = SessionIndexedDB(f"XollifyDB_{sid}", "data")
     st.session_state.db_ready = False
     st.session_state._idb_state = "init"
     st.session_state._idb_attempts = 0
     st.session_state._idb_started_at = None
+    st.session_state._idb_poll_key = None
 
 if not st.session_state.db_ready:
     state = st.session_state._idb_state
 
     if state == "init":
-        # Fire init and cleanup on their own rerun
+        # Fire init and cleanup on their own rerun — no get_all yet
         st.session_state.db._idb.init()
         current_db = f"XollifyDB_{sid}"
         st.session_state.db._idb._eval(f"""
@@ -71,32 +80,37 @@ if not st.session_state.db_ready:
         st.stop()
 
     elif state == "pending":
+        # Fire get_all exactly once and store the key to poll
         st.session_state._idb_started_at = time.time()
-        st.session_state.db._idb.get_all()
+        st.session_state._idb_poll_key = st.session_state.db._idb.get_all_once()
         st.session_state._idb_state = "loading"
         st.stop()
 
     elif state == "loading":
-        records = st.session_state.db._idb.get_all()
+        # Poll the fixed key — no new JS eval fired
+        poll_key = st.session_state._idb_poll_key
+        raw_records = st.session_state.get(poll_key)
         elapsed = time.time() - st.session_state._idb_started_at
 
-        if records is None:
+        if raw_records is None:
+            # JS still pending
             if elapsed > _IDB_TIMEOUT_SECS:
                 attempts = st.session_state._idb_attempts + 1
                 st.session_state._idb_attempts = attempts
                 if attempts >= _IDB_MAX_RETRIES:
                     st.session_state._idb_state = "failed"
                 else:
+                    # Retry — fire a new get_all_once
+                    st.session_state._idb_poll_key = st.session_state.db._idb.get_all_once()
                     st.session_state._idb_started_at = time.time()
             st.stop()
 
-        elif records:
-            for record in records:
-                st.session_state.db._cache_set(record["id"], record)
-            st.session_state._idb_state = "done"
-            st.session_state.db_ready = True
-
         else:
+            # JS resolved — decompress and load into cache
+            records = [st.session_state.db._idb._decompress_record(r) for r in raw_records]
+            if records:
+                for record in records:
+                    st.session_state.db._cache_set(record["id"], record)
             st.session_state._idb_state = "done"
             st.session_state.db_ready = True
 
@@ -104,6 +118,7 @@ if not st.session_state.db_ready:
         st.warning("Session could not be restored. Some data may be missing.")
         st.session_state.db_ready = True
 
+# Post-lock recovery: cache empty but db_ready=True and get_all data exists
 elif not st.session_state.db._cache:
     for key, val in st.session_state.items():
         if key.startswith("_idb_get_all_") and isinstance(val, list) and val:
