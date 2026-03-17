@@ -117,15 +117,14 @@ if not st.session_state.db_ready:
 
 # Post-lock recovery: cache empty but db_ready=True and get_all data exists
 elif not st.session_state.db._cache:
+    st.write("post-lock recovery triggered")
+    st.stop()
     for key, val in st.session_state.items():
         if key.startswith("_idb_get_all_") and isinstance(val, list) and val:
-            st.write(f"Found key: {key}, records: {val[0] if val else None}")
-            st.stop()
-
-            # for record in val:
-            #     if record.get("id"):
-            #         st.session_state.db._cache_set(record["id"], record)
-            # break
+            for record in val:
+                if record.get("id"):
+                    st.session_state.db._cache_set(record["id"], record)
+            break
 
 # LANGUAGE ###################
 
