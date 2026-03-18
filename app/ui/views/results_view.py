@@ -22,7 +22,7 @@ def render():
 
     with tab1:
         st.space()
-        st.subheader('Total for selected stores')
+        st.subheader('Total Cost')
 
         for store in stores:
             total = total_cost_per_store(shoppinglists, store)
