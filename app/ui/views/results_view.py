@@ -43,7 +43,7 @@ def render():
         k = st.slider(label='Number of stores to visit',
                       min_value=1,
                       max_value=len(stores),
-                      # width='stretch',
+                      value=1,
                       )
 
         # Get the best for k store
