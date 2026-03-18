@@ -19,6 +19,35 @@ def organize_shoppinglists() -> list[dict]:
 
     return shoppinglists
 
+def store_key(store: dict):
+    """ Returns store key for use with shopping list """
+    return f"{store['chain_code']}_{store['store_code']}_shoppinglist"
+
+
+def shoppinglist_for_store(shoppinglist: list[dict], store: dict):
+    """
+    Return shopping list for given store
+    Args:
+        shoppinglist: list of dicts like:
+            [{"id": "chain_store_shoppinglist", "value": [{"item_code": ..., "quantity": ..., "item_name": ..., "item_price": ...}, ...]}, ...]
+        store: store dict
+    """
+    key = store_key(store)
+    store_dict = next((d for d in shoppinglist if d['id'] == key), None)
+    if store_dict:
+        return store_dict['value']
+
+
+def total_cost_per_store(shoppinglist: list[dict], store: dict):
+    """
+    Total cost of shopping list for each store
+    Args:
+        shoppinglist: list of dicts like:
+            [{"id": "chain_store_shoppinglist", "value": [{"item_code": ..., "quantity": ..., "item_name": ..., "item_price": ...}, ...]}, ...]
+        store: store dict
+    """
+    shoppinglist = shoppinglist_for_store(shoppinglist, store)
+    return sum(float(item['quantity']) * float(item['item_price']) for item in shoppinglist)
 
 
 # updated version

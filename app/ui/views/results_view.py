@@ -1,7 +1,7 @@
 import streamlit as st
 
 from ui.elements.static import logo
-from ui.utilities.results import organize_shoppinglists, best_cost_for_k_stores
+from ui.utilities.results import organize_shoppinglists, total_cost_per_store, best_cost_for_k_stores
 
 
 def render():
@@ -10,7 +10,14 @@ def render():
     st.divider()
     st.space()
 
+    stores = st.session_state.db.get('stores').get('value', [])
     shoppinglists = organize_shoppinglists()
+
+    for store in stores:
+        st.write(store)
+        st.write(total_cost_per_store(shoppinglists, store))
+
+
 
     best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, 2)
 
