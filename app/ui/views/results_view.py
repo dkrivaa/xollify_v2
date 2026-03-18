@@ -87,7 +87,7 @@ def render():
 
                 st.write(f"{store['chain_alias']} - {store['store_name']}")
                 st.write(item['item_name'])
-                st.write(f"₪ {item['item_price']:.2f}")
+                st.write(f"₪ {float(item['item_price']):.2f}")
             st.divider()
 
         st.write(organize_shoppinglists())
