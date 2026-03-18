@@ -32,6 +32,7 @@ def render():
                       delta="" if total - best_total == 0 else f"₪ {(total - best_total):.2f}",
                       delta_color='inverse',
                       width='stretch')
+            st.space()
 
 
     with tab2:
