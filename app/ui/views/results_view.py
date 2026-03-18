@@ -39,7 +39,7 @@ def render():
         k = st.slider(label='Number of stores to visit',
                       min_value=1,
                       max_value=len(stores),
-                      width='stretch',
+                      # width='stretch',
                       )
 
         st.write('best_combo')
