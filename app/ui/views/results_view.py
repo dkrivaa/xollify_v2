@@ -18,7 +18,7 @@ def render():
     # Get the best for 1 store
     best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, 1)
 
-    tab1, tab2, tab3 = st.tabs(['Total per Store', 'Best Plan', 'Later'])
+    tab1, tab2, tab3 = st.tabs(['Total per Store', 'Max Savings', 'Later'])
 
     with tab1:
         st.space()
