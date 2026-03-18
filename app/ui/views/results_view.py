@@ -55,7 +55,7 @@ def render():
             store = from_key_to_store(store_key, stores)
             st.subheader(f"{store['chain_alias']} - {store['store_name']}")
 
-        st.space()
+        st.divider()
 
         st.metric(label="Total Cost:",
                   value=f"₪ {best_total:.2f}",
@@ -65,7 +65,7 @@ def render():
                   value=f":green[₪ {(best_total - best_total_1):.2f}]",
                   width='stretch')
 
-        st.space()
+        st.divider()
 
         st.write('best_total')
         st.write(best_total)
