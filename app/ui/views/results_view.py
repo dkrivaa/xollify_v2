@@ -17,7 +17,7 @@ def render():
     shoppinglists = organize_shoppinglists()
 
     # Get the best for 1 store
-    best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, 1)
+    best_combo_1, best_total_1, best_plan_1 = best_cost_for_k_stores(shoppinglists, 1)
 
     tab1, tab2, tab3 = st.tabs(['Total per Store', 'Max Savings', 'Later'])
 
@@ -30,7 +30,7 @@ def render():
 
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
                       value=f"₪ {total:.2f}",
-                      delta="" if total - best_total == 0 else f"₪ {(total - best_total):.2f}",
+                      delta="" if total - best_total_1 == 0 else f"₪ {(total - best_total_1):.2f}",
                       delta_color='inverse',
                       width='stretch')
             st.space()
@@ -55,8 +55,15 @@ def render():
             store = from_key_to_store(store_key, stores)
             st.subheader(f"{store['chain_alias']} - {store['store_name']}")
 
-        st.write('best_combo')
-        st.write(best_combo)
+        st.space()
+
+        st.metric(label="Total Cost:",
+                  value=f"₪ {best_total:.2f}",
+                  delta="" if total - best_total == 0 else f"₪ {(total - best_total):.2f}",
+                  delta_color='inverse',
+                  width='stretch')
+
+        st.space()
 
         st.write('best_total')
         st.write(best_total)
