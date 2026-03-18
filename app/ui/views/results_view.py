@@ -59,7 +59,7 @@ def render():
 
         st.metric(label="Total Cost:",
                   value=f"₪ {best_total:.2f}",
-                  delta="" if best_total_1 - best_total == 0 else f"₪ {(best_total_1 - best_total):.2f}",
+                  delta="" if best_total - best_total_1 == 0 else f"₪ {(best_total - best_total_1):.2f}",
                   delta_color='inverse',
                   width='stretch')
 
