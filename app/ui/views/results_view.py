@@ -23,7 +23,7 @@ def render():
 
         st.metric(label=f"{store['chain_alias']} - {store['store_name']}",
                   value=f"₪ {total}",
-                  delta=f"₪ {total - best_total}",
+                  delta=f"₪ {(total - best_total):.f2}",
                   delta_color='inverse',
                   width='stretch')
 
