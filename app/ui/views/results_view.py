@@ -53,7 +53,7 @@ def render():
         st.write('Stores to visit:')
         for store_key in best_combo:
             store = from_key_to_store(store_key, stores)
-            st.write(f"{store['chain_alias']} - {store['store_name']}")
+            st.subheader(f"{store['chain_alias']} - {store['store_name']}")
 
         st.write('best_combo')
         st.write(best_combo)
