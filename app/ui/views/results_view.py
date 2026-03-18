@@ -85,7 +85,7 @@ def render():
                 store = from_key_to_store(entry['id'], stores)
                 item = entry['value'][i]  # get item at index i
 
-                st.write(f"{store['chain_alias']} - {store['store_name']}")
+                st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
                 st.write(item['item_name'])
                 st.write(f"₪ {float(item['item_price']):.2f}")
             st.divider()
