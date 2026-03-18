@@ -134,12 +134,12 @@ pages = {
         title='Xollify_old',
         page='ui/views/home_old.py',
         icon=':material/home:',
-        default=True,
     ),
     'home_page': st.Page(
         title='Xollify-Home',
         page='ui/views/home_view.py',
         icon=':material/home:',
+        default=True,
     ),
     'home_store_page': st.Page(
         title='Xollify-Home Store',
