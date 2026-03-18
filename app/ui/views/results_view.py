@@ -59,8 +59,10 @@ def render():
 
         st.metric(label="Total Cost:",
                   value=f"₪ {best_total:.2f}",
-                  delta=f"₪ {(best_total - best_total_1):.2f}" if best_total - best_total_1 != 0 else "",
-                  delta_color='inverse',
+                  width='stretch')
+
+        st.metric(label="Total Saving:",
+                  value=f":green[₪ {(best_total - best_total_1):.2f}]",
                   width='stretch')
 
         st.space()
