@@ -36,10 +36,11 @@ def render():
 
     with tab2:
         st.space()
-        st.subheader('Optimize to SAVE Maximum')
+        st.subheader('Number of stores to visit')
         st.space()
 
         k = st.slider(label='Number of stores to visit',
+                      label_visibility='hidden',
                       min_value=1,
                       max_value=len(stores),
                       value=1,
