@@ -1,7 +1,8 @@
 import streamlit as st
 
 from ui.elements.static import logo
-from ui.utilities.results import organize_shoppinglists, total_cost_per_store, best_cost_for_k_stores
+from ui.utilities.results import (organize_shoppinglists, total_cost_per_store, best_cost_for_k_stores,
+                                  from_key_to_store)
 
 
 def render():
@@ -48,6 +49,11 @@ def render():
 
         # Get the best for k store
         best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, k)
+
+        st.write('Stores to visit:')
+        for store_key in best_combo:
+            store = from_key_to_store(store_key, stores)
+            st.write(f"{store['chain_alias']} - {store['store_name']}")
 
         st.write('best_combo')
         st.write(best_combo)

@@ -25,6 +25,15 @@ def store_key(store: dict):
     return f"{store['chain_code']}_{store['store_code']}_shoppinglist"
 
 
+def from_key_to_store(key: str, stores: list[dict]) -> dict:
+    """ Returns store dict that correspond with key """
+    chain_code = key.split('_')[0]
+    store_code = key.split('_')[1]
+
+    return next(d for d in stores
+                if d['chain_code'] == chain_code and d['store_code'] == store_code)
+
+
 def shoppinglist_for_store(shoppinglist: list[dict], store: dict):
     """
     Return shopping list for given store
