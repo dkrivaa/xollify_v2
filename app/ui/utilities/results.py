@@ -19,6 +19,7 @@ def organize_shoppinglists() -> list[dict]:
 
     return shoppinglists
 
+
 def store_key(store: dict):
     """ Returns store key for use with shopping list """
     return f"{store['chain_code']}_{store['store_code']}_shoppinglist"
