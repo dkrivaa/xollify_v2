@@ -78,6 +78,18 @@ def render():
                     st.divider()
 
     with tab3:
+        data = organize_shoppinglists()
+
+        for i in range(len(data[0]['value'])):  # number of items in shopping list
+            for entry in data:
+                store = from_key_to_store(entry['id'], stores)
+                item = entry['value'][i]  # get item at index i
+
+                st.write(f"{store['chain_alias']} - {store['store_name']}")
+                st.write(item['item_name'])
+                st.write(f"₪ {item['item_price']:.2f}")
+            st.divider()
+
         st.write(organize_shoppinglists())
 
 
