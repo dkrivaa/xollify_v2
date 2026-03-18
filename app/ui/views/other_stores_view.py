@@ -58,7 +58,7 @@ def render():
                 st.switch_page('ui/views/selected_stores_view.py')
         with col2:
             # Forward to items or shoppinglist
-            if st.button(label='Next',
+            if st.button(label='Continue',
                          width='stretch',
                          icon=':material/east:',
                          icon_position='right'):
