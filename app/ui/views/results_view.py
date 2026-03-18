@@ -47,16 +47,20 @@ def render():
                       value=1,
                       )
 
+        st.divider()
+
         # Get the best for k store
         best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, k)
 
+        # Stores to visit
         st.write('Stores to visit:')
         for store_key in best_combo:
             store = from_key_to_store(store_key, stores)
-            st.subheader(f"{store['chain_alias']} - {store['store_name']}")
+            st.write(f"{store['chain_alias']} - {store['store_name']}")
 
         st.divider()
 
+        # Cost
         st.metric(label="Total Cost:",
                   value=f"₪ {best_total:.2f}",
                   width='stretch')
@@ -67,8 +71,7 @@ def render():
 
         st.divider()
 
-        st.write('best_total')
-        st.write(best_total)
+
 
         st.write('best_plan')
         st.write(best_plan)
