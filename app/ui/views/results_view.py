@@ -21,7 +21,7 @@ def render():
     tab1, tab2, tab3 = st.tabs(['Total per Store', 'Best Plan', 'Later'])
 
     with tab1:
-
+        st.space()
         for store in stores:
             total = total_cost_per_store(shoppinglists, store)
 
