@@ -18,14 +18,17 @@ def render():
     # Get the best for 1 store
     best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, 1)
 
-    for store in stores:
-        total = total_cost_per_store(shoppinglists, store)
+    tab1, tab2, tab3 = st.tabs(['Total per Store', 'Best Plan', 'Later'])
 
-        st.metric(label=f"{store['chain_alias']} - {store['store_name']}",
-                  value=f"₪ {total}",
-                  delta=f"₪ {(total - best_total):.2f}",
-                  delta_color='inverse',
-                  width='stretch')
+    with tab1:
+        for store in stores:
+            total = total_cost_per_store(shoppinglists, store)
+
+            st.metric(label=f"{store['chain_alias']} - {store['store_name']}",
+                      value=f"₪ {total}",
+                      delta=f"₪ {(total - best_total):.2f}",
+                      delta_color='inverse',
+                      width='stretch')
 
 
 
