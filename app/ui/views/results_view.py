@@ -75,7 +75,8 @@ def render():
             store = from_key_to_store(store_key, stores)
             with st.expander(label=f"{store['chain_alias']} - {store['store_name']}"):
                 for item in best_plan[store_key]:
-                    st.write(f"Item - {item['item_name']}")
+                    st.write(f":blue[Item - {item['item_name']}]")
+                    st.write(f"Barcode - {item['item']}")
                     st.write(f"Unit price - ₪ {item['unit_price']:.2f}")
                     st.write(f"Quantity - {item['quantity']:.1f}")
                     st.subheader(f"Total cost - {item['total_price']:.2f}")
