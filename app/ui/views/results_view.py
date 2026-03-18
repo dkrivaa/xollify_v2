@@ -42,6 +42,9 @@ def render():
                       # width='stretch',
                       )
 
+        # Get the best for k store
+        best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, k)
+
         st.write('best_combo')
         st.write(best_combo)
 
