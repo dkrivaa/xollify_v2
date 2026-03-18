@@ -47,7 +47,7 @@ def render():
                       value=1,
                       )
 
-        st.divider()
+        st.space()
 
         # Get the best for k store
         best_combo, best_total, best_plan = best_cost_for_k_stores(shoppinglists, k)
