@@ -22,6 +22,8 @@ def render():
 
     with tab1:
         st.space()
+        st.subheader('Total Price of Shopping List')
+
         for store in stores:
             total = total_cost_per_store(shoppinglists, store)
 
