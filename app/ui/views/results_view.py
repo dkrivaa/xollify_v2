@@ -71,9 +71,10 @@ def render():
 
         st.divider()
 
+        st.write(':blue[What to buy where]')
         for store_key in best_combo:
             store = from_key_to_store(store_key, stores)
-            st.write(':blue[What to buy where]')
+
             with st.expander(label=f"{store['chain_alias']} - {store['store_name']}"):
                 for item in best_plan[store_key]:
                     st.write(f":blue[Item - {item['item_name']}]")
