@@ -27,22 +27,22 @@ def render():
 
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
                       value=f"₪ {total}",
-                      delta=":green[Best Price]" if total - best_total == 0 else f"₪ {(total - best_total):.2f}",
+                      delta="" if total - best_total == 0 else f"₪ {(total - best_total):.2f}",
                       delta_color='inverse',
                       width='stretch')
 
 
+    with tab2:
 
 
+        st.write('best_combo')
+        st.write(best_combo)
 
-    st.write('best_combo')
-    st.write(best_combo)
+        st.write('best_total')
+        st.write(best_total)
 
-    st.write('best_total')
-    st.write(best_total)
-
-    st.write('best_plan')
-    st.write(best_plan)
+        st.write('best_plan')
+        st.write(best_plan)
 
 
 
