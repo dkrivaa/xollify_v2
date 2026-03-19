@@ -93,6 +93,12 @@ def render():
                 store = from_key_to_store(entry['id'], stores)
                 item = entry['value'][i]  # get item at index i
 
+                # Get promo data for store
+                promo_data = data_for_store_from_db(store=store, data_type='promo')
+                promos_for_item = relevant_promos_for_item(promo_data, item['item_price'])
+                # Get chain object for relevant store
+                chain = next(c for c in SupermarketChain.registry if c.chain_code == store['chain_code'])
+
                 # for first store
                 if entry == data[0]:
                     st.subheader(f"{item['item_code']} - {item['item_name']}")
@@ -100,11 +106,6 @@ def render():
                     st.write(f"₪ {float(item['item_price']):.2f}")
 
                     with st.expander(label=':material/money_off: Promotions'):
-                        # Get promo data for store
-                        promo_data = data_for_store_from_db(store=store, data_type='promo')
-                        promos_for_item = relevant_promos_for_item(promo_data, item['item_price'])
-                        # Get chain object for relevant store
-                        chain = next(c for c in SupermarketChain.registry if c.chain_code == store['chain_code'])
                         # Display promos
                         if promos_for_item:
                             for p in promos_for_item:
@@ -115,11 +116,18 @@ def render():
                 else:
                     if item['item_code'] == leading_item_code:
                         st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
-                        st.write(f"₪ {float(item['item_price']):.2f}")
+
                     else:
                         st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
                         st.write(f":orange[{item['item_code']} - {item['item_name']}]")
-                        st.write(f"₪ {float(item['item_price']):.2f}")
+                    st.write(f"₪ {float(item['item_price']):.2f}")
+                    with st.expander(label=':material/money_off: Promotions'):
+                        # Display promos
+                        if promos_for_item:
+                            for p in promos_for_item:
+                                promo_element(chain, p)
+                        else:
+                            st.info('No promotions found for this item')
 
             st.divider()
 
