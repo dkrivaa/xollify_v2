@@ -30,9 +30,8 @@ def render():
                                          type=['csv', 'xlsx', 'xls'],
                                          key=f'uploader_{st.session_state.uploader_counter}')
 
+        # Read uploaded file
         if uploaded_file:
-            # # Set flag to clear file uploader widget
-            # st.session_state['show_upload_message'] = True
             # Read uploaded file and return items_list - {item_code: code, quantity: int}
             items_list = read_uploaded_file(uploaded_file)
             # Add to uploader_counter => clear upload widget when rerun
@@ -67,12 +66,10 @@ def render():
                 else:
                     # Make shopping list for store
                     shoppinglist = shoppinglist_for_store(store=store)
-                    st.write(shoppinglist)
                     if shoppinglist:
                         st.session_state.db.put(item_id=item_id, value=shoppinglist)
                         # Add store to processed stores
                         st.session_state.processed_stores.add(f"{store['chain_code']}_{store['store_code']}")
-
 
 
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ def render():
 
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
                       value=f"₪ {total:.2f}",
-                      delta="" if total - best_total_1 == 0 else f"₪ {(total - best_total_1):.2f}",
+                      delta="" if total == best_total_1 else f"₪ {(total - best_total_1):.2f}",
                       delta_color='inverse',
                       width='stretch')
             st.space()
