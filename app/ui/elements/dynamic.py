@@ -104,7 +104,10 @@ def promo_element(chain: SupermarketChain, promo: dict):
     reward_type = promo.get('RewardType')
     handler = PROMO_RENDERERS.get(reward_type, None)
     # Call handler if exists
-    handler(chain, promo)
+    try:
+        handler(chain, promo)
+    except TypeError:
+        pass
 
 
 def render_quantity_discount(chain: SupermarketChain, promo: dict):
