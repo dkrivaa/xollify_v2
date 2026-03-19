@@ -2,6 +2,8 @@ import streamlit as st
 import math
 
 from ui.elements.static import logo
+from common.core.super_class import SupermarketChain
+from ui.elements.dynamic import promo_element
 from ui.utilities.items import data_for_store_from_db, relevant_promos_for_item
 from ui.utilities.results import (organize_shoppinglists, total_cost_per_store, best_cost_for_k_stores,
                                   from_key_to_store)
@@ -89,8 +91,6 @@ def render():
 
             for entry in data:
                 store = from_key_to_store(entry['id'], stores)
-                promo_data = data_for_store_from_db(store=store, data_type='promo')
-                st.write(promo_data)
                 item = entry['value'][i]  # get item at index i
 
                 # for first store
@@ -98,6 +98,19 @@ def render():
                     st.subheader(f"{item['item_code']} - {item['item_name']}")
                     st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
                     st.write(f"₪ {float(item['item_price']):.2f}")
+
+                    with st.expander(label=':material/money_off: Promotions'):
+                        # Get promo data for store
+                        promo_data = data_for_store_from_db(store=store, data_type='promo')
+                        promos_for_item = relevant_promos_for_item(promo_data, item['item_price'])
+                        # Get chain object for relevant store
+                        chain = next(c for c in SupermarketChain.registry if c.chain_code == store['chain_code'])
+                        # Display promos
+                        if promos_for_item:
+                            for p in promos_for_item:
+                                promo_element(chain, p)
+                        else:
+                            st.info('No promotions found for this item')
 
                 else:
                     if item['item_code'] == leading_item_code:
