@@ -2,7 +2,7 @@ import streamlit as st
 import math
 
 from ui.elements.static import logo
-from ui.utilities.items import data_for_store_from_db, relevant_promos_for_item,
+from ui.utilities.items import data_for_store_from_db, relevant_promos_for_item
 from ui.utilities.results import (organize_shoppinglists, total_cost_per_store, best_cost_for_k_stores,
                                   from_key_to_store)
 
