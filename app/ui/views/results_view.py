@@ -95,7 +95,7 @@ def render():
 
                 # Get promo data for store
                 promo_data = data_for_store_from_db(store=store, data_type='promo')
-                promos_for_item = relevant_promos_for_item(promo_data, item['item_price'])
+                promos_for_item = relevant_promos_for_item(promo_data, item['item_code'])
                 # Get chain object for relevant store
                 chain = next(c for c in SupermarketChain.registry if c.chain_code == store['chain_code'])
 
