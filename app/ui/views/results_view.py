@@ -28,8 +28,6 @@ def render():
         st.subheader('Total Cost')
 
         for store in stores:
-            promo_data = data_for_store_from_db(store=store, data_type='promo')
-            st.write(promo_data)
             total = total_cost_per_store(shoppinglists, store)
 
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
@@ -91,6 +89,8 @@ def render():
 
             for entry in data:
                 store = from_key_to_store(entry['id'], stores)
+                promo_data = data_for_store_from_db(store=store, data_type='promo')
+                st.write(promo_data)
                 item = entry['value'][i]  # get item at index i
 
                 # for first store
