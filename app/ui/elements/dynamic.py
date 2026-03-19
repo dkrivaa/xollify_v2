@@ -94,6 +94,7 @@ def promo_element(chain: SupermarketChain, promo: dict):
     """ Renders a single promo element according to reward type"""
     # Dispatcher
     PROMO_RENDERERS = {
+        '0': render_quantity_discount,
         '1': render_quantity_discount,
         '2': render_percentage_discount,
         '3': render_percentage_discount,
