@@ -29,13 +29,10 @@ def render():
         for store in stores:
             total = total_cost_per_store(shoppinglists, store)
 
-            st.write(float(total))
-            st.write(float(best_total_1))
-
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
                       value=f"₪ {total:.2f}",
                       delta="" if math.isclose(total, best_total_1, rel_tol=1e-9, abs_tol=1e-9) else
-                               f"₪ {(total - best_total_1):.2f}",
+                            f"₪ {(total - best_total_1):.2f}",
                       delta_color='inverse',
                       width='stretch')
             st.space()
