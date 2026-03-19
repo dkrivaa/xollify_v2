@@ -1,4 +1,5 @@
 import streamlit as st
+import math
 
 from ui.elements.static import logo
 from ui.utilities.results import (organize_shoppinglists, total_cost_per_store, best_cost_for_k_stores,
@@ -33,7 +34,8 @@ def render():
 
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
                       value=f"₪ {total:.2f}",
-                      delta="" if float(total) == float(best_total_1) else f"₪ {(total - best_total_1):.2f}",
+                      delta="" if math.isclose(total, best_total_1, rel_tol=1e-9, abs_tol=1e-9) else
+                               f"₪ {(total - best_total_1):.2f}",
                       delta_color='inverse',
                       width='stretch')
             st.space()
