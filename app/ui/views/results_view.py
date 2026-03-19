@@ -28,6 +28,9 @@ def render():
         for store in stores:
             total = total_cost_per_store(shoppinglists, store)
 
+            if total == best_total_1:
+                st.write(total-best_total_1)
+
             st.metric(label=f":blue[{store['chain_alias']} - {store['store_name']}]",
                       value=f"₪ {total:.2f}",
                       delta="" if total == best_total_1 else f"₪ {(total - best_total_1):.2f}",
