@@ -110,10 +110,7 @@ def render():
                         # Display promos
                         if promos_for_item:
                             for p in promos_for_item:
-                                try:
-                                    promo_element(chain, p)
-                                except Exception as e:
-                                    st.info(e)
+                                promo_element(chain, p)
                         else:
                             st.info('No promotions found for this item')
 
