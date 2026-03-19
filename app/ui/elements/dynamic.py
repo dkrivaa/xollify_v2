@@ -102,7 +102,7 @@ def promo_element(chain: SupermarketChain, promo: dict):
     }
     # Get reward type and corresponding handler
     reward_type = promo.get('RewardType')
-    handler = PROMO_RENDERERS.get(reward_type, None)
+    handler = PROMO_RENDERERS.get(reward_type, '1')
     # Call handler if exists
     try:
         handler(chain, promo)
