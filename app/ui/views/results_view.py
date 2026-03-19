@@ -81,13 +81,28 @@ def render():
         data = organize_shoppinglists()
 
         for i in range(len(data[0]['value'])):  # number of items in shopping list
+
+            leading_item_code = data[0]['value'][i]['item_code']
+
             for entry in data:
                 store = from_key_to_store(entry['id'], stores)
                 item = entry['value'][i]  # get item at index i
 
-                st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
-                st.write(item['item_name'])
-                st.write(f"₪ {float(item['item_price']):.2f}")
+                # for first store
+                if entry == data[0]:
+                    st.subheader(f"{item['item_code']} - {item['item_name']}")
+                    st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
+                    st.write(f"₪ {float(item['item_price']):.2f}")
+
+                else:
+                    if item['item_code'] == leading_item_code:
+                        st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
+                        st.write(f"₪ {float(item['item_price']):.2f}")
+                    else:
+                        st.write(f":blue[{store['chain_alias']} - {store['store_name']}]")
+                        st.write(f":orange[{item['item_code']} - {item['item_name']}]")
+                        st.write(f"₪ {float(item['item_price']):.2f}")
+
             st.divider()
 
         st.write(organize_shoppinglists())
