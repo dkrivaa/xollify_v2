@@ -106,11 +106,14 @@ def render():
                     st.write(f"₪ {float(item['item_price']):.2f}")
 
                     with st.expander(label=':material/money_off: Promotions'):
-                        # Display promos
-                        if promos_for_item:
-                            for p in promos_for_item:
-                                promo_element(chain, p)
-                        else:
+                        try:
+                            # Display promos
+                            if promos_for_item:
+                                for p in promos_for_item:
+                                    promo_element(chain, p)
+                            else:
+                                st.info('No promotions found for this item')
+                        except Exception:
                             st.info('No promotions found for this item')
 
                 else:
