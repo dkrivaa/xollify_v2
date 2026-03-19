@@ -97,12 +97,18 @@ def promo_element(chain: SupermarketChain, promo: dict):
         '1': render_quantity_discount,
         '2': render_percentage_discount,
         '3': render_percentage_discount,
+        '4': render_quantity_discount,
+        '5': render_quantity_discount,
         '6': render_quantity_discount,
+        '7': render_quantity_discount,
+        '8': render_quantity_discount,
+        '9': render_quantity_discount,
         '10': render_quantity_discount,
+        '11': render_quantity_discount,
     }
     # Get reward type and corresponding handler
     reward_type = promo.get('RewardType')
-    handler = PROMO_RENDERERS.get(reward_type, '1')
+    handler = PROMO_RENDERERS.get(reward_type, None)
     # Call handler if exists
     try:
         handler(chain, promo)
