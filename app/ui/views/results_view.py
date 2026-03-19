@@ -107,8 +107,6 @@ def render():
 
             st.divider()
 
-        st.write(organize_shoppinglists())
-
 
 if __name__ == "__main__":
     render()
